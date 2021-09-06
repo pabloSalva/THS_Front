@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 // import { Outlet } from "react-router-dom";
 // material
 import { styled } from "@material-ui/core/styles";
 //
 // import DashboardNavbar from './DashboardNavbar';
-import DashboardSidebar from "../../components/layouts/DashboardSidebar";
+import DashboardSidebar from "../../components/DashboardSidebar";
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +33,7 @@ const MainStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const HomeTemplate = () => {
+const Layout = ({ titulo }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -43,10 +44,14 @@ const HomeTemplate = () => {
         onCloseSidebar={() => setOpen(false)}
       />
       <MainStyle>
-        <h1>Bienvenido/a a Tu hogar Sustentable THS</h1>
+        <h1>{titulo}</h1>
       </MainStyle>
     </RootStyle>
   );
 };
 
-export default HomeTemplate;
+Layout.propTypes = {
+  titulo: PropTypes.string,
+};
+
+export default Layout;

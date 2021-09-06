@@ -2,7 +2,7 @@ import "./App.css";
 import Theme from "./theme/theme";
 import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 
-import Home from "./pages/home/Home";
+import Home from "./pages/Home";
 
 import routes from "./router/routes";
 
