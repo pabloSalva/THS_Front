@@ -5,6 +5,7 @@ import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
 
 import routes from "./router/routes";
+import CalculoElectrico from "./pages/CalculoElectrico";
 
 function App() {
   return (
@@ -12,6 +13,11 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path={routes.home} component={Home} />
+          <Route
+            exact
+            path={routes.calculoElectrico}
+            component={CalculoElectrico}
+          />
           <Route path={"/"}>
             <Redirect to={"/"} />
           </Route>

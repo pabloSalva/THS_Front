@@ -7,15 +7,15 @@ import { Box, Link, Drawer, Typography, Avatar } from "@material-ui/core";
 // components
 // import Logo from '../../components/Logo';
 import Scrollbar from "./Scrollbar";
-// import NavSection from '../../components/NavSection';
+import NavSection from "./NavSection";
 // import { MHidden } from '../../components/@material-extend';
 //
-// import sidebarConfig from './SidebarConfig';
+import sidebarConfig from "./SidebarConfig";
 // import account from '../../_mocks_/account';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 280;
+const DRAWER_WIDTH = 580;
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
@@ -84,7 +84,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      {/* <NavSection navConfig={sidebarConfig} /> */}
+      <NavSection navConfig={sidebarConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
 

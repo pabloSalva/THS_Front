@@ -2,9 +2,9 @@ import { BehaviorSubject } from "rxjs";
 
 import i18n from "i18n";
 
-import Environment from "environment";
+import Environment from "../environment";
 
-import User from "models/User";
+import User from "../models/User";
 
 const currentUserSubject = new BehaviorSubject(null);
 

@@ -4,6 +4,6 @@ export default {
   login: "/login",
   cambioContrasenaPage: "/reset/:token",
 
-  calculoElectrico: "/calculadora/electricas",
-  calculoGas: "/calculadora/gas",
+  calculoElectrico: "/simuladores/electrico",
+  calculoGas: "/simuladores/gas",
 };
