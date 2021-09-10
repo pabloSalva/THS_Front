@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 // import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from "../../components/DashboardSidebar";
 import useStyles from "./styles";
+import clsx from "clsx";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ import useStyles from "./styles";
 
 // ----------------------------------------------------------------------
 
-const Layout = ({ titulo, children }) => {
+const Layout = ({ titulo, children, openDrawer }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   return (
@@ -47,8 +48,14 @@ const Layout = ({ titulo, children }) => {
         />
       </div>
       <div className={classes.right}>
-        <h1>{titulo}</h1>
-        {children}
+        <div
+          className={clsx(classes.layoutContainer, {
+            [classes.containerReduce]: openDrawer,
+          })}
+        >
+          <h1>{titulo}</h1>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -57,6 +64,7 @@ const Layout = ({ titulo, children }) => {
 Layout.propTypes = {
   titulo: PropTypes.string,
   children: PropTypes.node,
+  openDrawer: PropTypes.bool,
 };
 
 export default Layout;

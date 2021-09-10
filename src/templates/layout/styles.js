@@ -9,16 +9,13 @@ const useStyles = makeStyles((theme) => ({
   },
   right: {
     display: "flex",
-    flex: 1,
+    flex: 0.9,
     flexDirection: "column",
-    height: "100vh",
-    overflow: "hidden",
   },
   layoutContainer: {
     overflowY: "auto",
     width: "100%",
     flex: 1,
-    backgroundColor: "rgb(238,243,249,0.56)",
     display: "flex",
     flexDirection: "column",
     padding: "24px 24px 0px 24px",

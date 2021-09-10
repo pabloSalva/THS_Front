@@ -56,5 +56,10 @@ export const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(3),
   },
+  entidad: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 30,
+  },
 }));
 export default useStyles;

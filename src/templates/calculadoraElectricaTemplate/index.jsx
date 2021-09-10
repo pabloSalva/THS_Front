@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import RightPanel from "../../components/rightPanel";
 import PropTypes from "prop-types";
 import Layout from "../layout/Layout";
@@ -18,12 +18,43 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import CommentIcon from "@material-ui/icons/Comment";
 
+import { DataGrid } from "@mui/x-data-grid";
+
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+
 const CalculadoraElectricaTemplate = ({
   openDrawer,
   handleCloseRightPanel,
+  aireButton,
+  heladeraButton,
+  iluminacionButton,
+  lavarropaButton,
+  cocinaButton,
+  electronicaButton,
+  hayArtefacto,
+  handleChangeEntidad,
+  entidad,
+  tarifa,
+  handleChangeTarifa,
+  calcular,
+  columns,
+  // editRowsModel,
+  // handleEditRowsModelChange,
+  rows,
+  tipoArtefacto,
+  hayCalculo,
+  // handleCellEditCommit,
 }) => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = useState([0]);
+
+  const [editRowsModel, setEditRowsModel] = useState({});
+  const handleEditRowsModelChange = useCallback((model) => {
+    setEditRowsModel(model);
+    console.log(model);
+  }, []);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -39,7 +70,7 @@ const CalculadoraElectricaTemplate = ({
   };
 
   return (
-    <Layout titulo="Calculadora de consumo electrico">
+    <Layout titulo="Calculadora de consumo electrico" openDrawer={openDrawer}>
       <div
         className={clsx(classes.content, {
           [classes.contentShift]: openDrawer,
@@ -59,12 +90,15 @@ const CalculadoraElectricaTemplate = ({
             >
               Aires
             </Typography>
-            <img
-              alt="aire-acondicionado"
-              src={process.env.PUBLIC_URL + "/icons/aire-acondicionado.svg"}
-              className={classes.logo}
-            />
+            <Button onClick={aireButton}>
+              <img
+                alt="aire-acondicionado"
+                src={process.env.PUBLIC_URL + "/icons/aire-acondicionado.svg"}
+                className={classes.logo}
+              />
+            </Button>
           </Paper>
+
           <Paper>
             <Typography
               style={{
@@ -75,11 +109,13 @@ const CalculadoraElectricaTemplate = ({
             >
               Lavarropas
             </Typography>
-            <img
-              alt="lavarropas"
-              src={process.env.PUBLIC_URL + "/icons/lavaropa.svg"}
-              className={classes.logo}
-            />
+            <Button onClick={lavarropaButton}>
+              <img
+                alt="lavarropas"
+                src={process.env.PUBLIC_URL + "/icons/lavaropa.svg"}
+                className={classes.logo}
+              />
+            </Button>
           </Paper>
           <Paper>
             <Typography
@@ -91,11 +127,13 @@ const CalculadoraElectricaTemplate = ({
             >
               Iluminación
             </Typography>
-            <img
-              alt="Luz"
-              src={process.env.PUBLIC_URL + "/icons/luz.svg"}
-              className={classes.logo}
-            />
+            <Button onClick={iluminacionButton}>
+              <img
+                alt="Luz"
+                src={process.env.PUBLIC_URL + "/icons/luz.svg"}
+                className={classes.logo}
+              />
+            </Button>
           </Paper>
         </div>
         <div className={classes.papers}>
@@ -109,11 +147,13 @@ const CalculadoraElectricaTemplate = ({
             >
               Cocina
             </Typography>
-            <img
-              alt="microondas"
-              src={process.env.PUBLIC_URL + "/icons/microonda.svg"}
-              className={classes.logo}
-            />
+            <Button onClick={cocinaButton}>
+              <img
+                alt="microondas"
+                src={process.env.PUBLIC_URL + "/icons/microonda.svg"}
+                className={classes.logo}
+              />
+            </Button>
           </Paper>
           <Paper>
             <Typography
@@ -125,11 +165,13 @@ const CalculadoraElectricaTemplate = ({
             >
               Electronica
             </Typography>
-            <img
-              alt="electronica"
-              src={process.env.PUBLIC_URL + "/icons/monitor.svg"}
-              className={classes.logo}
-            />
+            <Button onClick={electronicaButton}>
+              <img
+                alt="electronica"
+                src={process.env.PUBLIC_URL + "/icons/monitor.svg"}
+                className={classes.logo}
+              />
+            </Button>
           </Paper>
           <Paper>
             <Typography
@@ -141,66 +183,134 @@ const CalculadoraElectricaTemplate = ({
             >
               Heladeras
             </Typography>
-            <img
-              alt="heladeras"
-              src={process.env.PUBLIC_URL + "/icons/refrigerador.svg"}
-              className={classes.logo}
-            />
+            <Button onClick={heladeraButton}>
+              <img
+                alt="heladeras"
+                src={process.env.PUBLIC_URL + "/icons/refrigerador.svg"}
+                className={classes.logo}
+              />
+            </Button>
           </Paper>
         </div>
-        {openDrawer && (
-          <RightPanel
-            className={classes.rightPanel}
-            tituloGeneral="seleccione Artefactos"
-            button={{
-              label: "Guardar",
-            }}
-            openDrawer={true}
-            handleClose={handleCloseRightPanel}
-          >
-            <div>
-              <TextField
-                label={""}
-                icon={<SearchIcon />}
-                placeholder={"Ingrese Artefacto a buscar"}
-              />
-              <List className={classes.rootright}>
-                {[0, 1, 2, 3].map((value) => {
-                  const labelId = `checkbox-list-label-${value}`;
 
-                  return (
-                    <ListItem
-                      key={value}
-                      role={undefined}
-                      dense
-                      button
-                      onClick={handleToggle(value)}
-                    >
-                      <ListItemIcon>
-                        <Checkbox
-                          edge="start"
-                          checked={checked.indexOf(value) !== -1}
-                          tabIndex={-1}
-                          disableRipple
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </ListItemIcon>
-                      <ListItemText
-                        id={labelId}
-                        primary={`Artefacto ${value + 1}`}
-                      />
-                      <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="comments">
-                          <CommentIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  );
-                })}
-              </List>
-              <Button>Agregar</Button>
-            </div>
-          </RightPanel>
+        {openDrawer && (
+          <div>
+            <RightPanel
+              className={classes.rightPanel}
+              tituloGeneral="seleccione Artefactos"
+              button={{
+                label: "Guardar",
+              }}
+              openDrawer={true}
+              handleClose={handleCloseRightPanel}
+            >
+              <div>
+                <TextField
+                  label={""}
+                  icon={<SearchIcon />}
+                  placeholder={"Ingrese Artefacto a buscar"}
+                />
+                {hayArtefacto && (
+                  <List className={classes.rootright}>
+                    {[0, 1, 2, 3].map((value) => {
+                      const labelId = `checkbox-list-label-${value}`;
+
+                      return (
+                        <ListItem
+                          key={value}
+                          role={undefined}
+                          dense
+                          button
+                          onClick={handleToggle(value)}
+                        >
+                          <ListItemIcon>
+                            <Checkbox
+                              edge="start"
+                              checked={checked.indexOf(value) !== -1}
+                              tabIndex={-1}
+                              disableRipple
+                              inputProps={{ "aria-labelledby": labelId }}
+                            />
+                          </ListItemIcon>
+                          <ListItemText
+                            id={labelId}
+                            primary={`${tipoArtefacto} ${value + 1}`}
+                          />
+                          <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="comments">
+                              <CommentIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
+                <Button>Agregar</Button>
+              </div>
+            </RightPanel>
+          </div>
+        )}
+        <div>
+          <Typography variant="h2">Seleccione Entidad y tarifa</Typography>
+          <div className={classes.entidad}>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Entidad
+            </InputLabel>
+            <Select
+              label="Entidades"
+              id="entidades"
+              value={entidad}
+              onChange={handleChangeEntidad}
+            >
+              {/* <MenuItem value="Entidad">
+                <em>Entidad</em>
+              </MenuItem> */}
+              <MenuItem value={"EDELAP"}>EDELAP</MenuItem>
+              <MenuItem value={"EDESUR"}>EDESUR</MenuItem>
+              <MenuItem value={"EDEA"}>EDEA</MenuItem>
+            </Select>
+
+            <InputLabel id="demo-simple-select-outlined-label">
+              Tarifa
+            </InputLabel>
+            <Select
+              labelId="Entidades"
+              id="entidades"
+              value={tarifa}
+              onChange={handleChangeTarifa}
+            >
+              {/* <MenuItem value="Tarifa">
+                <em>Tarifa</em>
+              </MenuItem> */}
+              <MenuItem value={"EDELAP"}>T1-R1</MenuItem>
+              <MenuItem value={"EDESUR"}>T1-R2</MenuItem>
+              <MenuItem value={"EDEA"}>T2-R1</MenuItem>
+            </Select>
+          </div>
+        </div>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editRowsModel={editRowsModel}
+            onEditRowsModelChange={handleEditRowsModelChange}
+          />
+        </div>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={calcular}
+        >
+          Calcular
+        </Button>
+        {hayCalculo && (
+          <Typography variant="h1">
+            Su consumo es de 160Kw por mes. El precio para la tarifa
+            seleccionada es de $5000 pesos
+          </Typography>
         )}
       </div>
     </Layout>
@@ -210,6 +320,21 @@ const CalculadoraElectricaTemplate = ({
 CalculadoraElectricaTemplate.propTypes = {
   openDrawer: PropTypes.bool,
   handleCloseRightPanel: PropTypes.func,
+  aireButton: PropTypes.func,
+  heladeraButton: PropTypes.func,
+  iluminacionButton: PropTypes.func,
+  lavarropaButton: PropTypes.func,
+  cocinaButton: PropTypes.func,
+  electronicaButton: PropTypes.func,
+  hayArtefacto: PropTypes.bool,
+  tipoArtefacto: PropTypes.string,
+  calcular: PropTypes.func,
+  editRowsModel: PropTypes.object,
+  handleChangeEntidad: PropTypes.func,
+  rows: PropTypes.array,
+  columns: PropTypes.array,
+  hayCalculo: PropTypes.bool,
+  // handleCellEditCommit: PropTypes.func,
 };
 
 export default CalculadoraElectricaTemplate;

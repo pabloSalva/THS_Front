@@ -5,6 +5,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Typography from "@material-ui/core/Typography";
 import { Button } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 
 const RightPanel = ({
   tituloGeneral,
@@ -26,6 +27,12 @@ const RightPanel = ({
       onClose={handleClose}
     >
       <div className={classes.fondo}>
+        <CancelOutlinedIcon
+          className={classes.icono}
+          color="action"
+          fontSize="small"
+          onClick={handleClose}
+        />
         <Typography className={classes.tituloDetalle}>
           {tituloGeneral}
         </Typography>
