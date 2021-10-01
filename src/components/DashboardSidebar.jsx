@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 // material
 import { styled } from "@material-ui/core/styles";
-import { Box, Link, Drawer, Typography, Avatar } from "@material-ui/core";
+import { Box, Link, Drawer, Typography } from "@material-ui/core";
 // components
 // import Logo from '../../components/Logo';
 import Scrollbar from "./Scrollbar";
@@ -69,7 +69,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar />
+            {/* <Avatar /> */}
             <Box sx={{ ml: 2 }}>
               <Typography
                 variant="subtitle2"
@@ -89,11 +89,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Box
+        {/* <Box
           component="img"
           src="/static/illustrations/illustration_avatar.png"
           sx={{ width: 100, position: "absolute", top: -50 }}
-        />
+        /> */}
 
         <Box sx={{ textAlign: "center" }}>
           <Typography gutterBottom variant="h6">

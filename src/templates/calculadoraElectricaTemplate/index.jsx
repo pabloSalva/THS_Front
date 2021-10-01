@@ -16,7 +16,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
-import CommentIcon from "@material-ui/icons/Comment";
+import InfoIcon from "@material-ui/icons/Info";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -43,8 +43,10 @@ const CalculadoraElectricaTemplate = ({
   // editRowsModel,
   // handleEditRowsModelChange,
   rows,
-  tipoArtefacto,
   hayCalculo,
+  handleSearchBar,
+  nodos,
+  entidadEnergia,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
@@ -209,24 +211,28 @@ const CalculadoraElectricaTemplate = ({
                   label={""}
                   icon={<SearchIcon />}
                   placeholder={"Ingrese Artefacto a buscar"}
+                  onKeyUp={(event) =>
+                    event.keyCode === 13 && handleSearchBar(event)
+                  }
                 />
-                {hayArtefacto && (
+                {hayArtefacto ? (
                   <List className={classes.rootright}>
-                    {[0, 1, 2, 3].map((value) => {
-                      const labelId = `checkbox-list-label-${value}`;
+                    {console.log(nodos)}
+                    {nodos.map((value) => {
+                      const labelId = `checkbox-list-label-${value.id}`;
 
                       return (
                         <ListItem
-                          key={value}
+                          key={value.id}
                           role={undefined}
                           dense
                           button
-                          onClick={handleToggle(value)}
+                          onClick={handleToggle(value.id)}
                         >
                           <ListItemIcon>
                             <Checkbox
                               edge="start"
-                              checked={checked.indexOf(value) !== -1}
+                              checked={checked.indexOf(value.id) !== -1}
                               tabIndex={-1}
                               disableRipple
                               inputProps={{ "aria-labelledby": labelId }}
@@ -234,17 +240,34 @@ const CalculadoraElectricaTemplate = ({
                           </ListItemIcon>
                           <ListItemText
                             id={labelId}
-                            primary={`${tipoArtefacto} ${value + 1}`}
+                            primary={`${value.nombre}`}
                           />
                           <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments">
-                              <CommentIcon />
+                            <IconButton
+                              onClick={() =>
+                                alert(
+                                  `${value.nombre}` +
+                                    " " +
+                                    `${value.consumo}` +
+                                    " Calorias" +
+                                    " Etiqueta: " +
+                                    `${value.etiqueta}`
+                                )
+                              }
+                              edge="end"
+                              aria-label="comments"
+                            >
+                              <InfoIcon />
                             </IconButton>
                           </ListItemSecondaryAction>
                         </ListItem>
                       );
                     })}
                   </List>
+                ) : (
+                  <Typography variant="h4">
+                    No se encontraron Artefactos
+                  </Typography>
                 )}
                 <Button>Agregar</Button>
               </div>
@@ -263,12 +286,10 @@ const CalculadoraElectricaTemplate = ({
               value={entidad}
               onChange={handleChangeEntidad}
             >
-              {/* <MenuItem value="Entidad">
-                <em>Entidad</em>
-              </MenuItem> */}
-              <MenuItem value={"EDELAP"}>EDELAP</MenuItem>
-              <MenuItem value={"EDESUR"}>EDESUR</MenuItem>
-              <MenuItem value={"EDEA"}>EDEA</MenuItem>
+              {entidadEnergia &&
+                entidadEnergia.map((nodo) => (
+                  <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
+                ))}
             </Select>
 
             <InputLabel id="demo-simple-select-outlined-label">
@@ -334,6 +355,10 @@ CalculadoraElectricaTemplate.propTypes = {
   rows: PropTypes.array,
   columns: PropTypes.array,
   hayCalculo: PropTypes.bool,
+  handleSearchBar: PropTypes.func,
+  nodos: PropTypes.array,
+  info: PropTypes.func,
+  entidadEnergia: PropTypes.array,
   // handleCellEditCommit: PropTypes.func,
 };
 
