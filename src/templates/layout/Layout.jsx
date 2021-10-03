@@ -53,7 +53,7 @@ const Layout = ({ titulo, children, openDrawer }) => {
             [classes.containerReduce]: openDrawer,
           })}
         >
-          <h1>{titulo}</h1>
+          <h1 style={{textAlign: "center"}}>{titulo}</h1>
           {children}
         </div>
       </div>

@@ -34,7 +34,7 @@ const RightPanel = ({
           onClick={handleClose}
         />
         <Typography className={classes.tituloDetalle}>
-          {tituloGeneral}
+          Artefactos de: {tituloGeneral}
         </Typography>
         {children}
       </div>

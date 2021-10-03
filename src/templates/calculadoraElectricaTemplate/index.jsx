@@ -37,6 +37,7 @@ const CalculadoraElectricaTemplate = ({
   handleChangeEntidad,
   entidad,
   tarifa,
+  tipoArtefacto,
   handleChangeTarifa,
   calcular,
   columns,
@@ -199,7 +200,7 @@ const CalculadoraElectricaTemplate = ({
           <div>
             <RightPanel
               className={classes.rightPanel}
-              tituloGeneral="seleccione Artefactos"
+              tituloGeneral={tipoArtefacto}
               button={{
                 label: "Guardar",
               }}
