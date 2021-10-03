@@ -125,7 +125,7 @@ const CalculadoraGasTemplate = ({
                 justifyContent: "center",
               }}
             >
-              Electronica
+              Electro-Hogar
             </Typography>
             <Button onClick={electronicaButton}>
               <img
