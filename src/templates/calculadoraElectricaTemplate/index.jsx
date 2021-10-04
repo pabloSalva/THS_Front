@@ -47,10 +47,11 @@ const CalculadoraElectricaTemplate = ({
   handleSearchBar,
   nodos,
   entidadEnergia,
+  agregarEnTabla,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
 
   const [editRowsModel, setEditRowsModel] = useState({});
   const handleEditRowsModelChange = useCallback((model) => {
@@ -70,6 +71,7 @@ const CalculadoraElectricaTemplate = ({
 
     setChecked(newChecked);
   };
+  console.log(checked);
 
   return (
     <Layout titulo="Calculadora de consumo electrico" openDrawer={openDrawer}>
@@ -269,7 +271,7 @@ const CalculadoraElectricaTemplate = ({
                     No se encontraron Artefactos
                   </Typography>
                 )}
-                <Button>Agregar</Button>
+                <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
               </div>
             </RightPanel>
           </div>
@@ -359,6 +361,7 @@ CalculadoraElectricaTemplate.propTypes = {
   nodos: PropTypes.array,
   info: PropTypes.func,
   entidadEnergia: PropTypes.array,
+  agregarEnTabla: PropTypes.func,
   // handleCellEditCommit: PropTypes.func,
 };
 

@@ -18,6 +18,7 @@ function App() {
             path={routes.calculoElectrico}
             component={CalculoElectrico}
           />
+
           <Route path={"/"}>
             <Redirect to={"/"} />
           </Route>
