@@ -5,16 +5,15 @@ const fontConfig = {
   lineHeight: "25px",
 };
 
-export const useStyles = (props) =>
-  makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
     paper: {
       border: "1px solid #E1E1E1",
       backgroundColor: "#FFFFFF",
-      width: 500,
+      width: 250,
       top: "inherit",
       bottom: 0,
       height: "100%",
-      marginRight: 500,
+      marginRight: 0,
     },
     button: {
       display: "flex",
@@ -34,9 +33,7 @@ export const useStyles = (props) =>
     tituloDetalle: {
       marginBottom: "35px ",
       marginTop: "30px",
-
-      fontWeight: 700,
-      fontSize: "46px",
+      fontSize: "18px",
       ...fontConfig,
     },
     Divider: {
