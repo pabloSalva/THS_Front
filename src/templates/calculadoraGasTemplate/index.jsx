@@ -35,6 +35,7 @@ const CalculadoraGasTemplate = ({
   entidad,
   tarifa,
   handleChangeTarifa,
+  tipoArtefacto,
   calcular,
   columns,
   // editRowsModel,
@@ -49,7 +50,6 @@ const CalculadoraGasTemplate = ({
 }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState([0]);
-
   const [editRowsModel, setEditRowsModel] = useState({});
   const handleEditRowsModelChange = useCallback((model) => {
     setEditRowsModel(model);
@@ -141,7 +141,7 @@ const CalculadoraGasTemplate = ({
           <div>
             <RightPanel
               className={classes.rightPanel}
-              tituloGeneral="seleccione Artefactos"
+              tituloGeneral={tipoArtefacto}
               button={{
                 label: "Guardar",
               }}
