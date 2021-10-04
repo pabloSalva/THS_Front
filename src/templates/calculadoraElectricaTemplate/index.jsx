@@ -86,13 +86,7 @@ const CalculadoraElectricaTemplate = ({
         </Typography>
         <div className={classes.papers}>
           <Paper className={classes.paperInterno}>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Aires
             </Typography>
             <Button onClick={aireButton}>
@@ -105,13 +99,7 @@ const CalculadoraElectricaTemplate = ({
           </Paper>
 
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Lavarropas
             </Typography>
             <Button onClick={lavarropaButton}>
@@ -123,13 +111,7 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Iluminación
             </Typography>
             <Button onClick={iluminacionButton}>
@@ -143,13 +125,7 @@ const CalculadoraElectricaTemplate = ({
         </div>
         <div className={classes.papers}>
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Cocina
             </Typography>
             <Button onClick={cocinaButton}>
@@ -161,13 +137,7 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Electronica
             </Typography>
             <Button onClick={electronicaButton}>
@@ -179,13 +149,7 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Heladeras
             </Typography>
             <Button onClick={heladeraButton}>

@@ -81,56 +81,38 @@ const CalculadoraGasTemplate = ({
         </Typography>
         <div className={classes.papers}>
           <Paper className={classes.paperInterno}>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Calefaccion
             </Typography>
             <Button onClick={calefaccionButton}>
               <img
                 alt="calefaccion"
                 src={process.env.PUBLIC_URL + "/icons/calefaccion.png"}
-                className={classes.logo2}
+                className={classes.logo}
               />
             </Button>
           </Paper>
 
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <Typography className={classes.categoriaTittle}>
               Cocina
             </Typography>
             <Button onClick={cocinaButton}>
               <img
                 alt="microondas"
-                src={process.env.PUBLIC_URL + "/icons/microonda.svg"}
+                src={process.env.PUBLIC_URL + "/icons/cook.png"}
                 className={classes.logo}
               />
             </Button>
           </Paper>
           <Paper>
-            <Typography
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              Electro-Hogar
+            <Typography className={classes.categoriaTittle}>
+              Agua
             </Typography>
             <Button onClick={electronicaButton}>
               <img
-                alt="electronica"
-                src={process.env.PUBLIC_URL + "/icons/monitor.svg"}
+                alt="agua"
+                src={process.env.PUBLIC_URL + "/icons/calefon.png"}
                 className={classes.logo}
               />
             </Button>

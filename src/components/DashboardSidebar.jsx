@@ -59,7 +59,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           flexDirection: "column",
         },
       }}
-      style={{ backgroundColor: "#85F279" }}
+      style={{ backgroundColor: "#9AF591" }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
