@@ -14,10 +14,6 @@ export const useStyles = makeStyles((theme) => ({
     width: 150,
     height: 100,
   },
-  logo2: {
-    width: 150,
-    height: 80,
-  },
   papers: {
     display: "flex",
     flexDirection: "row",
@@ -29,6 +25,14 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: "10%",
+  },
+  categoriaTittle: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    color: "#5CA469",
+    fontWeight: "bold",
+    fontSize: "20px",
   },
   paperInterno: {
     display: "flex",

@@ -11,8 +11,16 @@ export const useStyles = makeStyles((theme) => ({
     paddingTop: 33,
   },
   logo: {
-    width: 250,
+    width: 150,
     height: 100,
+  },
+  categoriaTittle: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    color: "#5CA469",
+    fontWeight: "bold",
+    fontSize: "20px",
   },
   papers: {
     display: "flex",
