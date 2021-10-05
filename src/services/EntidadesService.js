@@ -11,4 +11,8 @@ export const EntidadesService = {
     const getResult = await Api.fetch(`${Environment.api}tarifas/${id}`, "GET");
     return getResult;
   },
+  getAllTarifas: async (id) => {
+    const getResult = await Api.fetch(`${Environment.api}tarifas/`, "GET");
+    return getResult;
+  },
 };

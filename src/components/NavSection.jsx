@@ -175,7 +175,8 @@ export default function NavSection({ navConfig, ...other }) {
     path ? !!matchPath({ path, end: false }, pathname) : false;
 
   return (
-    <Box {...other}>
+    <Box {...other} style={{ textAlign: "center",
+                             flex: 1}}>
       <List disablePadding>
         {navConfig.map((item) => (
           <NavItem key={item.title} item={item} active={match} />
