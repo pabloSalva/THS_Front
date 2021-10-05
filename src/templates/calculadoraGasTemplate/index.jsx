@@ -29,7 +29,7 @@ const CalculadoraGasTemplate = ({
   handleCloseRightPanel,
   calefaccionButton,
   cocinaButton,
-  electronicaButton,
+  aguaButton,
   hayArtefacto,
   handleChangeEntidad,
   entidad,
@@ -110,7 +110,7 @@ const CalculadoraGasTemplate = ({
             <Typography className={classes.categoriaTittle}>
               Agua
             </Typography>
-            <Button onClick={electronicaButton}>
+            <Button onClick={aguaButton}>
               <img
                 alt="agua"
                 src={process.env.PUBLIC_URL + "/icons/calefon.png"}
@@ -266,7 +266,7 @@ CalculadoraGasTemplate.propTypes = {
   handleCloseRightPanel: PropTypes.func,
   calefaccionButton: PropTypes.func,
   cocinaButton: PropTypes.func,
-  electronicaButton: PropTypes.func,
+  aguaButton: PropTypes.func,
   hayArtefacto: PropTypes.bool,
   tipoArtefacto: PropTypes.string,
   calcular: PropTypes.func,

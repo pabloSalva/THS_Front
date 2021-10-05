@@ -67,10 +67,10 @@ const CalculoGas = () => {
     setTipoArtefacto("Cocina");
     setCategoria(4);
   };
-  const electronicaButton = () => {
+  const aguaButton = () => {
     setOpen(true);
-    setTipoArtefacto("Electronica");
-    setCategoria(2);
+    setTipoArtefacto("Agua");
+    setCategoria(8);
   };
   console.log(existe);
   const calcularConsumo = () => {
@@ -141,7 +141,7 @@ const CalculoGas = () => {
       openDrawer={open}
       calefaccionButton={calefaccionButton}
       cocinaButton={cocinaButton}
-      electronicaButton={electronicaButton}
+      aguaButton={aguaButton}
       handleCloseRightPanel={handleCloseRightPanel}
       hayArtefacto={existe}
       calcular={calcularConsumo}
