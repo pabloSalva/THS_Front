@@ -24,21 +24,18 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 
-const CalculadoraElectricaTemplate = ({
+const CalculadoraGasTemplate = ({
   openDrawer,
   handleCloseRightPanel,
-  aireButton,
-  heladeraButton,
-  iluminacionButton,
-  lavarropaButton,
+  calefaccionButton,
   cocinaButton,
   electronicaButton,
   hayArtefacto,
   handleChangeEntidad,
   entidad,
   tarifa,
-  tipoArtefacto,
   handleChangeTarifa,
+  tipoArtefacto,
   calcular,
   columns,
   // editRowsModel,
@@ -47,13 +44,12 @@ const CalculadoraElectricaTemplate = ({
   hayCalculo,
   handleSearchBar,
   nodos,
-  entidadEnergia,
-  agregarEnTabla,
+  entidadGas,
+  tarifasGas,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
-  const [checked, setChecked] = useState([]);
-
+  const [checked, setChecked] = useState([0]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const handleEditRowsModelChange = useCallback((model) => {
     setEditRowsModel(model);
@@ -72,10 +68,9 @@ const CalculadoraElectricaTemplate = ({
 
     setChecked(newChecked);
   };
-  console.log(checked);
 
   return (
-    <Layout titulo="Calculadora de consumo electrico" openDrawer={openDrawer}>
+    <Layout titulo="Calculadora de consumo de Gas" openDrawer={openDrawer}>
       <div
         className={clsx(classes.content, {
           [classes.contentShift]: openDrawer,
@@ -87,12 +82,12 @@ const CalculadoraElectricaTemplate = ({
         <div className={classes.papers}>
           <Paper className={classes.paperInterno}>
           <Typography className={classes.categoriaTittle}>
-              Aires
+              Calefaccion
             </Typography>
-            <Button onClick={aireButton}>
+            <Button onClick={calefaccionButton}>
               <img
-                alt="aire-acondicionado"
-                src={process.env.PUBLIC_URL + "/icons/aire-acondicionado.svg"}
+                alt="calefaccion"
+                src={process.env.PUBLIC_URL + "/icons/calefaccion.png"}
                 className={classes.logo}
               />
             </Button>
@@ -100,62 +95,24 @@ const CalculadoraElectricaTemplate = ({
 
           <Paper>
           <Typography className={classes.categoriaTittle}>
-              Lavarropas
-            </Typography>
-            <Button onClick={lavarropaButton}>
-              <img
-                alt="lavarropas"
-                src={process.env.PUBLIC_URL + "/icons/lavaropa.svg"}
-                className={classes.logo}
-              />
-            </Button>
-          </Paper>
-          <Paper>
-          <Typography className={classes.categoriaTittle}>
-              Iluminación
-            </Typography>
-            <Button onClick={iluminacionButton}>
-              <img
-                alt="Luz"
-                src={process.env.PUBLIC_URL + "/icons/luz.svg"}
-                className={classes.logo}
-              />
-            </Button>
-          </Paper>
-        </div>
-        <div className={classes.papers}>
-          <Paper>
-          <Typography className={classes.categoriaTittle}>
               Cocina
             </Typography>
             <Button onClick={cocinaButton}>
               <img
                 alt="microondas"
-                src={process.env.PUBLIC_URL + "/icons/microonda.svg"}
+                src={process.env.PUBLIC_URL + "/icons/cook.png"}
                 className={classes.logo}
               />
             </Button>
           </Paper>
           <Paper>
-          <Typography className={classes.categoriaTittle}>
-              Electronica
+            <Typography className={classes.categoriaTittle}>
+              Agua
             </Typography>
             <Button onClick={electronicaButton}>
               <img
-                alt="electronica"
-                src={process.env.PUBLIC_URL + "/icons/monitor.svg"}
-                className={classes.logo}
-              />
-            </Button>
-          </Paper>
-          <Paper>
-          <Typography className={classes.categoriaTittle}>
-              Heladeras
-            </Typography>
-            <Button onClick={heladeraButton}>
-              <img
-                alt="heladeras"
-                src={process.env.PUBLIC_URL + "/icons/refrigerador.svg"}
+                alt="agua"
+                src={process.env.PUBLIC_URL + "/icons/calefon.png"}
                 className={classes.logo}
               />
             </Button>
@@ -236,7 +193,7 @@ const CalculadoraElectricaTemplate = ({
                     No se encontraron Artefactos
                   </Typography>
                 )}
-                <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
+                <Button>Agregar</Button>
               </div>
             </RightPanel>
           </div>
@@ -253,8 +210,8 @@ const CalculadoraElectricaTemplate = ({
               value={entidad}
               onChange={handleChangeEntidad}
             >
-              {entidadEnergia &&
-                entidadEnergia.map((nodo) => (
+              {entidadGas &&
+                entidadGas.map((nodo) => (
                   <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
                 ))}
             </Select>
@@ -268,12 +225,10 @@ const CalculadoraElectricaTemplate = ({
               value={tarifa}
               onChange={handleChangeTarifa}
             >
-              {/* <MenuItem value="Tarifa">
-                <em>Tarifa</em>
-              </MenuItem> */}
-              <MenuItem value={"EDELAP"}>T1-R1</MenuItem>
-              <MenuItem value={"EDESUR"}>T1-R2</MenuItem>
-              <MenuItem value={"EDEA"}>T2-R1</MenuItem>
+              {tarifasGas &&
+                tarifasGas.map((nodo) => (
+                  <MenuItem value={nodo.id}>{nodo.descripcion}</MenuItem>
+                ))}
             </Select>
           </div>
         </div>
@@ -305,13 +260,10 @@ const CalculadoraElectricaTemplate = ({
   );
 };
 
-CalculadoraElectricaTemplate.propTypes = {
+CalculadoraGasTemplate.propTypes = {
   openDrawer: PropTypes.bool,
   handleCloseRightPanel: PropTypes.func,
-  aireButton: PropTypes.func,
-  heladeraButton: PropTypes.func,
-  iluminacionButton: PropTypes.func,
-  lavarropaButton: PropTypes.func,
+  calefaccionButton: PropTypes.func,
   cocinaButton: PropTypes.func,
   electronicaButton: PropTypes.func,
   hayArtefacto: PropTypes.bool,
@@ -325,9 +277,9 @@ CalculadoraElectricaTemplate.propTypes = {
   handleSearchBar: PropTypes.func,
   nodos: PropTypes.array,
   info: PropTypes.func,
-  entidadEnergia: PropTypes.array,
-  agregarEnTabla: PropTypes.func,
+  entidadGas: PropTypes.array,
+  tarifasGas: PropTypes.array,
   // handleCellEditCommit: PropTypes.func,
 };
 
-export default CalculadoraElectricaTemplate;
+export default CalculadoraGasTemplate;

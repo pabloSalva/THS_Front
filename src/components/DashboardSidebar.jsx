@@ -59,17 +59,19 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           flexDirection: "column",
         },
       }}
+      style={{ backgroundColor: "#9AF591" }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
-          {/* <Logo /> */}
+        <img src={process.env.PUBLIC_URL + "/planeta1.png"} alt="Logo" style={{ width: 100,
+            height: 100, marginLeft: 40}}/>
         </Box>
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+      <Box component="span" sx={{ p: 2, border: '1px grey' }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            {/* <Avatar /> */}
+          Tu Hogar Sustentable
             <Box sx={{ ml: 2 }}>
               <Typography
                 variant="subtitle2"
@@ -85,25 +87,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       <NavSection navConfig={sidebarConfig} />
-
-      <Box sx={{ flexGrow: 1 }} />
-
-      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        {/* <Box
-          component="img"
-          src="/static/illustrations/illustration_avatar.png"
-          sx={{ width: 100, position: "absolute", top: -50 }}
-        /> */}
-
-        <Box sx={{ textAlign: "center" }}>
-          <Typography gutterBottom variant="h6">
-            texto
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            texto
-          </Typography>
-        </Box>
-      </Box>
     </Scrollbar>
   );
 

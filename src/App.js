@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 
 import routes from "./router/routes";
 import CalculoElectrico from "./pages/CalculoElectrico";
+import CalculoGas from "./pages/CalculoGas";
 
 function App() {
   return (
@@ -18,7 +19,11 @@ function App() {
             path={routes.calculoElectrico}
             component={CalculoElectrico}
           />
-
+          <Route
+          exact
+          path={routes.calculoGas}
+          component={CalculoGas}
+        />
           <Route path={"/"}>
             <Redirect to={"/"} />
           </Route>
