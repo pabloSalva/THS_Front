@@ -14,13 +14,15 @@ const CalculoElectrico = () => {
   const [entidadesEnergia, setEntidadesEnergia] = useState([]);
   const [agregados, setAgregados] = useState([]);
   const [rows, setRows] = useState([]);
+  const [entidad, setEntidad] = useState();
+  const [entidadEnergiaTarifa, setEntidadEnergiaTarifa] = useState([]);
 
   /*
     AIRES = 0
     HELADERAS = 1
     ELECTRONICA = 2
     ILUMINACION = 3
-    COCINA = 4
+    COCINA = 4categoria
     LAVARROPAS = 5
     CALEFACCION = 6
     BAÑO = 7
@@ -111,6 +113,38 @@ const CalculoElectrico = () => {
   }, [agregarEffect]);
   console.log(rows);
 
+  const handleChangeTarifa = (e) => console.log(e);
+  const handleChangeEntidad = (e) => {
+    setEntidad(e.target.value);
+  };
+
+  /**
+   * Cada vez que se cambia el valor de la entidad se ejecuta este effect
+   * para cambiar el valor de las tarifas que se muestran.
+   */
+  useEffect(
+    (e) => {
+      const filtradoTarifa = entidadesEnergia.filter(
+        (value) => value.id === entidad
+      );
+
+      if (filtradoTarifa.length > 0) {
+        const tarifasMap = filtradoTarifa[0]["tarifa"].map((item) => {
+          return [item.categoria, item];
+        });
+
+        var tarifasMapArr = new Map(tarifasMap); // Pares de clave y valor
+
+        let unicos = [...tarifasMapArr.values()]; // Conversión a un array
+
+        setEntidadEnergiaTarifa(unicos);
+      }
+
+      handleChangeTarifa(e);
+    },
+    [entidad]
+  );
+  console.log(entidadEnergiaTarifa);
   // Funcion para el borrado de la tabla. donde está el 2 iria el id del elemento a eliminar
   // const filtrado = rows.filter((value) => value.id !== 2);
   // console.log(filtrado);
@@ -162,6 +196,10 @@ const CalculoElectrico = () => {
       nodos={nodos}
       entidadEnergia={entidadesEnergia}
       agregarEnTabla={agregarEnTabla}
+      handleChangeEntidad={handleChangeEntidad}
+      entidad={entidad}
+      handleChangeTarifa={handleChangeTarifa}
+      entidadEnergiaTarifa={entidadEnergiaTarifa}
       // handleCellEditCommit={handleCellEditCommit}
     />
   );
