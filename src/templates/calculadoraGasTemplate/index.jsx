@@ -45,11 +45,12 @@ const CalculadoraGasTemplate = ({
   handleSearchBar,
   nodos,
   entidadGas,
+  agregarEnTabla,
   tarifasGas,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const handleEditRowsModelChange = useCallback((model) => {
     setEditRowsModel(model);
@@ -193,7 +194,7 @@ const CalculadoraGasTemplate = ({
                     No se encontraron Artefactos
                   </Typography>
                 )}
-                <Button>Agregar</Button>
+                <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
               </div>
             </RightPanel>
           </div>
@@ -278,6 +279,7 @@ CalculadoraGasTemplate.propTypes = {
   nodos: PropTypes.array,
   info: PropTypes.func,
   entidadGas: PropTypes.array,
+  agregarEnTabla: PropTypes.func,
   tarifasGas: PropTypes.array,
   // handleCellEditCommit: PropTypes.func,
 };

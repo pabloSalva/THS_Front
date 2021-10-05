@@ -13,12 +13,9 @@ const CalculoGas = () => {
   const [nodos, setNodos] = useState([]);
   const [entidadesGas, setEntidadesGas] = useState([]);
   const [tarifasGas, setTarifasGas] = useState([]);
+  const [agregados, setAgregados] = useState([]);
+  const [rows, setRows] = useState([]);
 
-  // const [editRowsModel, setEditRowsModel] = useState({});
-  // const handleEditRowsModelChange = useCallback((model) => {
-  //   setEditRowsModel(model);
-  //   console.log(model);
-  // }, []);
   /*
     AIRES = 0
     HELADERAS = 1
@@ -85,6 +82,34 @@ const CalculoGas = () => {
     console.log(event.target.value);
   };
 
+  const [agregarEffect, setAgregarEffect] = useState(false);
+  const agregarEnTabla = (value) => {
+    setAgregados(
+      value.map((valor) => nodos.filter((nodo) => nodo.id === valor))
+    );
+    setAgregarEffect(!agregarEffect);
+  };
+  console.log(agregados.flat());
+  
+  useEffect(() => {
+    setRows([
+      ...rows,
+      ...agregados.flat().map((value) => ({
+        id: value.id,
+        nombre: value.nombre,
+        marca: value.marca,
+        consumo: value.consumo,
+        horas: 1,
+        cantidad: 1,
+      })),
+    ]);
+  }, [agregarEffect]);
+  console.log(rows);
+
+  // Funcion para el borrado de la tabla. donde está el 2 iria el id del elemento a eliminar
+  // const filtrado = rows.filter((value) => value.id !== 2);
+  // console.log(filtrado);
+
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 180, editable: false },
     { field: "marca", headerName: "Marca", width: 180, editable: false },
@@ -111,67 +136,6 @@ const CalculoGas = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      nombre: "Aire Acondicionado",
-      marca: "BGH",
-      consumo: 3300,
-      horas: 1,
-      cantidad: 1,
-    },
-    {
-      id: 2,
-      nombre: "Lavarropas",
-      marca: "Drean",
-      consumo: 300,
-      horas: 1,
-      cantidad: 1,
-    },
-    {
-      id: 3,
-      nombre: "Lampara Led",
-      marca: "Jeluz",
-      consumo: 7,
-      horas: 1,
-      cantidad: 1,
-    },
-    {
-      id: 4,
-      nombre: "Aire Acondicionado",
-      marca: "BGH",
-      consumo: 2300,
-      horas: 1,
-      cantidad: 1,
-    },
-    {
-      id: 5,
-      nombre: "Televisor 49 pulgadas",
-      marca: "Philips",
-      consumo: 200,
-      horas: 1,
-      cantidad: 1,
-    },
-  ];
-
-  // const [rows, setRows] = useState(row);
-
-  // const handleCellEditCommit = useCallback(
-  //   ({ id, field, value }) => {
-  //     if (field === "horas" || field === "cantidad") {
-  //       console.log(value);
-  //       const updatedRows = rows.map((row) => {
-  //         if (row.id === id) {
-  //           return { ...row };
-  //         }
-  //         return row;
-  //       });
-  //       setRows(updatedRows);
-  //     }
-  //   },
-  //   [rows]
-  // );
-
   return (
     <CalculadoraGasTemplate
       openDrawer={open}
@@ -190,6 +154,7 @@ const CalculoGas = () => {
       handleSearchBar={handleSearchBar}
       nodos={nodos}
       entidadGas={entidadesGas}
+      agregarEnTabla={agregarEnTabla}
       tarifasGas={tarifasGas}
       // handleCellEditCommit={handleCellEditCommit}
     />
