@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import RightPanel from "../../components/rightPanel";
 import PropTypes from "prop-types";
 import Layout from "../layout/Layout";
@@ -49,16 +49,21 @@ const CalculadoraElectricaTemplate = ({
   nodos,
   entidadEnergia,
   agregarEnTabla,
+  entidadEnergiaTarifa,
+  handleEditRowsModelChange,
+  editRowsModel,
+  precio,
+  consumoTotalMensual,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState([]);
 
-  const [editRowsModel, setEditRowsModel] = useState({});
-  const handleEditRowsModelChange = useCallback((model) => {
-    setEditRowsModel(model);
-    console.log(model);
-  }, []);
+  // const [editRowsModel, setEditRowsModel] = useState({});
+  // const handleEditRowsModelChange = useCallback((model) => {
+  //   setEditRowsModel(model);
+  //   console.log(model);
+  // }, []);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -86,9 +91,7 @@ const CalculadoraElectricaTemplate = ({
         </Typography>
         <div className={classes.papers}>
           <Paper className={classes.paperInterno}>
-          <Typography className={classes.categoriaTittle}>
-              Aires
-            </Typography>
+            <Typography className={classes.categoriaTittle}>Aires</Typography>
             <Button onClick={aireButton}>
               <img
                 alt="aire-acondicionado"
@@ -99,7 +102,7 @@ const CalculadoraElectricaTemplate = ({
           </Paper>
 
           <Paper>
-          <Typography className={classes.categoriaTittle}>
+            <Typography className={classes.categoriaTittle}>
               Lavarropas
             </Typography>
             <Button onClick={lavarropaButton}>
@@ -111,7 +114,7 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
           <Paper>
-          <Typography className={classes.categoriaTittle}>
+            <Typography className={classes.categoriaTittle}>
               Iluminación
             </Typography>
             <Button onClick={iluminacionButton}>
@@ -125,9 +128,7 @@ const CalculadoraElectricaTemplate = ({
         </div>
         <div className={classes.papers}>
           <Paper>
-          <Typography className={classes.categoriaTittle}>
-              Cocina
-            </Typography>
+            <Typography className={classes.categoriaTittle}>Cocina</Typography>
             <Button onClick={cocinaButton}>
               <img
                 alt="microondas"
@@ -137,7 +138,7 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
           <Paper>
-          <Typography className={classes.categoriaTittle}>
+            <Typography className={classes.categoriaTittle}>
               Electronica
             </Typography>
             <Button onClick={electronicaButton}>
@@ -149,7 +150,7 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
           <Paper>
-          <Typography className={classes.categoriaTittle}>
+            <Typography className={classes.categoriaTittle}>
               Heladeras
             </Typography>
             <Button onClick={heladeraButton}>
@@ -214,10 +215,10 @@ const CalculadoraElectricaTemplate = ({
                               onClick={() =>
                                 alert(
                                   `${value.nombre}` +
-                                    " " +
-                                    `${value.consumo}` +
-                                    " Calorias" +
-                                    " Etiqueta: " +
+                                    ",\n " +
+                                    `Consumo: ${value.consumo}` +
+                                    "W/h" +
+                                    ",\n Etiqueta: " +
                                     `${value.etiqueta}`
                                 )
                               }
@@ -253,6 +254,7 @@ const CalculadoraElectricaTemplate = ({
               value={entidad}
               onChange={handleChangeEntidad}
             >
+              {console.log(entidad)}
               {entidadEnergia &&
                 entidadEnergia.map((nodo) => (
                   <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
@@ -268,12 +270,10 @@ const CalculadoraElectricaTemplate = ({
               value={tarifa}
               onChange={handleChangeTarifa}
             >
-              {/* <MenuItem value="Tarifa">
-                <em>Tarifa</em>
-              </MenuItem> */}
-              <MenuItem value={"EDELAP"}>T1-R1</MenuItem>
-              <MenuItem value={"EDESUR"}>T1-R2</MenuItem>
-              <MenuItem value={"EDEA"}>T2-R1</MenuItem>
+              {entidadEnergiaTarifa &&
+                entidadEnergiaTarifa.map((nodo) => (
+                  <MenuItem value={nodo.id}>{nodo.categoria}</MenuItem>
+                ))}
             </Select>
           </div>
         </div>
@@ -282,6 +282,7 @@ const CalculadoraElectricaTemplate = ({
             rows={rows}
             columns={columns}
             editRowsModel={editRowsModel}
+            // editMode="row"
             onEditRowsModelChange={handleEditRowsModelChange}
           />
         </div>
@@ -295,10 +296,13 @@ const CalculadoraElectricaTemplate = ({
           Calcular
         </Button>
         {hayCalculo && (
-          <Typography variant="h1">
-            Su consumo es de 160Kw por mes. El precio para la tarifa
-            seleccionada es de $5000 pesos
-          </Typography>
+          <Paper className={classes.paperConsumo}>
+            <Typography className={classes.consumo}>
+              {`Su consumo es de: ${consumoTotalMensual}Kw por mes.`}
+              <br />
+              {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
+            </Typography>
+          </Paper>
         )}
       </div>
     </Layout>
@@ -327,6 +331,12 @@ CalculadoraElectricaTemplate.propTypes = {
   info: PropTypes.func,
   entidadEnergia: PropTypes.array,
   agregarEnTabla: PropTypes.func,
+  entidad: PropTypes.number,
+  handleChangeTarifa: PropTypes.func,
+  tarifa: PropTypes.number,
+  entidadEnergiaTarifa: PropTypes.array,
+  handleEditRowsModelChange: PropTypes.func,
+  // editRowsModel: PropTypes.array,
   // handleCellEditCommit: PropTypes.func,
 };
 
