@@ -179,6 +179,11 @@ const CalculoElectrico = () => {
     setEditRowsModel(model);
   }, []);
 
+  /**
+   * Cada vez que modifico el valor de "dias" o "cantidad" en la tabla de artefactos
+   * se invoca a este effect que setea al array rows con los valores nuevos para luego
+   * utilizarlo en el calculo de consumo
+   */
   useEffect(() => {
     if (Object.keys(editRowsModel).length > 0 && rows.length > 0) {
       // Recupero el valor de la clave del editRowsModel que equivale al valor del id del elemento en la fila
@@ -209,6 +214,7 @@ const CalculoElectrico = () => {
         const eficiencia = editRowsModel[clave]["eficiencia"]["value"];
         rowAux[indice].eficiencia = eficiencia;
       }
+      // seteo el nuevo rows con los ultimos datos agregados
       setRows([...rowAux]);
     }
   }, [editRowsModel]);
