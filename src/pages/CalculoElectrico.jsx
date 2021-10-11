@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CalculadoraElectricaTemplate from "../templates/calculadoraElectricaTemplate";
 import { ArtefactoService } from "../services/ArtefactoService";
 import { EntidadesService } from "../services/EntidadesService";
@@ -16,6 +16,10 @@ const CalculoElectrico = () => {
   const [rows, setRows] = useState([]);
   const [entidad, setEntidad] = useState();
   const [entidadEnergiaTarifa, setEntidadEnergiaTarifa] = useState([]);
+
+  const [editRowsModel, setEditRowsModel] = useState({});
+  const [precio, setPrecio] = useState(0);
+  const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
 
   /*
     AIRES = 0
@@ -47,7 +51,6 @@ const CalculoElectrico = () => {
   useEffect(() => {
     entidades();
   }, []);
-  console.log(entidadesEnergia);
   const handleCloseRightPanel = () => {
     setOpen(false);
   };
@@ -72,6 +75,7 @@ const CalculoElectrico = () => {
     setCategoria(5);
   };
   const cocinaButton = () => {
+    // handleEditRowsModelChange;
     setOpen(true);
     setTipoArtefacto("Cocina");
     setCategoria(4);
@@ -81,9 +85,66 @@ const CalculoElectrico = () => {
     setTipoArtefacto("Electronica");
     setCategoria(2);
   };
-  console.log(existe);
+
   const calcularConsumo = () => {
-    setHayCalculo(true);
+    const tarifaEntidad = entidadesEnergia.filter(
+      (value) => value.id === entidad
+    );
+    if (tarifaEntidad.length > 0) {
+      setHayCalculo(true);
+      let consumoTotal = 0;
+      rows.forEach((nodo) => {
+        if (nodo.nombre.includes("Aire")) {
+          let consumoAire;
+          switch (nodo.eficiencia) {
+            case "A+++":
+              consumoAire = nodo.consumo * (1 / 8);
+              break;
+            case "A++":
+              consumoAire = nodo.consumo * (1 / 7);
+              break;
+            case "A+":
+              consumoAire = nodo.consumo * (1 / 6);
+              break;
+            case "A":
+              consumoAire = nodo.consumo * (1 / 5);
+              break;
+            case "B":
+              consumoAire = nodo.consumo * (1 / 4.5);
+              break;
+            case "C":
+              consumoAire = nodo.consumo * (1 / 4);
+              break;
+            case "D":
+              consumoAire = nodo.consumo * (1 / 3.7);
+              break;
+            case "E":
+              consumoAire = nodo.consumo * (1 / 3.5);
+              break;
+
+            default:
+              consumoAire = nodo.consumo * (1 / 3);
+              break;
+          }
+          consumoTotal += consumoAire * nodo.horas * nodo.cantidad;
+        } else {
+          consumoTotal += nodo.consumo * nodo.horas * nodo.cantidad;
+        }
+      });
+      const consumoMensual = (consumoTotal * 30) / 1000;
+      const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
+        (value) =>
+          consumoMensual >= value.consumo_minimo &&
+          consumoMensual < value.consumo_maximo
+      );
+      const precioConsumo =
+        tarifaEspecifica[0].cargo_fijo +
+        tarifaEspecifica[0].precio_unitario * consumoMensual;
+      setConsumoTotalMensual(consumoMensual);
+      setPrecio(precioConsumo);
+    } else {
+      alert("Debe seleccionar Entidad y tarifa");
+    }
   };
   const handleSearchBar = (event) => {
     Artefactos(categoria);
@@ -96,7 +157,6 @@ const CalculoElectrico = () => {
     );
     setAgregarEffect(!agregarEffect);
   };
-  console.log(agregados.flat());
 
   useEffect(() => {
     setRows([
@@ -106,12 +166,52 @@ const CalculoElectrico = () => {
         nombre: value.nombre,
         marca: value.marca,
         consumo: value.consumo,
+        eficiencia: value.etiqueta,
         horas: 1,
         cantidad: 1,
       })),
     ]);
   }, [agregarEffect]);
   console.log(rows);
+  console.log(nodos);
+
+  const handleEditRowsModelChange = useCallback((model) => {
+    setEditRowsModel(model);
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(editRowsModel).length > 0 && rows.length > 0) {
+      // Recupero el valor de la clave del editRowsModel que equivale al valor del id del elemento en la fila
+      const clave = Object.keys(editRowsModel)[0];
+      const rowAux = rows;
+      const indice = rowAux.findIndex((fila) => fila.id === Number(clave));
+
+      /**
+       * si cambio la hora actualizo la fila en la hora
+       * si no, si actualizo la cantidad, modifico la fila en la cantidad
+       */
+      if (
+        editRowsModel[clave]["horas"] &&
+        editRowsModel[clave]["horas"]["value"]
+      ) {
+        const horas = editRowsModel[clave]["horas"]["value"];
+        rowAux[indice].horas = horas;
+      } else if (
+        editRowsModel[clave]["cantidad"] &&
+        editRowsModel[clave]["cantidad"]["value"]
+      ) {
+        const cantidad = editRowsModel[clave]["cantidad"]["value"];
+        rowAux[indice].cantidad = cantidad;
+      } else if (
+        editRowsModel[clave]["eficiencia"] &&
+        editRowsModel[clave]["eficiencia"]["value"]
+      ) {
+        const eficiencia = editRowsModel[clave]["eficiencia"]["value"];
+        rowAux[indice].eficiencia = eficiencia;
+      }
+      setRows([...rowAux]);
+    }
+  }, [editRowsModel]);
 
   const handleChangeTarifa = (e) => console.log(e);
   const handleChangeEntidad = (e) => {
@@ -144,32 +244,39 @@ const CalculoElectrico = () => {
     },
     [entidad]
   );
-  console.log(entidadEnergiaTarifa);
+
   // Funcion para el borrado de la tabla. donde está el 2 iria el id del elemento a eliminar
   // const filtrado = rows.filter((value) => value.id !== 2);
   // console.log(filtrado);
   const columns = [
-    { field: "nombre", headerName: "Nombre", width: 180, editable: false },
-    { field: "marca", headerName: "Marca", width: 180, editable: false },
+    { field: "nombre", headerName: "Nombre", flex: 0.2, editable: false },
+    { field: "marca", headerName: "Marca", flex: 0.1, editable: false },
     {
       field: "consumo",
       headerName: "Consumo",
       type: "number",
-      width: 180,
+      flex: 0.1,
+      editable: false,
+    },
+    {
+      field: "eficiencia",
+      headerName: "Eficiencia",
+
+      flex: 0.1,
       editable: false,
     },
     {
       field: "horas",
-      headerName: "Horas de uso",
+      headerName: "Horas de uso diario",
       type: "number",
-      width: 180,
+      flex: 0.16,
       editable: true,
     },
     {
       field: "cantidad",
       headerName: "Cantidad",
       type: "number",
-      width: 220,
+      flex: 0.1,
       editable: true,
     },
   ];
@@ -201,6 +308,10 @@ const CalculoElectrico = () => {
       handleChangeTarifa={handleChangeTarifa}
       entidadEnergiaTarifa={entidadEnergiaTarifa}
       // handleCellEditCommit={handleCellEditCommit}
+      handleEditRowsModelChange={handleEditRowsModelChange}
+      editRowsModel={editRowsModel}
+      precio={precio}
+      consumoTotalMensual={consumoTotalMensual}
     />
   );
 };

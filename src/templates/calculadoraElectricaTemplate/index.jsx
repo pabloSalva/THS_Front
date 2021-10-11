@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import RightPanel from "../../components/rightPanel";
 import PropTypes from "prop-types";
 import Layout from "../layout/Layout";
@@ -50,16 +50,20 @@ const CalculadoraElectricaTemplate = ({
   entidadEnergia,
   agregarEnTabla,
   entidadEnergiaTarifa,
+  handleEditRowsModelChange,
+  editRowsModel,
+  precio,
+  consumoTotalMensual,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState([]);
 
-  const [editRowsModel, setEditRowsModel] = useState({});
-  const handleEditRowsModelChange = useCallback((model) => {
-    setEditRowsModel(model);
-    console.log(model);
-  }, []);
+  // const [editRowsModel, setEditRowsModel] = useState({});
+  // const handleEditRowsModelChange = useCallback((model) => {
+  //   setEditRowsModel(model);
+  //   console.log(model);
+  // }, []);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -211,10 +215,10 @@ const CalculadoraElectricaTemplate = ({
                               onClick={() =>
                                 alert(
                                   `${value.nombre}` +
-                                    " " +
-                                    `${value.consumo}` +
-                                    " Calorias" +
-                                    " Etiqueta: " +
+                                    ",\n " +
+                                    `Consumo: ${value.consumo}` +
+                                    "W/h" +
+                                    ",\n Etiqueta: " +
                                     `${value.etiqueta}`
                                 )
                               }
@@ -278,6 +282,7 @@ const CalculadoraElectricaTemplate = ({
             rows={rows}
             columns={columns}
             editRowsModel={editRowsModel}
+            // editMode="row"
             onEditRowsModelChange={handleEditRowsModelChange}
           />
         </div>
@@ -291,10 +296,13 @@ const CalculadoraElectricaTemplate = ({
           Calcular
         </Button>
         {hayCalculo && (
-          <Typography variant="h1">
-            Su consumo es de 160Kw por mes. El precio para la tarifa
-            seleccionada es de $5000 pesos
-          </Typography>
+          <Paper className={classes.paperConsumo}>
+            <Typography className={classes.consumo}>
+              {`Su consumo es de: ${consumoTotalMensual}Kw por mes.`}
+              <br />
+              {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
+            </Typography>
+          </Paper>
         )}
       </div>
     </Layout>
@@ -327,6 +335,8 @@ CalculadoraElectricaTemplate.propTypes = {
   handleChangeTarifa: PropTypes.func,
   tarifa: PropTypes.number,
   entidadEnergiaTarifa: PropTypes.array,
+  handleEditRowsModelChange: PropTypes.func,
+  // editRowsModel: PropTypes.array,
   // handleCellEditCommit: PropTypes.func,
 };
 

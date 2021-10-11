@@ -69,5 +69,16 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     paddingTop: 30,
   },
+  consumo: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 10,
+    color: "#5CA4BB",
+    fontWeight: "bold",
+    fontSize: "20px",
+  },
+  paperConsumo: {
+    marginTop: 50,
+  },
 }));
 export default useStyles;
