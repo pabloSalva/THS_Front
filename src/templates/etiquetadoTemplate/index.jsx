@@ -46,7 +46,7 @@ const EtiquetadoTemplate = ({
             <img
               alt="Luz"
               src={process.env.PUBLIC_URL + "/icons/houses.svg"}
-              className={classes.logo}
+              className={classes.logo_calculo}
             />
           </Button>
         </Paper>

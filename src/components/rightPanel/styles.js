@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const fontConfig = {
-  fontFamily: "Roboto",
+  fontWeight: 'bold',
   lineHeight: "25px",
 };
 

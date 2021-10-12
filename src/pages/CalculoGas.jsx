@@ -20,6 +20,7 @@ const CalculoGas = () => {
   const [editRowsModel, setEditRowsModel] = useState({});
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
+  const [tarifa, setTarifa] = useState();
 
   /*
     AIRES = 0
@@ -85,6 +86,7 @@ const CalculoGas = () => {
     const tarifaEntidad = entidadesGas.filter(
       (value) => value.id === entidad
     );
+    console.log('TarifaEntidad: ', tarifaEntidad);
     if (tarifaEntidad.length > 0) {
       setHayCalculo(true);
       let consumoTotal = 0;
@@ -95,11 +97,16 @@ const CalculoGas = () => {
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
           consumoMensual >= value.consumo_minimo &&
-          consumoMensual < value.consumo_maximo
+          consumoMensual < value.consumo_maximo &&
+          value.id === tarifa
       );
+      console.log('TarifaEspecifica: ', tarifaEspecifica)
+      console.log('#Tarifa: ', tarifa)
       const precioConsumo =
         tarifaEspecifica[0].cargo_fijo +
         tarifaEspecifica[0].precio_unitario * consumoMensual;
+      console.log('Cargo fijo: ', tarifaEspecifica[0].cargo_fijo)
+      console.log('Precio_unitario: ', tarifaEspecifica[0].precio_unitario)
       setConsumoTotalMensual(consumoMensual);
       setPrecio(precioConsumo);
     } else {
@@ -244,7 +251,9 @@ const CalculoGas = () => {
     },
   ];
 
-  const handleChangeTarifa = (e) => console.log(e);
+  const handleChangeTarifa = (e) => {
+    setTarifa(e.target.value);
+  };
   const handleChangeEntidad = (e) => {
     setEntidad(e.target.value);
   };
@@ -259,8 +268,6 @@ const CalculoGas = () => {
         (value) => value.categoria === 'Gas' && value.entidad === entidad
       );
       setEntidadGasTarifa(auxTarifas);
-
-      handleChangeTarifa(e);
     },
     [entidad]
   );
@@ -286,6 +293,7 @@ const CalculoGas = () => {
       nodos={nodos}
       entidadGas={entidadesGas}
       entidad={entidad}
+      tarifa={tarifa}
       entidadGasTarifa={entidadGasTarifa}
       handleChangeTarifa={handleChangeTarifa}
       handleChangeEntidad={handleChangeEntidad}

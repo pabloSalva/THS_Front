@@ -17,7 +17,7 @@ const CalculoElectrico = () => {
   const [entidad, setEntidad] = useState();
   const [entidadEnergiaTarifa, setEntidadEnergiaTarifa] = useState([]);
   const [tarifasElectrico, setTarifasElectrico] = useState([]);
-
+  const [tarifa, setTarifa] = useState();
   const [editRowsModel, setEditRowsModel] = useState({});
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
@@ -145,11 +145,16 @@ const CalculoElectrico = () => {
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
           consumoMensual >= value.consumo_minimo &&
-          consumoMensual < value.consumo_maximo
+          consumoMensual < value.consumo_maximo &&
+          value.id === tarifa
       );
+      console.log('TarifaEspecifica: ', tarifaEspecifica)
+      console.log('#Tarifa: ', tarifa)
       const precioConsumo =
         tarifaEspecifica[0].cargo_fijo +
         tarifaEspecifica[0].precio_unitario * consumoMensual;
+        console.log('Cargo fijo: ', tarifaEspecifica[0].cargo_fijo)
+        console.log('Precio_unitario: ', tarifaEspecifica[0].precio_unitario)
       setConsumoTotalMensual(consumoMensual);
       setPrecio(precioConsumo);
     } else {
@@ -255,7 +260,9 @@ const CalculoElectrico = () => {
     }
   }, [editRowsModel]);
 
-  const handleChangeTarifa = (e) => console.log(e);
+  const handleChangeTarifa = (e) => {
+    setTarifa(e.target.value);
+  };
   const handleChangeEntidad = (e) => {
     setEntidad(e.target.value);
   };
@@ -270,8 +277,6 @@ const CalculoElectrico = () => {
         (value) => value.categoria === 'Electrico' && value.entidad === entidad
       );
       setEntidadEnergiaTarifa(auxTarifas);
-
-      handleChangeTarifa(e);
     },
     [entidad]
   );

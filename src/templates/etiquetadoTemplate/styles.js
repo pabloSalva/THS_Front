@@ -14,6 +14,10 @@ export const useStyles = makeStyles((theme) => ({
     width: 150,
     height: 100,
   },
+  logo_calculo: {
+    width: 300,
+    height: 100,
+  },
   categoriaTittle: {
     display: "flex",
     flexDirection: "row",
