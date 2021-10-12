@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import routes from "./router/routes";
 import CalculoElectrico from "./pages/CalculoElectrico";
 import CalculoGas from "./pages/CalculoGas";
+import Etiquetado from "./pages/Etiquetado";
 
 function App() {
   return (
@@ -19,11 +20,8 @@ function App() {
             path={routes.calculoElectrico}
             component={CalculoElectrico}
           />
-          <Route
-          exact
-          path={routes.calculoGas}
-          component={CalculoGas}
-        />
+          <Route exact path={routes.calculoGas} component={CalculoGas} />
+          <Route exact path={routes.domicilioPage} component={Etiquetado} />
           <Route path={"/"}>
             <Redirect to={"/"} />
           </Route>

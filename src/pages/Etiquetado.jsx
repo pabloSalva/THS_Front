@@ -1,8 +1,17 @@
 import React from "react";
-import Layout from "../templates/layout/Layout";
+import EtiquetadoTemplate from "../templates/etiquetadoTemplate";
 
 const Etiquetado = () => {
-  return <Layout titulo="Etiquetado de vivienda" />;
+  const crearDomiciclio = () => alert("domicilio nuevo");
+  const verDomicilios = () => alert("ver domicilios");
+  const eficienciaPage = () => alert("pagina eficiencia");
+  return (
+    <EtiquetadoTemplate
+      crearDomiciclio={crearDomiciclio}
+      verDomicilios={verDomicilios}
+      calcularEficieenciaPage={eficienciaPage}
+    />
+  );
 };
 
 export default Etiquetado;
