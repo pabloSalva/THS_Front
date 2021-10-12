@@ -16,6 +16,7 @@ const CalculoElectrico = () => {
   const [rows, setRows] = useState([]);
   const [entidad, setEntidad] = useState();
   const [entidadEnergiaTarifa, setEntidadEnergiaTarifa] = useState([]);
+  const [tarifasElectrico, setTarifasElectrico] = useState([]);
 
   const [editRowsModel, setEditRowsModel] = useState({});
   const [precio, setPrecio] = useState(0);
@@ -26,7 +27,7 @@ const CalculoElectrico = () => {
     HELADERAS = 1
     ELECTRONICA = 2
     ILUMINACION = 3
-    COCINA = 4categoria
+    COCINA = 4
     LAVARROPAS = 5
     CALEFACCION = 6
     BAÑO = 7
@@ -44,12 +45,22 @@ const CalculoElectrico = () => {
   const entidades = () => {
     EntidadesService.getEntidades()
       .then((response) => {
-        setEntidadesEnergia(response);
+        const aux = response.filter(
+               (value) => value.tipo_entidad === 'EL');
+        setEntidadesEnergia(aux);
+      })
+      .catch((error) => console.log(error));
+  };
+  const tarifas = () => {
+    EntidadesService.getAllTarifas()
+      .then((response) => {
+        setTarifasElectrico(response);
       })
       .catch((error) => console.log(error));
   };
   useEffect(() => {
     entidades();
+    tarifas();
   }, []);
   const handleCloseRightPanel = () => {
     setOpen(false);
@@ -256,21 +267,10 @@ const CalculoElectrico = () => {
    */
   useEffect(
     (e) => {
-      const filtradoTarifa = entidadesEnergia.filter(
-        (value) => value.id === entidad
+      const auxTarifas = tarifasElectrico.filter(
+        (value) => value.categoria === 'Electrico' && value.entidad === entidad
       );
-
-      if (filtradoTarifa.length > 0) {
-        const tarifasMap = filtradoTarifa[0]["tarifa"].map((item) => {
-          return [item.categoria, item];
-        });
-
-        var tarifasMapArr = new Map(tarifasMap); // Pares de clave y valor
-
-        let unicos = [...tarifasMapArr.values()]; // Conversión a un array
-
-        setEntidadEnergiaTarifa(unicos);
-      }
+      setEntidadEnergiaTarifa(auxTarifas);
 
       handleChangeTarifa(e);
     },
@@ -344,6 +344,7 @@ const CalculoElectrico = () => {
       editRowsModel={editRowsModel}
       precio={precio}
       consumoTotalMensual={consumoTotalMensual}
+      tarifasElectrico={tarifasElectrico}
     />
   );
 };

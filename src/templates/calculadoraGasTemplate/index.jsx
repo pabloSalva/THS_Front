@@ -35,6 +35,7 @@ const CalculadoraGasTemplate = ({
   entidad,
   tarifa,
   handleChangeTarifa,
+  entidadGasTarifa,
   tipoArtefacto,
   calcular,
   columns,
@@ -226,8 +227,8 @@ const CalculadoraGasTemplate = ({
               value={tarifa}
               onChange={handleChangeTarifa}
             >
-              {tarifasGas &&
-                tarifasGas.map((nodo) => (
+              {entidadGasTarifa &&
+                entidadGasTarifa.map((nodo) => (
                   <MenuItem value={nodo.id}>{nodo.descripcion}</MenuItem>
                 ))}
             </Select>
@@ -278,6 +279,7 @@ CalculadoraGasTemplate.propTypes = {
   handleSearchBar: PropTypes.func,
   nodos: PropTypes.array,
   info: PropTypes.func,
+  handleChangeTarifa: PropTypes.func,
   entidadGas: PropTypes.array,
   agregarEnTabla: PropTypes.func,
   tarifasGas: PropTypes.array,

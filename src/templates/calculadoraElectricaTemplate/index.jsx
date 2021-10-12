@@ -272,7 +272,7 @@ const CalculadoraElectricaTemplate = ({
             >
               {entidadEnergiaTarifa &&
                 entidadEnergiaTarifa.map((nodo) => (
-                  <MenuItem value={nodo.id}>{nodo.categoria}</MenuItem>
+                  <MenuItem value={nodo.id}>{nodo.descripcion}</MenuItem>
                 ))}
             </Select>
           </div>

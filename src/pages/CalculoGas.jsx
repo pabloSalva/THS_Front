@@ -15,6 +15,8 @@ const CalculoGas = () => {
   const [tarifasGas, setTarifasGas] = useState([]);
   const [agregados, setAgregados] = useState([]);
   const [rows, setRows] = useState([]);
+  const [entidad, setEntidad] = useState();
+  const [entidadGasTarifa, setEntidadGasTarifa] = useState([]);
 
   /*
     AIRES = 0
@@ -39,7 +41,9 @@ const CalculoGas = () => {
   const entidades = () => {
     EntidadesService.getEntidades()
       .then((response) => {
-        setEntidadesGas(response);
+        const aux = response.filter(
+          (value) => value.tipo_entidad === 'GS');
+        setEntidadesGas(aux);
       })
       .catch((error) => console.log(error));
   };
@@ -136,6 +140,27 @@ const CalculoGas = () => {
     },
   ];
 
+  const handleChangeTarifa = (e) => console.log(e);
+  const handleChangeEntidad = (e) => {
+    setEntidad(e.target.value);
+  };
+
+  /**
+   * Cada vez que se cambia el valor de la entidad se ejecuta este effect
+   * para cambiar el valor de las tarifas que se muestran.
+   */
+  useEffect(
+    (e) => {
+      const auxTarifas = tarifasGas.filter(
+        (value) => value.categoria === 'Gas' && value.entidad === entidad
+      );
+      setEntidadGasTarifa(auxTarifas);
+
+      handleChangeTarifa(e);
+    },
+    [entidad]
+  );
+
   return (
     <CalculadoraGasTemplate
       openDrawer={open}
@@ -154,6 +179,10 @@ const CalculoGas = () => {
       handleSearchBar={handleSearchBar}
       nodos={nodos}
       entidadGas={entidadesGas}
+      entidad={entidad}
+      entidadGasTarifa={entidadGasTarifa}
+      handleChangeTarifa={handleChangeTarifa}
+      handleChangeEntidad={handleChangeEntidad}
       agregarEnTabla={agregarEnTabla}
       tarifasGas={tarifasGas}
       // handleCellEditCommit={handleCellEditCommit}
