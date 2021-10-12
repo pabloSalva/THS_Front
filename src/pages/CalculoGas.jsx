@@ -23,6 +23,7 @@ const CalculoGas = () => {
   const [tarifa, setTarifa] = useState();
 
   /*
+    ## CATEGORIAS:
     AIRES = 0
     HELADERAS = 1
     ELECTRONICA = 2
@@ -31,6 +32,7 @@ const CalculoGas = () => {
     LAVARROPAS = 5
     CALEFACCION = 6
     BAÑO = 7
+    AGUA = 8
   */
 
   const Artefactos = (categoria) => {
