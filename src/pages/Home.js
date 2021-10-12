@@ -1,8 +1,8 @@
 import React from "react";
-import Layout from "../templates/layout/Layout";
+import HomeTemplate from "../templates/homeTemplate";
 
 const Home = () => {
-  return <Layout titulo="Bienvenido/a a Tu Hogar Sustentable THS" />;
+  return <HomeTemplate />;
 };
 
 export default Home;

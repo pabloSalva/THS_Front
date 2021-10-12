@@ -29,7 +29,7 @@ const sidebarConfig = [
   },
   {
     title: "Simulador Etiquetas",
-    path: "/simuladores/etiqueta",
+    path: "/domicilios",
     // icon: getIcon(fileTextFill),
   },
   // {
