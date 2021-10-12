@@ -53,8 +53,7 @@ export const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: 450,
+    })
   },
   rootright: {
     width: "100%",
