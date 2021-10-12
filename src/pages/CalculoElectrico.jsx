@@ -158,6 +158,32 @@ const CalculoElectrico = () => {
     setAgregarEffect(!agregarEffect);
   };
 
+  const checkEtiqueta = (value) => {
+    switch (value) {
+      case "0":
+        return 'A+++'
+      case "1":
+        return 'A++'
+      case "2":
+        return 'A+'
+      case "3":
+        return 'A'
+      case "4":
+        return 'B'
+      case "5":
+        return 'C'
+      case "6":
+        return 'D'
+      case "7":
+        return 'E'
+      case "8":
+        return 'F'
+      case "9":
+        return 'G'
+      default:
+        return 'B'
+  }};
+
   useEffect(() => {
     setRows([
       ...rows,
@@ -166,7 +192,7 @@ const CalculoElectrico = () => {
         nombre: value.nombre,
         marca: value.marca,
         consumo: value.consumo,
-        eficiencia: value.etiqueta,
+        eficiencia: checkEtiqueta(value.etiqueta),
         horas: 1,
         cantidad: 1,
       })),
