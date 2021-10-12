@@ -29,7 +29,7 @@ const CalculadoraGasTemplate = ({
   handleCloseRightPanel,
   calefaccionButton,
   cocinaButton,
-  electronicaButton,
+  aguaButton,
   hayArtefacto,
   handleChangeEntidad,
   entidad,
@@ -45,11 +45,12 @@ const CalculadoraGasTemplate = ({
   handleSearchBar,
   nodos,
   entidadGas,
+  agregarEnTabla,
   tarifasGas,
   // handleCellEditCommit,
 }) => {
   const classes = useStyles();
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const handleEditRowsModelChange = useCallback((model) => {
     setEditRowsModel(model);
@@ -109,7 +110,7 @@ const CalculadoraGasTemplate = ({
             <Typography className={classes.categoriaTittle}>
               Agua
             </Typography>
-            <Button onClick={electronicaButton}>
+            <Button onClick={aguaButton}>
               <img
                 alt="agua"
                 src={process.env.PUBLIC_URL + "/icons/calefon.png"}
@@ -193,7 +194,7 @@ const CalculadoraGasTemplate = ({
                     No se encontraron Artefactos
                   </Typography>
                 )}
-                <Button>Agregar</Button>
+                <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
               </div>
             </RightPanel>
           </div>
@@ -265,7 +266,7 @@ CalculadoraGasTemplate.propTypes = {
   handleCloseRightPanel: PropTypes.func,
   calefaccionButton: PropTypes.func,
   cocinaButton: PropTypes.func,
-  electronicaButton: PropTypes.func,
+  aguaButton: PropTypes.func,
   hayArtefacto: PropTypes.bool,
   tipoArtefacto: PropTypes.string,
   calcular: PropTypes.func,
@@ -278,6 +279,7 @@ CalculadoraGasTemplate.propTypes = {
   nodos: PropTypes.array,
   info: PropTypes.func,
   entidadGas: PropTypes.array,
+  agregarEnTabla: PropTypes.func,
   tarifasGas: PropTypes.array,
   // handleCellEditCommit: PropTypes.func,
 };
