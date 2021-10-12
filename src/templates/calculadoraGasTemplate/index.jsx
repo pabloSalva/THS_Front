@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import RightPanel from "../../components/rightPanel";
 import PropTypes from "prop-types";
 import Layout from "../layout/Layout";
@@ -39,8 +39,10 @@ const CalculadoraGasTemplate = ({
   tipoArtefacto,
   calcular,
   columns,
-  // editRowsModel,
-  // handleEditRowsModelChange,
+  handleEditRowsModelChange,
+  editRowsModel,
+  precio,
+  consumoTotalMensual,
   rows,
   hayCalculo,
   handleSearchBar,
@@ -52,11 +54,6 @@ const CalculadoraGasTemplate = ({
 }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState([]);
-  const [editRowsModel, setEditRowsModel] = useState({});
-  const handleEditRowsModelChange = useCallback((model) => {
-    setEditRowsModel(model);
-    console.log(model);
-  }, []);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -173,10 +170,10 @@ const CalculadoraGasTemplate = ({
                               onClick={() =>
                                 alert(
                                   `${value.nombre}` +
-                                    " " +
-                                    `${value.consumo}` +
-                                    " Calorias" +
-                                    " Etiqueta: " +
+                                    ", \n " +
+                                    `Consumo: ${value.consumo}` +
+                                    "W/h" +
+                                    ", \n Etiqueta: " +
                                     `${value.etiqueta}`
                                 )
                               }
@@ -252,10 +249,13 @@ const CalculadoraGasTemplate = ({
           Calcular
         </Button>
         {hayCalculo && (
-          <Typography variant="h1">
-            Su consumo es de 160Kw por mes. El precio para la tarifa
-            seleccionada es de $5000 pesos
+          <Paper className={classes.paperConsumo}>
+          <Typography className={classes.consumo}>
+            {`Su consumo es de: ${consumoTotalMensual}m3 por mes.`}
+            <br />
+            {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
           </Typography>
+        </Paper>
         )}
       </div>
     </Layout>
@@ -274,6 +274,7 @@ CalculadoraGasTemplate.propTypes = {
   editRowsModel: PropTypes.object,
   handleChangeEntidad: PropTypes.func,
   rows: PropTypes.array,
+  handleEditRowsModelChange: PropTypes.func,
   columns: PropTypes.array,
   hayCalculo: PropTypes.bool,
   handleSearchBar: PropTypes.func,

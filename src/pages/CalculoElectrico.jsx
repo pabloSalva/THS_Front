@@ -86,7 +86,6 @@ const CalculoElectrico = () => {
     setCategoria(5);
   };
   const cocinaButton = () => {
-    // handleEditRowsModelChange;
     setOpen(true);
     setTipoArtefacto("Cocina");
     setCategoria(4);
@@ -326,7 +325,6 @@ const CalculoElectrico = () => {
       hayArtefacto={existe}
       calcular={calcularConsumo}
       // editRowsModel={editRowsModel}
-      // handleEditRowsModelChange={handleEditRowsModelChange}
       rows={rows}
       columns={columns}
       tipoArtefacto={tipoArtefacto}

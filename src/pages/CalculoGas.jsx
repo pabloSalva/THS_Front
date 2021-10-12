@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CalculadoraGasTemplate from "../templates/calculadoraGasTemplate"
 import { ArtefactoService } from "../services/ArtefactoService";
 import { EntidadesService } from "../services/EntidadesService";
@@ -17,6 +17,9 @@ const CalculoGas = () => {
   const [rows, setRows] = useState([]);
   const [entidad, setEntidad] = useState();
   const [entidadGasTarifa, setEntidadGasTarifa] = useState([]);
+  const [editRowsModel, setEditRowsModel] = useState({});
+  const [precio, setPrecio] = useState(0);
+  const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
 
   /*
     AIRES = 0
@@ -54,10 +57,12 @@ const CalculoGas = () => {
       })
       .catch((error) => console.log(error));
   };
+
   useEffect(() => {
     entidades();
     tarifas();
   }, []);
+
   const handleCloseRightPanel = () => {
     setOpen(false);
   };
@@ -76,9 +81,30 @@ const CalculoGas = () => {
     setTipoArtefacto("Agua");
     setCategoria(8);
   };
-  console.log(existe);
   const calcularConsumo = () => {
-    setHayCalculo(true);
+    const tarifaEntidad = entidadesGas.filter(
+      (value) => value.id === entidad
+    );
+    if (tarifaEntidad.length > 0) {
+      setHayCalculo(true);
+      let consumoTotal = 0;
+      rows.forEach((nodo) => {
+      consumoTotal += nodo.consumo * nodo.horas * nodo.cantidad;
+      });
+      const consumoMensual = (consumoTotal * 30) / 1000;
+      const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
+        (value) =>
+          consumoMensual >= value.consumo_minimo &&
+          consumoMensual < value.consumo_maximo
+      );
+      const precioConsumo =
+        tarifaEspecifica[0].cargo_fijo +
+        tarifaEspecifica[0].precio_unitario * consumoMensual;
+      setConsumoTotalMensual(consumoMensual);
+      setPrecio(precioConsumo);
+    } else {
+      alert("Debe seleccionar Entidad y tarifa");
+    }
   };
   const handleSearchBar = (event) => {
     Artefactos(categoria);
@@ -93,7 +119,32 @@ const CalculoGas = () => {
     );
     setAgregarEffect(!agregarEffect);
   };
-  console.log(agregados.flat());
+
+  const checkEtiqueta = (value) => {
+    switch (value) {
+      case "0":
+        return 'A+++'
+      case "1":
+        return 'A++'
+      case "2":
+        return 'A+'
+      case "3":
+        return 'A'
+      case "4":
+        return 'B'
+      case "5":
+        return 'C'
+      case "6":
+        return 'D'
+      case "7":
+        return 'E'
+      case "8":
+        return 'F'
+      case "9":
+        return 'G'
+      default:
+        return 'B'
+  }};
   
   useEffect(() => {
     setRows([
@@ -103,39 +154,92 @@ const CalculoGas = () => {
         nombre: value.nombre,
         marca: value.marca,
         consumo: value.consumo,
+        eficiencia: checkEtiqueta(value.etiqueta),
         horas: 1,
         cantidad: 1,
       })),
     ]);
   }, [agregarEffect]);
   console.log(rows);
+  console.log(nodos);
+
+  const handleEditRowsModelChange = useCallback((model) => {
+    setEditRowsModel(model);
+  }, []);
+
+  /**
+   * Cada vez que modifico el valor de "dias" o "cantidad" en la tabla de artefactos
+   * se invoca a este effect que setea al array rows con los valores nuevos para luego
+   * utilizarlo en el calculo de consumo
+   */
+  useEffect(() => {
+    if (Object.keys(editRowsModel).length > 0 && rows.length > 0) {
+      // Recupero el valor de la clave del editRowsModel que equivale al valor del id del elemento en la fila
+      const clave = Object.keys(editRowsModel)[0];
+      const rowAux = rows;
+      const indice = rowAux.findIndex((fila) => fila.id === Number(clave));
+
+      /**
+       * si cambio la hora actualizo la fila en la hora
+       * si no, si actualizo la cantidad, modifico la fila en la cantidad
+       */
+      if (
+        editRowsModel[clave]["horas"] &&
+        editRowsModel[clave]["horas"]["value"]
+      ) {
+        const horas = editRowsModel[clave]["horas"]["value"];
+        rowAux[indice].horas = horas;
+      } else if (
+        editRowsModel[clave]["cantidad"] &&
+        editRowsModel[clave]["cantidad"]["value"]
+      ) {
+        const cantidad = editRowsModel[clave]["cantidad"]["value"];
+        rowAux[indice].cantidad = cantidad;
+      } else if (
+        editRowsModel[clave]["eficiencia"] &&
+        editRowsModel[clave]["eficiencia"]["value"]
+      ) {
+        const eficiencia = editRowsModel[clave]["eficiencia"]["value"];
+        rowAux[indice].eficiencia = eficiencia;
+      }
+      // seteo el nuevo rows con los ultimos datos agregados
+      setRows([...rowAux]);
+    }
+  }, [editRowsModel]);
+
 
   // Funcion para el borrado de la tabla. donde está el 2 iria el id del elemento a eliminar
   // const filtrado = rows.filter((value) => value.id !== 2);
   // console.log(filtrado);
 
   const columns = [
-    { field: "nombre", headerName: "Nombre", width: 180, editable: false },
-    { field: "marca", headerName: "Marca", width: 180, editable: false },
+    { field: "nombre", headerName: "Nombre", flex: 0.2, editable: false },
+    { field: "marca", headerName: "Marca", flex: 0.1, editable: false },
     {
       field: "consumo",
       headerName: "Consumo",
       type: "number",
-      width: 180,
+      flex: 0.1,
+      editable: false,
+    },
+    {
+      field: "eficiencia",
+      headerName: "Eficiencia",
+      flex: 0.1,
       editable: false,
     },
     {
       field: "horas",
-      headerName: "Horas de uso",
+      headerName: "Horas de uso diario",
       type: "number",
-      width: 180,
+      flex: 0.16,
       editable: true,
     },
     {
       field: "cantidad",
       headerName: "Cantidad",
       type: "number",
-      width: 220,
+      flex: 0.1,
       editable: true,
     },
   ];
@@ -170,8 +274,10 @@ const CalculoGas = () => {
       handleCloseRightPanel={handleCloseRightPanel}
       hayArtefacto={existe}
       calcular={calcularConsumo}
-      // editRowsModel={editRowsModel}
-      // handleEditRowsModelChange={handleEditRowsModelChange}
+      editRowsModel={editRowsModel}
+      handleEditRowsModelChange={handleEditRowsModelChange}
+      precio={precio}
+      consumoTotalMensual={consumoTotalMensual}
       rows={rows}
       columns={columns}
       tipoArtefacto={tipoArtefacto}
