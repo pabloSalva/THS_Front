@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import CalculadoraGasTemplate from "../templates/calculadoraGasTemplate"
+import CalculadoraGasTemplate from "../templates/calculadoraGasTemplate";
 import { ArtefactoService } from "../services/ArtefactoService";
 import { EntidadesService } from "../services/EntidadesService";
 
@@ -47,8 +47,7 @@ const CalculoGas = () => {
   const entidades = () => {
     EntidadesService.getEntidades()
       .then((response) => {
-        const aux = response.filter(
-          (value) => value.tipo_entidad === 'GS');
+        const aux = response.filter((value) => value.tipo_entidad === "GS");
         setEntidadesGas(aux);
       })
       .catch((error) => console.log(error));
@@ -63,7 +62,7 @@ const CalculoGas = () => {
 
   useEffect(() => {
     entidades();
-    tarifas();
+    tarifas(); //creo que esta función no va con la estructura que hablamos
   }, []);
 
   const handleCloseRightPanel = () => {
@@ -85,15 +84,13 @@ const CalculoGas = () => {
     setCategoria(8);
   };
   const calcularConsumo = () => {
-    const tarifaEntidad = entidadesGas.filter(
-      (value) => value.id === entidad
-    );
-    console.log('TarifaEntidad: ', tarifaEntidad);
+    const tarifaEntidad = entidadesGas.filter((value) => value.id === entidad);
+    console.log("TarifaEntidad: ", tarifaEntidad);
     if (tarifaEntidad.length > 0) {
       setHayCalculo(true);
       let consumoTotal = 0;
       rows.forEach((nodo) => {
-      consumoTotal += nodo.consumo * nodo.horas * nodo.cantidad;
+        consumoTotal += nodo.consumo * nodo.horas * nodo.cantidad;
       });
       const consumoMensual = (consumoTotal * 30) / 1000;
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
@@ -102,13 +99,13 @@ const CalculoGas = () => {
           consumoMensual < value.consumo_maximo &&
           value.id === tarifa
       );
-      console.log('TarifaEspecifica: ', tarifaEspecifica)
-      console.log('#Tarifa: ', tarifa)
+      console.log("TarifaEspecifica: ", tarifaEspecifica);
+      console.log("#Tarifa: ", tarifa);
       const precioConsumo =
         tarifaEspecifica[0].cargo_fijo +
         tarifaEspecifica[0].precio_unitario * consumoMensual;
-      console.log('Cargo fijo: ', tarifaEspecifica[0].cargo_fijo)
-      console.log('Precio_unitario: ', tarifaEspecifica[0].precio_unitario)
+      console.log("Cargo fijo: ", tarifaEspecifica[0].cargo_fijo);
+      console.log("Precio_unitario: ", tarifaEspecifica[0].precio_unitario);
       setConsumoTotalMensual(consumoMensual);
       setPrecio(precioConsumo);
     } else {
@@ -132,29 +129,30 @@ const CalculoGas = () => {
   const checkEtiqueta = (value) => {
     switch (value) {
       case "0":
-        return 'A+++'
+        return "A+++";
       case "1":
-        return 'A++'
+        return "A++";
       case "2":
-        return 'A+'
+        return "A+";
       case "3":
-        return 'A'
+        return "A";
       case "4":
-        return 'B'
+        return "B";
       case "5":
-        return 'C'
+        return "C";
       case "6":
-        return 'D'
+        return "D";
       case "7":
-        return 'E'
+        return "E";
       case "8":
-        return 'F'
+        return "F";
       case "9":
-        return 'G'
+        return "G";
       default:
-        return 'B'
-  }};
-  
+        return "B";
+    }
+  };
+
   useEffect(() => {
     setRows([
       ...rows,
@@ -216,7 +214,6 @@ const CalculoGas = () => {
     }
   }, [editRowsModel]);
 
-
   // Funcion para el borrado de la tabla. donde está el 2 iria el id del elemento a eliminar
   // const filtrado = rows.filter((value) => value.id !== 2);
   // console.log(filtrado);
@@ -267,9 +264,26 @@ const CalculoGas = () => {
   useEffect(
     (e) => {
       const auxTarifas = tarifasGas.filter(
-        (value) => value.categoria === 'Gas' && value.entidad === entidad
+        // (value) => value.categoria === 'Gas' && value.entidad === entidad
+        (value) => value.entidad === entidad
       );
       setEntidadGasTarifa(auxTarifas);
+
+      /* //Te dejo comentado lo que hice con electricidad por si te sirve
+       const filtradoTarifa = entidadesEnergia.filter(
+        (value) => value.id === entidad
+      );
+      if (filtradoTarifa.length > 0) {
+        console.log(filtradoTarifa[0]);
+        const tarifasMap = filtradoTarifa[0]["tarifa"].map((item) => {
+          return [item.categoria, item];
+        });
+        var tarifasMapArr = new Map(tarifasMap); // Pares de clave y valor
+        let unicos = [...tarifasMapArr.values()]; // Conversión a un array
+        setEntidadEnergiaTarifa(unicos);
+      }
+      handleChangeTarifa(e);
+      */
     },
     [entidad]
   );

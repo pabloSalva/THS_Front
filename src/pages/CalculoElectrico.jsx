@@ -45,22 +45,21 @@ const CalculoElectrico = () => {
   const entidades = () => {
     EntidadesService.getEntidades()
       .then((response) => {
-        const aux = response.filter(
-               (value) => value.tipo_entidad === 'EL');
+        const aux = response.filter((value) => value.tipo_entidad === "EL");
         setEntidadesEnergia(aux);
       })
       .catch((error) => console.log(error));
   };
-  const tarifas = () => {
-    EntidadesService.getAllTarifas()
-      .then((response) => {
-        setTarifasElectrico(response);
-      })
-      .catch((error) => console.log(error));
-  };
+  // const tarifas = () => {
+  //   EntidadesService.getAllTarifas()
+  //     .then((response) => {
+  //       setTarifasElectrico(response);
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
   useEffect(() => {
     entidades();
-    tarifas();
+    // tarifas();
   }, []);
   const handleCloseRightPanel = () => {
     setOpen(false);
@@ -100,6 +99,7 @@ const CalculoElectrico = () => {
     const tarifaEntidad = entidadesEnergia.filter(
       (value) => value.id === entidad
     );
+    console.log(tarifaEntidad);
     if (tarifaEntidad.length > 0) {
       setHayCalculo(true);
       let consumoTotal = 0;
@@ -145,18 +145,17 @@ const CalculoElectrico = () => {
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
           consumoMensual >= value.consumo_minimo &&
-          consumoMensual < value.consumo_maximo &&
-          value.id === tarifa
+          consumoMensual < value.consumo_maximo
       );
-      console.log('TarifaEspecifica: ', tarifaEspecifica)
-      console.log('#Tarifa: ', tarifa)
+      console.log("TarifaEspecifica: ", tarifaEspecifica);
+      console.log("#Tarifa: ", tarifa);
       const precioConsumo =
         tarifaEspecifica[0].cargo_fijo +
         tarifaEspecifica[0].precio_unitario * consumoMensual;
-        console.log('Cargo fijo: ', tarifaEspecifica[0].cargo_fijo)
-        console.log('Precio_unitario: ', tarifaEspecifica[0].precio_unitario)
-      setConsumoTotalMensual(consumoMensual);
-      setPrecio(precioConsumo);
+      console.log("Cargo fijo: ", tarifaEspecifica[0].cargo_fijo);
+      console.log("Precio_unitario: ", tarifaEspecifica[0].precio_unitario);
+      setConsumoTotalMensual(consumoMensual.toFixed(2));
+      setPrecio(precioConsumo.toFixed(2));
     } else {
       alert("Debe seleccionar Entidad y tarifa");
     }
@@ -175,29 +174,30 @@ const CalculoElectrico = () => {
 
   const checkEtiqueta = (value) => {
     switch (value) {
-      case "0":
-        return 'A+++'
-      case "1":
-        return 'A++'
-      case "2":
-        return 'A+'
-      case "3":
-        return 'A'
-      case "4":
-        return 'B'
-      case "5":
-        return 'C'
-      case "6":
-        return 'D'
-      case "7":
-        return 'E'
-      case "8":
-        return 'F'
-      case "9":
-        return 'G'
+      case 0:
+        return "A+++";
+      case 1:
+        return "A++";
+      case 2:
+        return "A+";
+      case 3:
+        return "A";
+      case 4:
+        return "B";
+      case 5:
+        return "C";
+      case 6:
+        return "D";
+      case 7:
+        return "E";
+      case 8:
+        return "F";
+      case 9:
+        return "G";
       default:
-        return 'B'
-  }};
+        return "B";
+    }
+  };
 
   useEffect(() => {
     setRows([
@@ -261,7 +261,8 @@ const CalculoElectrico = () => {
   }, [editRowsModel]);
 
   const handleChangeTarifa = (e) => {
-    setTarifa(e.target.value);
+    console.log(e);
+    // setTarifa(e.target.value);
   };
   const handleChangeEntidad = (e) => {
     setEntidad(e.target.value);
@@ -273,10 +274,26 @@ const CalculoElectrico = () => {
    */
   useEffect(
     (e) => {
-      const auxTarifas = tarifasElectrico.filter(
-        (value) => value.categoria === 'Electrico' && value.entidad === entidad
+      // console.log(tarifasElectrico);
+      // const auxTarifas = tarifasElectrico.filter(
+      //   // (value) => value.categoria === "Electrico" && value.entidad === entidad
+      //   (value) => value.entidad === entidad
+      // );
+      // console.log(auxTarifas);
+      // setEntidadEnergiaTarifa(auxTarifas);
+      const filtradoTarifa = entidadesEnergia.filter(
+        (value) => value.id === entidad
       );
-      setEntidadEnergiaTarifa(auxTarifas);
+      if (filtradoTarifa.length > 0) {
+        console.log(filtradoTarifa[0]);
+        const tarifasMap = filtradoTarifa[0]["tarifa"].map((item) => {
+          return [item.categoria, item];
+        });
+        var tarifasMapArr = new Map(tarifasMap); // Pares de clave y valor
+        let unicos = [...tarifasMapArr.values()]; // Conversión a un array
+        setEntidadEnergiaTarifa(unicos);
+      }
+      handleChangeTarifa(e);
     },
     [entidad]
   );
@@ -347,7 +364,7 @@ const CalculoElectrico = () => {
       editRowsModel={editRowsModel}
       precio={precio}
       consumoTotalMensual={consumoTotalMensual}
-      tarifasElectrico={tarifasElectrico}
+      // tarifasElectrico={tarifasElectrico}
     />
   );
 };
