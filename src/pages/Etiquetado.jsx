@@ -10,6 +10,7 @@ const Etiquetado = () => {
   const [eficienciaCreate, setEficienciaCreate] = useState(false);
   const [localidad, setLocalidad] = useState("");
   const [localidades, setLocalidades] = useState([]);
+  const [domicilios, setDomicilios] = useState([]);
 
   useEffect(() => {
     LocalidadService.getLocalidades()
@@ -18,6 +19,23 @@ const Etiquetado = () => {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    DomicilioService.getDomicilios()
+      .then((response) => {
+        const rowsDomicilios = response.map((domicilio) => {
+          return {
+            id: domicilio.id,
+            nombre: domicilio.nombre,
+            cantidad_personas: domicilio.cantidad_personas,
+            antiguedad: domicilio.antiguedad,
+            localidad: domicilio.localidad.nombre_localidad
+          };
+        });
+        setDomicilios(rowsDomicilios);
+      })
+      .catch((error) => console.log(error));
+    }, []);
 
   const crearDomiciclio = () => {
     setDomicilioCreate(true);
@@ -72,6 +90,7 @@ const Etiquetado = () => {
       handleChangeLocalidad={handleChangeLocalidad}
       localidad={localidad}
       localidades={localidades}
+      domicilios={domicilios}
     />
   );
 };

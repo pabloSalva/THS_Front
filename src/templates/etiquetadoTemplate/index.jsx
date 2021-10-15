@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import Layout from "../layout/Layout";
 import { useStyles } from "./styles";
@@ -23,10 +24,19 @@ const EtiquetadoTemplate = ({
   register,
   handleSubmit,
   localidades,
+  domicilios,
   localidad,
   handleChangeLocalidad,
 }) => {
   const classes = useStyles();
+
+  const columns = [
+    { field: "nombre", headerName: "Nombre domicilio", flex: 0.2, editable: false },
+    { field: "cantidad_personas", headerName: "Cantidad de personas", flex: 0.1, editable: false },
+    { field: "antiguedad", headerName: "Antiguedad", type: "number", flex: 0.1, editable: false, },
+    { field: "localidad", headerName: "Localidad", flex: 0.1, editable: false, },
+  ];
+
   return (
     <Layout titulo="Gestión de domicilios" openDrawer={openDrawer}>
       <div className={classes.papers}>
@@ -134,18 +144,9 @@ const EtiquetadoTemplate = ({
       )}
 
       {dimicilioView && (
-        <Paper className={classes.paperInterno}>
-          <Typography className={classes.categoriaTittle}>
-            Ver y editar domicilios creados
-          </Typography>
-          <Button onClick={crearDomiciclio}>
-            <img
-              alt="crear-casa"
-              src={process.env.PUBLIC_URL + "/icons/Casa1.png"}
-              className={classes.logo}
-            />
-          </Button>
-        </Paper>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid rows={domicilios} columns={columns} />
+        </div>
       )}
 
       {eficienciaCreate && (
