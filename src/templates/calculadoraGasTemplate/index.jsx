@@ -33,10 +33,11 @@ const CalculadoraGasTemplate = ({
   hayArtefacto,
   handleChangeEntidad,
   entidad,
-  tarifa,
+  categoriaTarifa,
   handleChangeTarifa,
   entidadGasTarifa,
   tipoArtefacto,
+  tarifa,
   calcular,
   columns,
   handleEditRowsModelChange,
@@ -226,7 +227,7 @@ const CalculadoraGasTemplate = ({
             >
               {entidadGasTarifa &&
                 entidadGasTarifa.map((nodo) => (
-                  <MenuItem value={nodo.id}>{nodo.descripcion}</MenuItem>
+                  <MenuItem value={nodo.id}>{nodo.categoria}</MenuItem>
                 ))}
             </Select>
           </div>
@@ -255,6 +256,10 @@ const CalculadoraGasTemplate = ({
             <br />
             {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
           </Typography>
+          {categoriaTarifa &&
+                categoriaTarifa.map((nodo) => (
+                  <Typography className={classes.consumo}>Categoria segun consumo: {nodo.descripcion}</Typography>
+                ))}
         </Paper>
         )}
       </div>

@@ -20,7 +20,7 @@ const CalculoGas = () => {
   const [editRowsModel, setEditRowsModel] = useState({});
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
-  const [tarifa, setTarifa] = useState();
+  const [categoriaTarifa, setCategoriaTarifa] = useState();
 
   /*
     ## CATEGORIAS:
@@ -96,18 +96,35 @@ const CalculoGas = () => {
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
           consumoMensual >= value.consumo_minimo &&
-          consumoMensual < value.consumo_maximo &&
-          value.id === tarifa
+          consumoMensual < value.consumo_maximo
       );
       console.log("TarifaEspecifica: ", tarifaEspecifica);
-      console.log("#Tarifa: ", tarifa);
-      const precioConsumo =
+      if (consumoMensual <= 2500){
+        const precioConsumo =
         tarifaEspecifica[0].cargo_fijo +
         tarifaEspecifica[0].precio_unitario * consumoMensual;
-      console.log("Cargo fijo: ", tarifaEspecifica[0].cargo_fijo);
-      console.log("Precio_unitario: ", tarifaEspecifica[0].precio_unitario);
-      setConsumoTotalMensual(consumoMensual);
-      setPrecio(precioConsumo);
+        console.log("Cargo fijo: ", tarifaEspecifica[0].cargo_fijo);
+        console.log("Precio_unitario: ", tarifaEspecifica[0].precio_unitario);
+        setConsumoTotalMensual(consumoMensual);
+        setConsumoTotalMensual(consumoMensual.toFixed(2));
+        setPrecio(precioConsumo.toFixed(2));
+        setCategoriaTarifa(tarifaEspecifica);
+      } else {
+        const tarifaMaxima = tarifaEntidad[0]["tarifa"].filter(
+          (value) =>
+            value.consumo_maximo === 2500 // Tanto Camuzzi como Metrogas comparten que si el consumo supera los 2500m3 se usa la categoria R34
+        );
+        const precioConsumo =
+        tarifaMaxima[0].cargo_fijo +
+        tarifaMaxima[0].precio_unitario * consumoMensual;
+        console.log("Tarifa Maxima: ", tarifaMaxima)
+        console.log("Cargo fijo: ", tarifaMaxima[0].cargo_fijo);
+        console.log("Precio_unitario: ", tarifaMaxima[0].precio_unitario);
+        setConsumoTotalMensual(consumoMensual);
+        setConsumoTotalMensual(consumoMensual.toFixed(2));
+        setPrecio(precioConsumo.toFixed(2));
+        setCategoriaTarifa(tarifaMaxima);
+      }  
     } else {
       alert("Debe seleccionar Entidad y tarifa");
     }
@@ -251,7 +268,7 @@ const CalculoGas = () => {
   ];
 
   const handleChangeTarifa = (e) => {
-    setTarifa(e.target.value);
+    console.log(e);
   };
   const handleChangeEntidad = (e) => {
     setEntidad(e.target.value);
@@ -263,14 +280,8 @@ const CalculoGas = () => {
    */
   useEffect(
     (e) => {
-      const auxTarifas = tarifasGas.filter(
-        // (value) => value.categoria === 'Gas' && value.entidad === entidad
-        (value) => value.entidad === entidad
-      );
-      setEntidadGasTarifa(auxTarifas);
-
-      /* //Te dejo comentado lo que hice con electricidad por si te sirve
-       const filtradoTarifa = entidadesEnergia.filter(
+       //Te dejo comentado lo que hice con electricidad por si te sirve
+       const filtradoTarifa = entidadesGas.filter(
         (value) => value.id === entidad
       );
       if (filtradoTarifa.length > 0) {
@@ -280,10 +291,9 @@ const CalculoGas = () => {
         });
         var tarifasMapArr = new Map(tarifasMap); // Pares de clave y valor
         let unicos = [...tarifasMapArr.values()]; // Conversión a un array
-        setEntidadEnergiaTarifa(unicos);
+        setEntidadGasTarifa(unicos);
       }
       handleChangeTarifa(e);
-      */
     },
     [entidad]
   );
@@ -309,12 +319,12 @@ const CalculoGas = () => {
       nodos={nodos}
       entidadGas={entidadesGas}
       entidad={entidad}
-      tarifa={tarifa}
       entidadGasTarifa={entidadGasTarifa}
       handleChangeTarifa={handleChangeTarifa}
       handleChangeEntidad={handleChangeEntidad}
       agregarEnTabla={agregarEnTabla}
       tarifasGas={tarifasGas}
+      categoriaTarifa={categoriaTarifa}
       // handleCellEditCommit={handleCellEditCommit}
     />
   );
