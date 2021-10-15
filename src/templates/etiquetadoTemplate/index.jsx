@@ -1,5 +1,6 @@
 import {
   Button,
+  InputLabel,
   MenuItem,
   Paper,
   Select,
@@ -23,6 +24,7 @@ const EtiquetadoTemplate = ({
   handleSubmit,
   localidades,
   localidad,
+  handleChangeLocalidad,
 }) => {
   const classes = useStyles();
   return (
@@ -104,26 +106,28 @@ const EtiquetadoTemplate = ({
                 maxLength: 3,
               })}
             />
+
             <Select
-              label="Entidades"
-              id="entidades"
+              labelId="Localidades"
+              label="Localidades"
               variant="outlined"
               fullWidth
               margin="dense"
-              value={localidad}
-              // onChange={handleChangeEntidad}
+              onChange={handleChangeLocalidad}
+              {...register("localidad")}
             >
               {localidades &&
                 localidades.map((nodo) => (
                   <MenuItem value={nodo.id}>{nodo.nombre_localidad}</MenuItem>
                 ))}
             </Select>
-            <Button type="submit">
-              <img
-                alt="crear-casa"
-                src={process.env.PUBLIC_URL + "/icons/Casa1.png"}
-                className={classes.logo}
-              />
+            <Button
+              variant="contained"
+              color="secondary"
+              fullWidth={true}
+              type="submit"
+            >
+              Crear nuevo domicilio
             </Button>
           </form>
         </Paper>

@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import EtiquetadoTemplate from "../templates/etiquetadoTemplate";
 import { useForm } from "react-hook-form";
 import { LocalidadService } from "../services/LocalidaService";
+import { DomicilioService } from "../services/DomicilioService";
 
 const Etiquetado = () => {
   const [domicilioCreate, setDomicilioCreate] = useState(false);
   const [dimicilioView, setDomicilioView] = useState(false);
   const [eficienciaCreate, setEficienciaCreate] = useState(false);
+  const [localidad, setLocalidad] = useState("");
+  const [localidades, setLocalidades] = useState([]);
+
   useEffect(() => {
     LocalidadService.getLocalidades()
-      .then((response) => console.log(response))
+      .then((response) => {
+        setLocalidades(response);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -29,10 +35,29 @@ const Etiquetado = () => {
     setEficienciaCreate(true);
   };
 
-  const { register, handleSubmit } = useForm();
+  const handleChangeLocalidad = (e) => {
+    console.log(e);
+    setLocalidad(e.target.value);
+  };
+
+  const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    alert(data.nombre, data.cantidad_personas, data.antiguedad);
+    DomicilioService.createDomicilios(data)
+      .then((response) => {
+        console.log(response);
+        alert("Nuevo domicilio creado");
+        reset({
+          nombre: "",
+          antiguedad: "",
+          cantidad_personas: "",
+          localidad: "",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Error al crear domicilio");
+      });
   };
   return (
     <EtiquetadoTemplate
@@ -44,6 +69,9 @@ const Etiquetado = () => {
       eficienciaCreate={eficienciaCreate}
       handleSubmit={handleSubmit(onSubmit)}
       register={register}
+      handleChangeLocalidad={handleChangeLocalidad}
+      localidad={localidad}
+      localidades={localidades}
     />
   );
 };
