@@ -7,4 +7,5 @@ export default {
   calculoElectrico: "/simuladores/electrico",
   calculoGas: "/simuladores/gas",
   domicilioPage: "/domicilios",
+  domicilioEdit: "/domicilios/editar/:id",
 };
