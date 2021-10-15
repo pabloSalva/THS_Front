@@ -31,10 +31,26 @@ const EtiquetadoTemplate = ({
   const classes = useStyles();
 
   const columns = [
-    { field: "nombre", headerName: "Nombre domicilio", flex: 0.2, editable: false },
-    { field: "cantidad_personas", headerName: "Cantidad de personas", flex: 0.1, editable: false },
-    { field: "antiguedad", headerName: "Antiguedad", type: "number", flex: 0.1, editable: false, },
-    { field: "localidad", headerName: "Localidad", flex: 0.1, editable: false, },
+    {
+      field: "nombre",
+      headerName: "Nombre domicilio",
+      flex: 0.2,
+      editable: false,
+    },
+    {
+      field: "cantidad_personas",
+      headerName: "Cantidad de personas",
+      flex: 0.1,
+      editable: false,
+    },
+    {
+      field: "antiguedad",
+      headerName: "Antiguedad",
+      type: "number",
+      flex: 0.1,
+      editable: false,
+    },
+    { field: "localidad", headerName: "Localidad", flex: 0.1, editable: false },
   ];
 
   return (
@@ -85,17 +101,21 @@ const EtiquetadoTemplate = ({
             <Typography className={classes.categoriaTittle}>
               Crear Domicilio
             </Typography>
+            <InputLabel id="nombre">Nombre domicilio</InputLabel>
             <TextField
               fullWidth
-              label="Nombre domicilio"
+              // label="Nombre domicilio"
               variant="outlined"
               margin="dense"
               {...register("nombre", { required: true, maxLength: 30 })}
             />
+            <InputLabel id="cantidad_habitantes">
+              Cantidad de habitantes
+            </InputLabel>
             <TextField
               fullWidth
               type="number"
-              label="Cantidad de habitantes"
+              // label="Cantidad de habitantes"
               variant="outlined"
               margin="dense"
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
@@ -104,10 +124,11 @@ const EtiquetadoTemplate = ({
                 maxLength: 3,
               })}
             />
+            <InputLabel id="antiguedad">Antigüedad del domicilio</InputLabel>
             <TextField
               fullWidth
               type="number"
-              label="Antigüedad del domicilio"
+              // label="Antigüedad del domicilio"
               variant="outlined"
               margin="dense"
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
@@ -116,13 +137,14 @@ const EtiquetadoTemplate = ({
                 maxLength: 3,
               })}
             />
-
+            <InputLabel id="localidad">Localidades</InputLabel>
             <Select
               labelId="Localidades"
-              label="Localidades"
+              // label="Localidades"
               variant="outlined"
               fullWidth
               margin="dense"
+              className={classes.select}
               onChange={handleChangeLocalidad}
               {...register("localidad")}
             >
@@ -132,6 +154,7 @@ const EtiquetadoTemplate = ({
                 ))}
             </Select>
             <Button
+              className={classes.select}
               variant="contained"
               color="secondary"
               fullWidth={true}

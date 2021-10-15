@@ -95,14 +95,14 @@ const CalculoGas = () => {
       const consumoMensual = (consumoTotal * 30) / 1000;
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
-        Math.ceil(consumoMensual) >= value.consumo_minimo &&
-        Math.ceil(consumoMensual) < value.consumo_maximo
+          Math.ceil(consumoMensual) >= value.consumo_minimo &&
+          Math.ceil(consumoMensual) < value.consumo_maximo
       );
       console.log("TarifaEspecifica: ", tarifaEspecifica);
-      if (consumoMensual <= 2500){
+      if (consumoMensual <= 2500) {
         const precioConsumo =
-        tarifaEspecifica[0].cargo_fijo +
-        tarifaEspecifica[0].precio_unitario * consumoMensual;
+          tarifaEspecifica[0].cargo_fijo +
+          tarifaEspecifica[0].precio_unitario * consumoMensual;
         console.log("Cargo fijo: ", tarifaEspecifica[0].cargo_fijo);
         console.log("Precio_unitario: ", tarifaEspecifica[0].precio_unitario);
         setConsumoTotalMensual(consumoMensual);
@@ -111,20 +111,19 @@ const CalculoGas = () => {
         setCategoriaTarifa(tarifaEspecifica);
       } else {
         const tarifaMaxima = tarifaEntidad[0]["tarifa"].filter(
-          (value) =>
-            value.consumo_maximo === 2500 // Tanto Camuzzi como Metrogas comparten que si el consumo supera los 2500m3 se usa la categoria R34
+          (value) => value.consumo_maximo === 2500 // Tanto Camuzzi como Metrogas comparten que si el consumo supera los 2500m3 se usa la categoria R34
         );
         const precioConsumo =
-        tarifaMaxima[0].cargo_fijo +
-        tarifaMaxima[0].precio_unitario * consumoMensual;
-        console.log("Tarifa Maxima: ", tarifaMaxima)
+          tarifaMaxima[0].cargo_fijo +
+          tarifaMaxima[0].precio_unitario * consumoMensual;
+        console.log("Tarifa Maxima: ", tarifaMaxima);
         console.log("Cargo fijo: ", tarifaMaxima[0].cargo_fijo);
         console.log("Precio_unitario: ", tarifaMaxima[0].precio_unitario);
         setConsumoTotalMensual(consumoMensual);
         setConsumoTotalMensual(consumoMensual.toFixed(2));
         setPrecio(precioConsumo.toFixed(2));
         setCategoriaTarifa(tarifaMaxima);
-      }  
+      }
     } else {
       alert("Debe seleccionar Entidad y tarifa");
     }
@@ -280,8 +279,8 @@ const CalculoGas = () => {
    */
   useEffect(
     (e) => {
-       //Te dejo comentado lo que hice con electricidad por si te sirve
-       const filtradoTarifa = entidadesGas.filter(
+      //Te dejo comentado lo que hice con electricidad por si te sirve
+      const filtradoTarifa = entidadesGas.filter(
         (value) => value.id === entidad
       );
       if (filtradoTarifa.length > 0) {
@@ -297,7 +296,9 @@ const CalculoGas = () => {
     },
     [entidad]
   );
-
+  const limpiar = () => {
+    setRows([]);
+  };
   return (
     <CalculadoraGasTemplate
       openDrawer={open}
@@ -326,6 +327,7 @@ const CalculoGas = () => {
       tarifasGas={tarifasGas}
       categoriaTarifa={categoriaTarifa}
       // handleCellEditCommit={handleCellEditCommit}
+      limpiar={limpiar}
     />
   );
 };
