@@ -15,4 +15,19 @@ export const DomicilioService = {
     );
     return getResult;
   },
+  getDomicilio: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}inmuebles/${id}`,
+      "GET"
+    );
+    return getResult;
+  },
+  editDomicilio: async (id, data) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}inmuebles/${id}/`,
+      "PUT",
+      data
+    );
+    return getResult;
+  },
 };
