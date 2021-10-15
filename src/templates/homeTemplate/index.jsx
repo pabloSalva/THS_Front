@@ -12,7 +12,7 @@ const HomeTemplate = ({ openDrawer }) => {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={process.env.PUBLIC_URL + "/icons/slide.png"}
+            src={process.env.PUBLIC_URL + "/icons/primeraPagina.png"}
             alt="First slide"
           />
         </Carousel.Item>

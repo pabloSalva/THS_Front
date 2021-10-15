@@ -59,11 +59,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           flexDirection: "column",
         },
       }}
-      style={{ backgroundColor: "#9AF591" }}
+      style={{ backgroundColor: "#A9E7A0" }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
-        <img src={process.env.PUBLIC_URL + "/planeta1.png"} alt="Logo" style={{ width: 100,
+        <img src={process.env.PUBLIC_URL + "/Casita.png"} alt="Logo" style={{ width: 100,
             height: 100, marginLeft: 40}}/>
         </Box>
       </Box>
