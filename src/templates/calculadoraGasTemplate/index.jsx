@@ -52,6 +52,7 @@ const CalculadoraGasTemplate = ({
   agregarEnTabla,
   tarifasGas,
   // handleCellEditCommit,
+  limpiar,
 }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState([]);
@@ -81,7 +82,7 @@ const CalculadoraGasTemplate = ({
         </Typography>
         <div className={classes.papers}>
           <Paper className={classes.paperInterno}>
-          <Typography className={classes.categoriaTittle}>
+            <Typography className={classes.categoriaTittle}>
               Calefaccion
             </Typography>
             <Button onClick={calefaccionButton}>
@@ -94,9 +95,7 @@ const CalculadoraGasTemplate = ({
           </Paper>
 
           <Paper>
-          <Typography className={classes.categoriaTittle}>
-              Cocina
-            </Typography>
+            <Typography className={classes.categoriaTittle}>Cocina</Typography>
             <Button onClick={cocinaButton}>
               <img
                 alt="microondas"
@@ -106,9 +105,7 @@ const CalculadoraGasTemplate = ({
             </Button>
           </Paper>
           <Paper>
-            <Typography className={classes.categoriaTittle}>
-              Agua
-            </Typography>
+            <Typography className={classes.categoriaTittle}>Agua</Typography>
             <Button onClick={aguaButton}>
               <img
                 alt="agua"
@@ -240,8 +237,17 @@ const CalculadoraGasTemplate = ({
             onEditRowsModelChange={handleEditRowsModelChange}
           />
         </div>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={limpiar}
+        >
+          Limpiar tabla
+        </Button>
 
         <Button
+          className={classes.calcular}
           variant="contained"
           color="secondary"
           fullWidth={true}
@@ -251,16 +257,18 @@ const CalculadoraGasTemplate = ({
         </Button>
         {hayCalculo && (
           <Paper className={classes.paperConsumo}>
-          <Typography className={classes.consumo}>
-            {`Su consumo es de: ${consumoTotalMensual}m3 por mes.`}
-            <br />
-            {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
-          </Typography>
-          {categoriaTarifa &&
-                categoriaTarifa.map((nodo) => (
-                  <Typography className={classes.consumo}>Categoria segun consumo: {nodo.descripcion}</Typography>
-                ))}
-        </Paper>
+            <Typography className={classes.consumo}>
+              {`Su consumo es de: ${consumoTotalMensual}m3 Bimensual.`}
+              <br />
+              {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
+            </Typography>
+            {categoriaTarifa &&
+              categoriaTarifa.map((nodo) => (
+                <Typography className={classes.consumo}>
+                  Categoria segun consumo: {nodo.descripcion}
+                </Typography>
+              ))}
+          </Paper>
         )}
       </div>
     </Layout>

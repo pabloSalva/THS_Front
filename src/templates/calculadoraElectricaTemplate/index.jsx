@@ -56,6 +56,7 @@ const CalculadoraElectricaTemplate = ({
   precio,
   consumoTotalMensual,
   // handleCellEditCommit,
+  limpiar,
 }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState([]);
@@ -287,8 +288,17 @@ const CalculadoraElectricaTemplate = ({
             onEditRowsModelChange={handleEditRowsModelChange}
           />
         </div>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={limpiar}
+        >
+          Limpiar tabla
+        </Button>
 
         <Button
+          className={classes.calcular}
           variant="contained"
           color="secondary"
           fullWidth={true}
@@ -303,10 +313,12 @@ const CalculadoraElectricaTemplate = ({
               <br />
               {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
             </Typography>
-          {categoriaTarifa &&
-                categoriaTarifa.map((nodo) => (
-                  <Typography className={classes.consumo}>Categoria segun consumo: {nodo.descripcion}</Typography>
-                ))}
+            {categoriaTarifa &&
+              categoriaTarifa.map((nodo) => (
+                <Typography className={classes.consumo}>
+                  Categoria segun consumo: {nodo.descripcion}
+                </Typography>
+              ))}
           </Paper>
         )}
       </div>

@@ -53,7 +53,7 @@ export const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
-    })
+    }),
   },
   rootright: {
     width: "100%",
@@ -77,6 +77,9 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
   },
   paperConsumo: {
+    marginTop: 50,
+  },
+  calcular: {
     marginTop: 50,
   },
 }));

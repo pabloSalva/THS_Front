@@ -84,5 +84,8 @@ export const useStyles = makeStyles((theme) => ({
   paperConsumo: {
     marginTop: 50,
   },
+  select: {
+    marginTop: 10,
+  },
 }));
 export default useStyles;

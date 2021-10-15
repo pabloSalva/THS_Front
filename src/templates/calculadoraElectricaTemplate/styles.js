@@ -79,5 +79,8 @@ export const useStyles = makeStyles((theme) => ({
   paperConsumo: {
     marginTop: 50,
   },
+  calcular: {
+    marginTop: 50,
+  },
 }));
 export default useStyles;
