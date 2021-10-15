@@ -38,6 +38,7 @@ const CalculadoraElectricaTemplate = ({
   entidad,
   tarifa,
   tipoArtefacto,
+  categoriaTarifa,
   handleChangeTarifa,
   calcular,
   columns,
@@ -302,6 +303,10 @@ const CalculadoraElectricaTemplate = ({
               <br />
               {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
             </Typography>
+          {categoriaTarifa &&
+                categoriaTarifa.map((nodo) => (
+                  <Typography className={classes.consumo}>Categoria segun consumo: {nodo.descripcion}</Typography>
+                ))}
           </Paper>
         )}
       </div>

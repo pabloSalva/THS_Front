@@ -21,6 +21,7 @@ const CalculoElectrico = () => {
   const [editRowsModel, setEditRowsModel] = useState({});
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
+  const [categoriaTarifa, setCategoriaTarifa] = useState();
 
   /*
     AIRES = 0
@@ -99,7 +100,7 @@ const CalculoElectrico = () => {
     const tarifaEntidad = entidadesEnergia.filter(
       (value) => value.id === entidad
     );
-    console.log(tarifaEntidad);
+    console.log('TarifaEntidad: ', tarifaEntidad);
     if (tarifaEntidad.length > 0) {
       setHayCalculo(true);
       let consumoTotal = 0;
@@ -142,20 +143,27 @@ const CalculoElectrico = () => {
         }
       });
       const consumoMensual = (consumoTotal * 30) / 1000;
+      console.log('Consumo mensual: ', Math.ceil(consumoMensual));
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
-          consumoMensual >= value.consumo_minimo &&
-          consumoMensual < value.consumo_maximo
+          Math.ceil(consumoMensual) >= value.consumo_minimo &&
+          Math.ceil(consumoMensual) < value.consumo_maximo
+          // Le agregue la funcion Math.ceil porque justo di con un caso 
+          // en el que el consumo era de 150.38 y ese numero no era alcanzado
+          // por ningun categoria. 
+          // R1 -> consumo_minimo: 0 ; consumo_maximo: 150
+          // R2 -> consumo_minimo: 151 ; consumo_maximo: 325
       );
       console.log("TarifaEspecifica: ", tarifaEspecifica);
       console.log("#Tarifa: ", tarifa);
       const precioConsumo =
-        tarifaEspecifica[0].cargo_fijo +
-        tarifaEspecifica[0].precio_unitario * consumoMensual;
+      tarifaEspecifica[0].cargo_fijo +
+      tarifaEspecifica[0].precio_unitario * consumoMensual;
       console.log("Cargo fijo: ", tarifaEspecifica[0].cargo_fijo);
       console.log("Precio_unitario: ", tarifaEspecifica[0].precio_unitario);
       setConsumoTotalMensual(consumoMensual.toFixed(2));
       setPrecio(precioConsumo.toFixed(2));
+      setCategoriaTarifa(tarifaEspecifica);  
     } else {
       alert("Debe seleccionar Entidad y tarifa");
     }
@@ -364,6 +372,7 @@ const CalculoElectrico = () => {
       editRowsModel={editRowsModel}
       precio={precio}
       consumoTotalMensual={consumoTotalMensual}
+      categoriaTarifa={categoriaTarifa}
       // tarifasElectrico={tarifasElectrico}
     />
   );

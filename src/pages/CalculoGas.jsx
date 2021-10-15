@@ -95,8 +95,8 @@ const CalculoGas = () => {
       const consumoMensual = (consumoTotal * 30) / 1000;
       const tarifaEspecifica = tarifaEntidad[0]["tarifa"].filter(
         (value) =>
-          consumoMensual >= value.consumo_minimo &&
-          consumoMensual < value.consumo_maximo
+        Math.ceil(consumoMensual) >= value.consumo_minimo &&
+        Math.ceil(consumoMensual) < value.consumo_maximo
       );
       console.log("TarifaEspecifica: ", tarifaEspecifica);
       if (consumoMensual <= 2500){
