@@ -298,7 +298,7 @@ const CalculadoraElectricaTemplate = ({
         </Button>
 
         <Button
-        className={classes.calcular}
+          className={classes.calcular}
           variant="contained"
           color="secondary"
           fullWidth={true}
@@ -313,10 +313,12 @@ const CalculadoraElectricaTemplate = ({
               <br />
               {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
             </Typography>
-          {categoriaTarifa &&
-                categoriaTarifa.map((nodo) => (
-                  <Typography className={classes.consumo}>Categoria segun consumo: {nodo.descripcion}</Typography>
-                ))}
+            {categoriaTarifa &&
+              categoriaTarifa.map((nodo) => (
+                <Typography className={classes.consumo}>
+                  Categoria segun consumo: {nodo.descripcion}
+                </Typography>
+              ))}
           </Paper>
         )}
       </div>

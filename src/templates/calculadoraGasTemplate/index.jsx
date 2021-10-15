@@ -258,7 +258,7 @@ const CalculadoraGasTemplate = ({
         {hayCalculo && (
           <Paper className={classes.paperConsumo}>
             <Typography className={classes.consumo}>
-              {`Su consumo es de: ${consumoTotalMensual}m3 por mes.`}
+              {`Su consumo es de: ${consumoTotalMensual}m3 Bimensual.`}
               <br />
               {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
             </Typography>

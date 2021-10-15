@@ -11,6 +11,7 @@ const Etiquetado = () => {
   const [localidad, setLocalidad] = useState("");
   const [localidades, setLocalidades] = useState([]);
   const [domicilios, setDomicilios] = useState([]);
+  const [actualizar, setActualizar] = useState(false);
 
   useEffect(() => {
     LocalidadService.getLocalidades()
@@ -29,13 +30,13 @@ const Etiquetado = () => {
             nombre: domicilio.nombre,
             cantidad_personas: domicilio.cantidad_personas,
             antiguedad: domicilio.antiguedad,
-            localidad: domicilio.localidad.nombre_localidad
+            localidad: domicilio.localidad.nombre_localidad,
           };
         });
         setDomicilios(rowsDomicilios);
       })
       .catch((error) => console.log(error));
-    }, []);
+  }, [actualizar]);
 
   const crearDomiciclio = () => {
     setDomicilioCreate(true);
@@ -76,6 +77,7 @@ const Etiquetado = () => {
         console.log(error);
         alert("Error al crear domicilio");
       });
+    setActualizar(!actualizar);
   };
   return (
     <EtiquetadoTemplate
