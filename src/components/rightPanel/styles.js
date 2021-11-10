@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     paper: {
       border: "1px solid #E1E1E1",
       backgroundColor: "#FFFFFF",
-      width: 250,
+      width: 225,
       top: "inherit",
       bottom: 0,
       height: "100%",

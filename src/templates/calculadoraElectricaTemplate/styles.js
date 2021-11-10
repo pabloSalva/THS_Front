@@ -33,6 +33,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: "10%",
+    fontSize: 30,
   },
   paperInterno: {
     display: "flex",
