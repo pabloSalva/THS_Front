@@ -1,52 +1,33 @@
-// import { Icon } from "@iconify/react";
-// import pieChart2Fill from "@iconify-icons/eva";
-// import peopleFill from "@iconify-icons/eva";
-// import shoppingBagFill from "@iconify-icons/eva";
-// import fileTextFill from "@iconify-icons/eva";
-// import lockFill from "@iconify-icons/eva";
-// import personAddFill from "@iconify-icons/eva";
-// import alertTriangleFill from "@iconify-icons/eva";
+import React from 'react'
+import * as FaIcons from "react-icons/fa"
+import * as AiIcons from "react-icons/ai"
+import * as GiIcons from "react-icons/gi"
 
-// ----------------------------------------------------------------------
-
-// const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
-
-const sidebarConfig = [
+export const sidebarConfig = [
   {
     title: "Inicio",
     path: "/dashboard/app",
-    // icon: getIcon(pieChart2Fill),
+    icon: <AiIcons.AiFillHome />,
+    cName: 'nav-text'
   },
   {
     title: "Simulador Electrico",
     path: "/simuladores/electrico",
-    // icon: getIcon(peopleFill),
+    icon: <GiIcons.GiElectric />,
+    cName: 'nav-text'
   },
   {
     title: "Simulador Gas",
     path: "/simuladores/gas",
-    // icon: getIcon(shoppingBagFill),
+    icon: <AiIcons.AiFillFire />,
+    cName: 'nav-text'
   },
   {
     title: "Simulador Etiquetas",
     path: "/domicilios",
-    // icon: getIcon(fileTextFill),
+    icon: <FaIcons.FaHouseUser />,
+    cName: 'nav-text'
   },
-  // {
-  //   title: "login",
-  //   path: "/login",
-  //   // icon: getIcon(lockFill),
-  // },
-  // {
-  //   title: "register",
-  //   path: "/register",
-  //   // icon: getIcon(personAddFill),
-  // },
-  // {
-  //   title: "Not found",
-  //   path: "/404",
-  //   // icon: getIcon(alertTriangleFill),
-  // },
 ];
 
 export default sidebarConfig;
