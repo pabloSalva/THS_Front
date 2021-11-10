@@ -57,6 +57,7 @@ const CalculoElectrico = () => {
   }, []);
   const handleCloseRightPanel = () => {
     setOpen(false);
+    setNodos([]);
   };
   const aireButton = () => {
     setOpen(true);

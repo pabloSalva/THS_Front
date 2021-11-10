@@ -69,6 +69,7 @@ const CalculoGas = () => {
 
   const handleCloseRightPanel = () => {
     setOpen(false);
+    setNodos([]);
   };
   const calefaccionButton = () => {
     setOpen(true);

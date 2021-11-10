@@ -169,30 +169,17 @@ const CalculadoraElectricaTemplate = ({
 
         {openDrawer && (
           <div>
-            <RightPanel
-              className={classes.rightPanel}
-              tituloGeneral={tipoArtefacto}
-              button={{
-                label: "Guardar",
-              }}
-              openDrawer={true}
-              handleClose={handleCloseRightPanel}
-            >
+            <RightPanel className={classes.rightPanel} tituloGeneral={tipoArtefacto} openDrawer={true} handleClose={handleCloseRightPanel}>
               <div>
-                <TextField
-                  label={""}
-                  icon={<SearchIcon />}
-                  placeholder={"Ingrese Artefacto a buscar"}
+                <TextField label={""} icon={<SearchIcon />} placeholder={"Ingrese artefacto a buscar"}
                   onKeyUp={(event) =>
                     event.keyCode === 13 && handleSearchBar(event)
                   }
                 />
                 {hayArtefacto ? (
                   <List className={classes.rootright}>
-                    {console.log(nodos)}
                     {nodos.map((value) => {
                       const labelId = `checkbox-list-label-${value.id}`;
-
                       return (
                         <ListItem
                           key={value.id}
@@ -201,37 +188,37 @@ const CalculadoraElectricaTemplate = ({
                           button
                           onClick={handleToggle(value.id)}
                         >
-                          <ListItemIcon>
-                            <Checkbox
-                              edge="start"
-                              checked={checked.indexOf(value.id) !== -1}
-                              tabIndex={-1}
-                              disableRipple
-                              inputProps={{ "aria-labelledby": labelId }}
-                            />
-                          </ListItemIcon>
-                          <ListItemText
-                            id={labelId}
-                            primary={`${value.nombre}`}
+                        <ListItemIcon>
+                          <Checkbox
+                            edge="start"
+                            checked={checked.indexOf(value.id) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ "aria-labelledby": labelId }}
                           />
-                          <ListItemSecondaryAction>
-                            <IconButton
-                              onClick={() =>
-                                alert.show(
-                                  `${value.nombre}` +
-                                    ",\n " +
-                                    `Consumo: ${value.consumo}` +
-                                    "W/h" +
-                                    ",\n Etiqueta: " +
-                                    `${value.etiqueta}`
-                                )
-                              }
-                              edge="end"
-                              aria-label="comments"
-                            >
-                              <InfoIcon />
-                            </IconButton>
-                          </ListItemSecondaryAction>
+                        </ListItemIcon>
+                        <ListItemText
+                          id={labelId}
+                          primary={`${value.nombre}`}
+                        />
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            onClick={() =>
+                              alert.show(
+                                `${value.nombre}` +
+                                  ",\n " +
+                                  `Consumo: ${value.consumo}` +
+                                  "W/h" +
+                                  ",\n Etiqueta: " +
+                                  `${value.etiqueta}`
+                              )
+                            }
+                            edge="end"
+                            aria-label="comments"
+                          >
+                          <InfoIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
                         </ListItem>
                       );
                     })}
