@@ -79,6 +79,11 @@ const Etiquetado = () => {
       });
     setActualizar(!actualizar);
   };
+
+  const eliminarDomicilio = (id) => {
+    DomicilioService.deleteDomicilio(id).then((response)=>alert("Domicilio eliminado con éxito")).catch((error)=>alert("Error al borrar el domicilio"));
+    setActualizar(!actualizar);
+  }
   return (
     <EtiquetadoTemplate
       crearDomiciclio={crearDomiciclio}
@@ -93,6 +98,7 @@ const Etiquetado = () => {
       localidad={localidad}
       localidades={localidades}
       domicilios={domicilios}
+      eliminarDomicilio={eliminarDomicilio}
     />
   );
 };
