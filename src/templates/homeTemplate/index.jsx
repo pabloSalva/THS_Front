@@ -8,7 +8,7 @@ const HomeTemplate = ({ openDrawer }) => {
   const classes = useStyles();
   return (
     <Layout titulo="Bienvenido!" openDrawer={openDrawer}>
-      <Carousel fade>
+      <Carousel fade className={classes.root}>
         <Carousel.Item>
           <img
             className="d-block w-100"

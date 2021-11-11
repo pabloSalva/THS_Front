@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import CalculadoraElectricaTemplate from "../templates/calculadoraElectricaTemplate";
 import { ArtefactoService } from "../services/ArtefactoService";
 import { EntidadesService } from "../services/EntidadesService";
+import { useAlert } from "react-alert";
 
 const CalculoElectrico = () => {
   const [open, setOpen] = useState(false);
@@ -16,13 +17,12 @@ const CalculoElectrico = () => {
   const [rows, setRows] = useState([]);
   const [entidad, setEntidad] = useState();
   const [entidadEnergiaTarifa, setEntidadEnergiaTarifa] = useState([]);
-  const [tarifasElectrico, setTarifasElectrico] = useState([]);
   const [tarifa, setTarifa] = useState();
   const [editRowsModel, setEditRowsModel] = useState({});
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
   const [categoriaTarifa, setCategoriaTarifa] = useState();
-
+  const alert = useAlert();
   /*
     AIRES = 0
     HELADERAS = 1
@@ -51,19 +51,13 @@ const CalculoElectrico = () => {
       })
       .catch((error) => console.log(error));
   };
-  // const tarifas = () => {
-  //   EntidadesService.getAllTarifas()
-  //     .then((response) => {
-  //       setTarifasElectrico(response);
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
+
   useEffect(() => {
     entidades();
-    // tarifas();
   }, []);
   const handleCloseRightPanel = () => {
     setOpen(false);
+    setNodos([]);
   };
   const aireButton = () => {
     setOpen(true);
@@ -155,7 +149,6 @@ const CalculoElectrico = () => {
         // R2 -> consumo_minimo: 151 ; consumo_maximo: 325
       );
       console.log("TarifaEspecifica: ", tarifaEspecifica);
-      console.log("#Tarifa: ", tarifa);
       const precioConsumo =
         tarifaEspecifica[0].cargo_fijo +
         tarifaEspecifica[0].precio_unitario * consumoMensual;
@@ -165,7 +158,7 @@ const CalculoElectrico = () => {
       setPrecio(precioConsumo.toFixed(2));
       setCategoriaTarifa(tarifaEspecifica);
     } else {
-      alert("Debe seleccionar Entidad y tarifa");
+      alert.error("Debe seleccionar Entidad y tarifa");
     }
   };
   const handleSearchBar = (event) => {
@@ -270,7 +263,6 @@ const CalculoElectrico = () => {
 
   const handleChangeTarifa = (e) => {
     console.log(e);
-    // setTarifa(e.target.value);
   };
   const handleChangeEntidad = (e) => {
     setEntidad(e.target.value);
@@ -282,13 +274,6 @@ const CalculoElectrico = () => {
    */
   useEffect(
     (e) => {
-      // console.log(tarifasElectrico);
-      // const auxTarifas = tarifasElectrico.filter(
-      //   // (value) => value.categoria === "Electrico" && value.entidad === entidad
-      //   (value) => value.entidad === entidad
-      // );
-      // console.log(auxTarifas);
-      // setEntidadEnergiaTarifa(auxTarifas);
       const filtradoTarifa = entidadesEnergia.filter(
         (value) => value.id === entidad
       );

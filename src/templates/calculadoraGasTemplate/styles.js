@@ -25,6 +25,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: "10%",
+    fontSize: 30,
   },
   categoriaTittle: {
     display: "flex",
@@ -42,7 +43,6 @@ export const useStyles = makeStyles((theme) => ({
     width: "30%",
   },
   content: {
-    flexGrow: 1,
     padding: theme.spacing(10),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
