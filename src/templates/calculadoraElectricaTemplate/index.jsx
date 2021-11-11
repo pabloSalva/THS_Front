@@ -166,73 +166,6 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
         </div>
-
-        {openDrawer && (
-          <div>
-            <RightPanel className={classes.rightPanel} tituloGeneral={tipoArtefacto} openDrawer={true} handleClose={handleCloseRightPanel}>
-              <div>
-                <TextField label={""} icon={<SearchIcon />} placeholder={"Ingrese artefacto a buscar"}
-                  onKeyUp={(event) =>
-                    event.keyCode === 13 && handleSearchBar(event)
-                  }
-                />
-                {hayArtefacto ? (
-                  <List className={classes.rootright}>
-                    {nodos.map((value) => {
-                      const labelId = `checkbox-list-label-${value.id}`;
-                      return (
-                        <ListItem
-                          key={value.id}
-                          role={undefined}
-                          dense
-                          button
-                          onClick={handleToggle(value.id)}
-                        >
-                        <ListItemIcon>
-                          <Checkbox
-                            edge="start"
-                            checked={checked.indexOf(value.id) !== -1}
-                            tabIndex={-1}
-                            disableRipple
-                            inputProps={{ "aria-labelledby": labelId }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText
-                          id={labelId}
-                          primary={`${value.nombre}`}
-                        />
-                        <ListItemSecondaryAction>
-                          <IconButton
-                            onClick={() =>
-                              alert.show(
-                                `${value.nombre}` +
-                                  ",\n " +
-                                  `Consumo: ${value.consumo}` +
-                                  "W/h" +
-                                  ",\n Etiqueta: " +
-                                  `${value.etiqueta}`
-                              )
-                            }
-                            edge="end"
-                            aria-label="comments"
-                          >
-                          <InfoIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                        </ListItem>
-                      );
-                    })}
-                  </List>
-                ) : (
-                  <Typography variant="h4">
-                    No se encontraron Artefactos
-                  </Typography>
-                )}
-                <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
-              </div>
-            </RightPanel>
-          </div>
-        )}
         <div>
           <Typography variant="h2">Seleccione Entidad y tarifa</Typography>
           <div className={classes.entidad}>
@@ -308,6 +241,74 @@ const CalculadoraElectricaTemplate = ({
                 </Typography>
               ))}
           </Paper>
+        )}
+      </div>
+      <div>
+      {openDrawer && (
+          <div>
+            <RightPanel className={classes.rightPanel} tituloGeneral={tipoArtefacto} openDrawer={true} handleClose={handleCloseRightPanel}>
+              <div>
+                <TextField label={""} icon={<SearchIcon />} placeholder={"Ingrese artefacto a buscar"}
+                  onKeyUp={(event) =>
+                    event.keyCode === 13 && handleSearchBar(event)
+                  }
+                />
+                {hayArtefacto ? (
+                  <List className={classes.rootright}>
+                    {nodos.map((value) => {
+                      const labelId = `checkbox-list-label-${value.id}`;
+                      return (
+                        <ListItem
+                          key={value.id}
+                          role={undefined}
+                          dense
+                          button
+                          onClick={handleToggle(value.id)}
+                        >
+                        <ListItemIcon>
+                          <Checkbox
+                            edge="start"
+                            checked={checked.indexOf(value.id) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          id={labelId}
+                          primary={`${value.nombre}`}
+                        />
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            onClick={() =>
+                              alert.show(
+                                `${value.nombre}` +
+                                  ",\n " +
+                                  `Consumo: ${value.consumo}` +
+                                  "W/h" +
+                                  ",\n Etiqueta: " +
+                                  `${value.etiqueta}`
+                              )
+                            }
+                            edge="end"
+                            aria-label="comments"
+                          >
+                          <InfoIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                ) : (
+                  <Typography variant="h4">
+                    No se encontraron Artefactos
+                  </Typography>
+                )}
+                <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
+              </div>
+            </RightPanel>
+          </div>
         )}
       </div>
     </Layout>
