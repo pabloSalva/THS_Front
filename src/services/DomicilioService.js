@@ -30,4 +30,11 @@ export const DomicilioService = {
     );
     return getResult;
   },
+  deleteDomicilio: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}inmuebles/${id}/`,
+      "DELETE",
+    );
+    return getResult;
+  },
 };

@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   InputLabel,
   MenuItem,
   Paper,
@@ -7,8 +8,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
+import { Link } from "react-router-dom";
 import Layout from "../layout/Layout";
 import { useStyles } from "./styles";
 
@@ -27,8 +31,31 @@ const EtiquetadoTemplate = ({
   domicilios,
   localidad,
   handleChangeLocalidad,
+  eliminarDomicilio,
 }) => {
   const classes = useStyles();
+
+  const renderActionButtons = (params) => {
+    return (
+      <div className={classes.action}>
+        <IconButton
+          component={Link}
+          to={{
+            pathname: `/domicilios/editar/${params.row.id}`,
+          }}
+        >
+          <CreateOutlinedIcon className={classes.edit} />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            eliminarDomicilio(params.row.id);
+          }}
+        >
+          <DeleteOutlined />
+        </IconButton>
+      </div>
+    );
+  };
 
   const columns = [
     {
@@ -51,6 +78,12 @@ const EtiquetadoTemplate = ({
       editable: false,
     },
     { field: "localidad", headerName: "Localidad", flex: 0.1, editable: false },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      flex: 0.15,
+      renderCell: renderActionButtons,
+    },
   ];
 
   return (
