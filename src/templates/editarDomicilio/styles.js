@@ -42,6 +42,10 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  paperInternoAmbientes: {
+    display: "flex",
+    flexDirection: "rows",
+  },
   rightPanel: {
     width: "30%",
   },

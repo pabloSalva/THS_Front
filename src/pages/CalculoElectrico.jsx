@@ -103,7 +103,7 @@ const CalculoElectrico = () => {
           let consumoAire;
           switch (nodo.eficiencia) {
             case "A+++":
-              consumoAire = nodo.consumo * (1 / 8);
+              consumoAire = nodo.consumo * (1 / 3);
               break;
             case "A++":
               consumoAire = nodo.consumo * (1 / 7);

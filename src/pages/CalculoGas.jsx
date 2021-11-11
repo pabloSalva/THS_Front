@@ -301,6 +301,7 @@ const CalculoGas = () => {
   );
   const limpiar = () => {
     setRows([]);
+    setPrecio(0);
   };
   return (
     <CalculadoraGasTemplate

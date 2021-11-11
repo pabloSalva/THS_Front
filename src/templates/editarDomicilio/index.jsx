@@ -10,13 +10,15 @@ import {
 import React from "react";
 import Layout from "../layout/Layout";
 import { useStyles } from "./styles";
+// import AmbienteForm from "./AmbienteForm/AmbienteForm";
+import CerramientoForm from "./CerramientoForm/CerramientoForm";
 
 const EditarDomicilioTemplate = ({
   editarDomiciclio,
   crearAmbiente,
   calcularEficienciaPage,
   domicilioEdit,
-  dimicilioView,
+  ambienteView,
   eficienciaCreate,
   nuevoDomicilio,
   register,
@@ -25,6 +27,14 @@ const EditarDomicilioTemplate = ({
   localidad,
   handleChangeLocalidad,
   buttonVolver,
+  tipoCerramiento,
+  tipoTecho,
+  tipoPared,
+  tipoPuerta,
+  tipoVentana,
+  materiales,
+  handleSubmit2,
+  register2,
 }) => {
   const classes = useStyles();
   return (
@@ -146,18 +156,50 @@ const EditarDomicilioTemplate = ({
         </Paper>
       )}
 
-      {dimicilioView && (
+      {ambienteView && (
         <Paper className={classes.paperInterno}>
           <Typography className={classes.categoriaTittle}>
-            Ver y editar domicilios creados
+            Agregar Ambientes al domicilio
           </Typography>
-          <Button onClick={editarDomiciclio}>
-            <img
-              alt="crear-casa"
-              src={process.env.PUBLIC_URL + "/icons/Casa1.png"}
-              className={classes.logo}
-            />
-          </Button>
+          <div className={classes.paperInternoAmbientes}>
+            <Button onClick={tipoTecho}>
+              <img
+                alt="techo"
+                src={process.env.PUBLIC_URL + "/icons/cerramientos/Techo.png"}
+                className={classes.logo}
+              />
+            </Button>
+            <Button onClick={tipoPared}>
+              <img
+                alt="pared"
+                src={
+                  process.env.PUBLIC_URL +
+                  "/icons/cerramientos/ParedLadrillo.png"
+                }
+                className={classes.logo}
+              />
+            </Button>
+            <Button onClick={tipoPuerta}>
+              <img
+                alt="puerta"
+                src={process.env.PUBLIC_URL + "/icons/cerramientos/Puerta.jpg"}
+                className={classes.logo}
+              />
+            </Button>
+            <Button onClick={tipoVentana}>
+              <img
+                alt="ventana"
+                src={process.env.PUBLIC_URL + "/icons/cerramientos/Ventana.png"}
+                className={classes.logo}
+              />
+            </Button>
+          </div>
+          <CerramientoForm
+            // register2={register2}
+            tipoValue={tipoCerramiento}
+            materiales={materiales}
+            // handleSubmit2={handleSubmit2}
+          />
         </Paper>
       )}
 

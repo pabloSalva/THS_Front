@@ -8,10 +8,13 @@ import { useHistory, useParams } from "react-router";
 const EditarDomicilioPage = () => {
   const [domicilioEdit, setDomicilioEdit] = useState(true);
   const [dimicilioView, setDomicilioView] = useState(false);
+  const [ambienteView, setAmbienteView] = useState(false);
   const [domicilio, setDomicilio] = useState([]);
   const [eficienciaCreate, setEficienciaCreate] = useState(false);
   const [localidad, setLocalidad] = useState("");
   const [localidades, setLocalidades] = useState([]);
+  const [tipoCerramiento, setTipoCerramiento] = useState("TECHO");
+
   const { id } = useParams();
   const history = useHistory();
   useEffect(() => {
@@ -61,11 +64,12 @@ const EditarDomicilioPage = () => {
       cantidad_personas: domicilio.cantidad_personas,
       localidad: domicilio.localidad,
     },
+    mode: "onBlur",
   });
 
   const watchAllFields = watch();
   console.log(watchAllFields);
-  const onSubmit = (data) => {
+  const onSubmitEdit = (data) => {
     console.log(data);
     DomicilioService.editDomicilio(id, data)
       .then((response) => {
@@ -78,11 +82,59 @@ const EditarDomicilioPage = () => {
       });
   };
 
+  const crearAmbiente = () => {
+    setAmbienteView(true);
+    setDomicilioEdit(false);
+    setDomicilioView(false);
+    setEficienciaCreate(false);
+  };
+
+  const tipoTecho = () => {
+    setTipoCerramiento("TECHO");
+  };
+  const tipoPared = () => {
+    setTipoCerramiento("PARED");
+  };
+  const tipoPuerta = () => {
+    setTipoCerramiento("PUERTA");
+  };
+  const tipoVentana = () => {
+    setTipoCerramiento("VENTANA");
+  };
+
   const buttonVolver = () => {
     history.push({
       pathname: "/domicilios",
     });
   };
+
+  /** Sección de crear cerramiento */
+
+  const [materiales, setMateriales] = useState([]);
+
+  useEffect(() => {
+    DomicilioService.getMateriales()
+      .then((response) => setMateriales(response))
+      .catch((error) => console.log(error));
+  }, []);
+
+  // const {
+  //   register: register2,
+  //   getValues,
+  //   handleSubmit: handleSubmit2,
+  // } = useForm({
+  //   defaultValues: {
+  //     denominacion: "",
+  //     superficie: "",
+  //     tipo: "",
+  //     orientacion: "",
+  //     material: "",
+  //   },
+  //   mode: "onBlur",
+  // });
+  // const superficie = () => getValues("ancho") * getValues("alto");
+  // const onSubmitCerramiento = (data) => console.log(data, superficie());
+
   return (
     <EditarDomicilioTemplate
       editarDomiciclio={editarDomiciclio}
@@ -91,12 +143,22 @@ const EditarDomicilioPage = () => {
       domicilioEdit={domicilioEdit}
       dimicilioView={dimicilioView}
       eficienciaCreate={eficienciaCreate}
-      handleSubmit={handleSubmit(onSubmit)}
+      handleSubmit={handleSubmit(onSubmitEdit)}
       register={register}
       handleChangeLocalidad={handleChangeLocalidad}
       localidad={localidad}
       localidades={localidades}
       buttonVolver={buttonVolver}
+      crearAmbiente={crearAmbiente}
+      ambienteView={ambienteView}
+      tipoCerramiento={tipoCerramiento}
+      tipoTecho={tipoTecho}
+      tipoPared={tipoPared}
+      tipoVentana={tipoVentana}
+      tipoPuerta={tipoPuerta}
+      materiales={materiales}
+      // handleSubmit2={handleSubmit2(onSubmitCerramiento)}
+      // register2={register2}
     />
   );
 };

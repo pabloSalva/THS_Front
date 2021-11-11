@@ -37,4 +37,8 @@ export const DomicilioService = {
     );
     return getResult;
   },
+  getMateriales: async () => {
+    const getResult = await Api.fetch(`${Environment.api}materiales/`, "GET");
+    return getResult;
+  },
 };
