@@ -236,7 +236,7 @@ const CalculadoraElectricaTemplate = ({
         <div>
           <Typography variant="h2">Seleccione Entidad y tarifa</Typography>
           <div className={classes.entidad}>
-            <InputLabel id="demo-simple-select-outlined-label">
+            <InputLabel>
               Entidad
             </InputLabel>
             <Select
@@ -245,14 +245,13 @@ const CalculadoraElectricaTemplate = ({
               value={entidad}
               onChange={handleChangeEntidad}
             >
-              {console.log(entidad)}
               {entidadEnergia &&
                 entidadEnergia.map((nodo) => (
                   <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
                 ))}
             </Select>
-
-            <InputLabel id="demo-simple-select-outlined-label">
+            <br />
+            <InputLabel>
               Tarifa
             </InputLabel>
             <Select
