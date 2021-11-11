@@ -1,15 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const fontConfig = {
-  fontWeight: 'bold',
-  lineHeight: "25px",
-};
-
 export const useStyles = makeStyles((theme) => ({
     paper: {
       border: "1px solid #E1E1E1",
       backgroundColor: "#FFFFFF",
-      width: 250,
+      width: 400,
       top: "inherit",
       bottom: 0,
       height: "100%",
@@ -34,7 +29,8 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: "35px ",
       marginTop: "30px",
       fontSize: "18px",
-      ...fontConfig,
+      fontWeight: 'bold',
+      lineHeight: "25px",
     },
     Divider: {
       backgroundColor: "#C4C4C4",

@@ -166,8 +166,85 @@ const CalculadoraElectricaTemplate = ({
             </Button>
           </Paper>
         </div>
+        <div>
+          <Typography variant="h2">Seleccione Entidad y tarifa</Typography>
+          <div className={classes.entidad}>
+            <InputLabel>
+              Entidad
+            </InputLabel>
+            <Select
+              label="Entidades"
+              id="entidades"
+              value={entidad}
+              onChange={handleChangeEntidad}
+            >
+              {entidadEnergia &&
+                entidadEnergia.map((nodo) => (
+                  <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
+                ))}
+            </Select>
+            <br />
+            <InputLabel>
+              Tarifa
+            </InputLabel>
+            <Select
+              labelId="Entidades"
+              id="entidades"
+              value={tarifa}
+              onChange={handleChangeTarifa}
+            >
+              {entidadEnergiaTarifa &&
+                entidadEnergiaTarifa.map((nodo) => (
+                  <MenuItem value={nodo.id}>{nodo.categoria}</MenuItem>
+                ))}
+            </Select>
+          </div>
+        </div>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editRowsModel={editRowsModel}
+            // editMode="row"
+            onEditRowsModelChange={handleEditRowsModelChange}
+          />
+        </div>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={limpiar}
+        >
+          Limpiar tabla
+        </Button>
 
-        {openDrawer && (
+        <Button
+          className={classes.calcular}
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={calcular}
+        >
+          Calcular
+        </Button>
+        {hayCalculo && (
+          <Paper className={classes.paperConsumo}>
+            <Typography className={classes.consumo}>
+              {`Su consumo es de: ${consumoTotalMensual}Kw por mes.`}
+              <br />
+              {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
+            </Typography>
+            {categoriaTarifa &&
+              categoriaTarifa.map((nodo) => (
+                <Typography className={classes.consumo}>
+                  Categoria segun consumo: {nodo.descripcion}
+                </Typography>
+              ))}
+          </Paper>
+        )}
+      </div>
+      <div>
+      {openDrawer && (
           <div>
             <RightPanel className={classes.rightPanel} tituloGeneral={tipoArtefacto} openDrawer={true} handleClose={handleCloseRightPanel}>
               <div>
@@ -232,83 +309,6 @@ const CalculadoraElectricaTemplate = ({
               </div>
             </RightPanel>
           </div>
-        )}
-        <div>
-          <Typography variant="h2">Seleccione Entidad y tarifa</Typography>
-          <div className={classes.entidad}>
-            <InputLabel id="demo-simple-select-outlined-label">
-              Entidad
-            </InputLabel>
-            <Select
-              label="Entidades"
-              id="entidades"
-              value={entidad}
-              onChange={handleChangeEntidad}
-            >
-              {console.log(entidad)}
-              {entidadEnergia &&
-                entidadEnergia.map((nodo) => (
-                  <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
-                ))}
-            </Select>
-
-            <InputLabel id="demo-simple-select-outlined-label">
-              Tarifa
-            </InputLabel>
-            <Select
-              labelId="Entidades"
-              id="entidades"
-              value={tarifa}
-              onChange={handleChangeTarifa}
-            >
-              {entidadEnergiaTarifa &&
-                entidadEnergiaTarifa.map((nodo) => (
-                  <MenuItem value={nodo.id}>{nodo.categoria}</MenuItem>
-                ))}
-            </Select>
-          </div>
-        </div>
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            editRowsModel={editRowsModel}
-            // editMode="row"
-            onEditRowsModelChange={handleEditRowsModelChange}
-          />
-        </div>
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth={true}
-          onClick={limpiar}
-        >
-          Limpiar tabla
-        </Button>
-
-        <Button
-          className={classes.calcular}
-          variant="contained"
-          color="secondary"
-          fullWidth={true}
-          onClick={calcular}
-        >
-          Calcular
-        </Button>
-        {hayCalculo && (
-          <Paper className={classes.paperConsumo}>
-            <Typography className={classes.consumo}>
-              {`Su consumo es de: ${consumoTotalMensual}Kw por mes.`}
-              <br />
-              {`El precio para la tarifa seleccionada es de: $${precio} pesos`}
-            </Typography>
-            {categoriaTarifa &&
-              categoriaTarifa.map((nodo) => (
-                <Typography className={classes.consumo}>
-                  Categoria segun consumo: {nodo.descripcion}
-                </Typography>
-              ))}
-          </Paper>
         )}
       </div>
     </Layout>

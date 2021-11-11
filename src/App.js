@@ -15,7 +15,10 @@ import AlertTemplate from "react-alert-template-basic";
 
 const options = {
   timeout: 5000,
-  position: positions.TOP_CENTER
+  position: positions.MIDDLE,
+  containerStyle: {
+    fontSize: 20
+  }
 };
 
 
