@@ -18,7 +18,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import { DataGrid } from "@mui/x-data-grid";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -69,7 +69,6 @@ const CalculadoraGasTemplate = ({
 
     setChecked(newChecked);
   };
-
 
   return (
     <Layout titulo="Calculadora de consumo de Gas" openDrawer={openDrawer}>
@@ -167,13 +166,16 @@ const CalculadoraGasTemplate = ({
                           <ListItemSecondaryAction>
                             <IconButton
                               onClick={() =>
-                                swal("Informacion", `${value.nombre}` +
+                                swal(
+                                  "Informacion",
+                                  `${value.nombre}` +
                                     ", \n " +
                                     `Consumo: ${value.consumo}` +
-                                    "W/h" +
+                                    "Kcal/h" +
                                     ", \n Etiqueta: " +
                                     `${value.etiqueta}`,
-                                    "info")
+                                  "info"
+                                )
                               }
                               edge="end"
                               aria-label="comments"
@@ -198,9 +200,7 @@ const CalculadoraGasTemplate = ({
         <div>
           <Typography variant="h2">Seleccione Entidad y tarifa</Typography>
           <div className={classes.entidad}>
-            <InputLabel>
-              Entidad
-            </InputLabel>
+            <InputLabel>Entidad</InputLabel>
             <Select
               label="Entidades"
               id="entidades"
@@ -212,10 +212,8 @@ const CalculadoraGasTemplate = ({
                   <MenuItem value={nodo.id}>{nodo.nombre_entidad}</MenuItem>
                 ))}
             </Select>
-              <br />
-            <InputLabel>
-              Tarifa
-            </InputLabel>
+            <br />
+            <InputLabel>Tarifa</InputLabel>
             <Select
               labelId="Entidades"
               id="entidades"
