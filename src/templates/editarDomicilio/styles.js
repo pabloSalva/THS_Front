@@ -23,7 +23,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     color: "#5CA469",
-    fontWeight: "bold",
+    fontWeight: "black",
     fontSize: "20px",
   },
   papers: {
@@ -45,7 +45,14 @@ export const useStyles = makeStyles((theme) => ({
   paperInternoAmbientes: {
     display: "flex",
     flexDirection: "rows",
+    justifyContent: "space-evenly",
   },
+  titleAmbiente: {
+    display: "flex",
+    flexDirection: "column",
+    paddingBottom: 40,
+  },
+  seleccionTitle: { display: "flex" },
   rightPanel: {
     width: "30%",
   },

@@ -5,11 +5,15 @@ import { DomicilioService } from "../services/DomicilioService";
 import EditarDomicilioTemplate from "../templates/editarDomicilio";
 import { useHistory, useParams } from "react-router";
 import { useAlert } from "react-alert";
+import { ArtefactoService } from "../services/ArtefactoService";
 
 const EditarDomicilioPage = () => {
   const [domicilioEdit, setDomicilioEdit] = useState(true);
   const [dimicilioView, setDomicilioView] = useState(false);
   const [ambienteView, setAmbienteView] = useState(false);
+  const [artefactos, setArtefactos] = useState(false);
+  const [existe, setExiste] = useState(true);
+  const [valueSearch, setValueSearch] = useState("");
   const [domicilio, setDomicilio] = useState([]);
   const [eficienciaCreate, setEficienciaCreate] = useState(false);
   const [localidad, setLocalidad] = useState("");
@@ -42,15 +46,15 @@ const EditarDomicilioPage = () => {
     setDomicilioView(false);
     setEficienciaCreate(false);
   };
-  const verDomicilios = () => {
+  const agregarArtefacto = () => {
     setDomicilioEdit(false);
-    setDomicilioView(true);
-    setEficienciaCreate(false);
+    setAmbienteView(false);
+    setArtefactos(true);
   };
-  const eficienciaPage = () => {
+  const crearAmbiente = () => {
     setDomicilioEdit(false);
-    setDomicilioView(false);
-    setEficienciaCreate(true);
+    setAmbienteView(true);
+    setEficienciaCreate(false);
   };
 
   const handleChangeLocalidad = (e) => {
@@ -81,13 +85,6 @@ const EditarDomicilioPage = () => {
         console.log(error);
         alert.error("Error al Editar domicilio");
       });
-  };
-
-  const crearAmbiente = () => {
-    setAmbienteView(true);
-    setDomicilioEdit(false);
-    setDomicilioView(false);
-    setEficienciaCreate(false);
   };
 
   const tipoTecho = () => {
@@ -136,11 +133,23 @@ const EditarDomicilioPage = () => {
   // const superficie = () => getValues("ancho") * getValues("alto");
   // const onSubmitCerramiento = (data) => console.log(data, superficie());
 
+  const Artefactos = () => {
+    const params = `?search=${valueSearch}`;
+    ArtefactoService.getArtefactos(params)
+      .then((response) => {
+        response.length > 0 ? setExiste(true) : setExiste(false);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+  console.log(existe);
+  const handleSearchBar = (event) => {
+    Artefactos();
+    setValueSearch(event.target.value);
+  };
   return (
     <EditarDomicilioTemplate
       editarDomiciclio={editarDomiciclio}
-      verDomicilios={verDomicilios}
-      calcularEficienciaPage={eficienciaPage}
       domicilioEdit={domicilioEdit}
       dimicilioView={dimicilioView}
       eficienciaCreate={eficienciaCreate}
@@ -160,6 +169,9 @@ const EditarDomicilioPage = () => {
       materiales={materiales}
       // handleSubmit2={handleSubmit2(onSubmitCerramiento)}
       // register2={register2}
+      handleSearchBar={handleSearchBar}
+      artefactos={artefactos}
+      agregarArtefacto={agregarArtefacto}
     />
   );
 };

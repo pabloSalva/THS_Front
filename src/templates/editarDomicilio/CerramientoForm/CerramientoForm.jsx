@@ -37,7 +37,7 @@ const CerramientoForm = ({
     mode: "onBlur",
   });
   const superficie = () => getValues2("ancho") * getValues2("alto");
-  const onSubmitCerramiento = (data) => console.log(data, superficie());
+  const onSubmit = (data) => console.log("hola" + data, superficie());
 
   const tipo = [
     { id: "VENTANTA", label: "Ventana" },
@@ -58,7 +58,7 @@ const CerramientoForm = ({
   ];
   return (
     <Paper className={classes.paperInterno}>
-      <form key={2} onSubmit={handleSubmit2(onSubmitCerramiento)}>
+      <form key={2} onSubmit={handleSubmit2(onSubmit)}>
         <Typography className={classes.categoriaTittle}>
           Crear un cerramiento
         </Typography>

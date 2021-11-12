@@ -12,11 +12,12 @@ import Layout from "../layout/Layout";
 import { useStyles } from "./styles";
 // import AmbienteForm from "./AmbienteForm/AmbienteForm";
 import CerramientoForm from "./CerramientoForm/CerramientoForm";
+import SearchIcon from "@material-ui/icons/Search";
 
 const EditarDomicilioTemplate = ({
   editarDomiciclio,
   crearAmbiente,
-  calcularEficienciaPage,
+  agregarArtefacto,
   domicilioEdit,
   ambienteView,
   eficienciaCreate,
@@ -35,6 +36,8 @@ const EditarDomicilioTemplate = ({
   materiales,
   handleSubmit2,
   register2,
+  handleSearchBar,
+  artefactos,
 }) => {
   const classes = useStyles();
   return (
@@ -69,7 +72,7 @@ const EditarDomicilioTemplate = ({
           <Typography className={classes.categoriaTittle}>
             Agregar Artefactos
           </Typography>
-          <Button onClick={calcularEficienciaPage}>
+          <Button onClick={agregarArtefacto}>
             <img
               alt="Luz"
               src={process.env.PUBLIC_URL + "/icons/houses.svg"}
@@ -157,64 +160,79 @@ const EditarDomicilioTemplate = ({
       )}
 
       {ambienteView && (
-        <Paper className={classes.paperInterno}>
-          <Typography className={classes.categoriaTittle}>
+        <div>
+          <Typography className={classes.titleAmbiente} variant="h1">
             Agregar Ambientes al domicilio
           </Typography>
-          <div className={classes.paperInternoAmbientes}>
-            <Button onClick={tipoTecho}>
-              <img
-                alt="techo"
-                src={process.env.PUBLIC_URL + "/icons/cerramientos/Techo.png"}
-                className={classes.logo}
-              />
-            </Button>
-            <Button onClick={tipoPared}>
-              <img
-                alt="pared"
-                src={
-                  process.env.PUBLIC_URL +
-                  "/icons/cerramientos/ParedLadrillo.png"
-                }
-                className={classes.logo}
-              />
-            </Button>
-            <Button onClick={tipoPuerta}>
-              <img
-                alt="puerta"
-                src={process.env.PUBLIC_URL + "/icons/cerramientos/Puerta.jpg"}
-                className={classes.logo}
-              />
-            </Button>
-            <Button onClick={tipoVentana}>
-              <img
-                alt="ventana"
-                src={process.env.PUBLIC_URL + "/icons/cerramientos/Ventana.png"}
-                className={classes.logo}
-              />
-            </Button>
-          </div>
-          <CerramientoForm
-            // register2={register2}
-            tipoValue={tipoCerramiento}
-            materiales={materiales}
-            // handleSubmit2={handleSubmit2}
-          />
-        </Paper>
+          <Paper className={classes.paperInterno}>
+            <Typography className={classes.categoriaTittle} variant="h5">
+              Para crear un nuevo ambiente primero debe agregegar los
+              cerramientos necesarios
+            </Typography>
+
+            <Typography className={classes.categoriaTittle} variant="h3">
+              Seleccione el tipo de cerramiento
+            </Typography>
+            <div className={classes.paperInternoAmbientes}>
+              <Button onClick={tipoTecho}>
+                <img
+                  alt="techo"
+                  src={process.env.PUBLIC_URL + "/icons/cerramientos/Techo.png"}
+                  className={classes.logo}
+                />
+              </Button>
+              <Button onClick={tipoPared}>
+                <img
+                  alt="pared"
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/icons/cerramientos/ParedLadrillo.png"
+                  }
+                  className={classes.logo}
+                />
+              </Button>
+              <Button onClick={tipoPuerta}>
+                <img
+                  alt="puerta"
+                  src={
+                    process.env.PUBLIC_URL + "/icons/cerramientos/Puerta.jpg"
+                  }
+                  className={classes.logo}
+                />
+              </Button>
+              <Button onClick={tipoVentana}>
+                <img
+                  alt="ventana"
+                  src={
+                    process.env.PUBLIC_URL + "/icons/cerramientos/Ventana.png"
+                  }
+                  className={classes.logo}
+                />
+              </Button>
+            </div>
+            <CerramientoForm
+              // register2={register2}
+              tipoValue={tipoCerramiento}
+              materiales={materiales}
+              // handleSubmit2={handleSubmit2}
+            />
+          </Paper>
+        </div>
       )}
 
-      {eficienciaCreate && (
+      {artefactos && (
         <Paper className={classes.paperInterno}>
           <Typography className={classes.categoriaTittle}>
-            Calcular Eficiencia energética en domicilio
+            Buscar artefactos para cargar en el ambiente
           </Typography>
-          <Button onClick={editarDomiciclio}>
-            <img
-              alt="crear-casa"
-              src={process.env.PUBLIC_URL + "/icons/Casa1.png"}
-              className={classes.logo}
-            />
-          </Button>
+          <TextField
+            variant="outlined"
+            label={""}
+            fullWidth
+            icon={<SearchIcon />}
+            placeholder={"Ingrese artefacto a buscar"}
+            onKeyUp={(event) => event.keyCode === 13 && handleSearchBar(event)}
+          />
         </Paper>
       )}
       <div className={classes.volver}>
