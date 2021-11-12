@@ -28,6 +28,12 @@ export const sidebarConfig = [
     icon: <FaIcons.FaHouseUser />,
     cName: 'nav-text'
   },
+  {
+    title: "Cerrar sesion",
+    path: "/login",
+    icon: <AiIcons.AiOutlineLogout />,
+    cName: 'nav-text'
+  },
 ];
 
 export default sidebarConfig;

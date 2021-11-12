@@ -17,7 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
-import { useAlert } from "react-alert";
+import swal from "sweetalert";
 import { DataGrid } from "@mui/x-data-grid";
 
 import Select from "@material-ui/core/Select";
@@ -81,7 +81,6 @@ const CalculadoraElectricaTemplate = ({
   };
   console.log(checked);
 
-  const alert = useAlert();
 
   return (
     <Layout titulo="Calculadora de consumo electrico" openDrawer={openDrawer}>
@@ -281,14 +280,13 @@ const CalculadoraElectricaTemplate = ({
                         <ListItemSecondaryAction>
                           <IconButton
                             onClick={() =>
-                              alert.show(
-                                `${value.nombre}` +
-                                  ",\n " +
+                              swal("Informacion", `${value.nombre}` +
+                                  ", \n " +
                                   `Consumo: ${value.consumo}` +
                                   "W/h" +
-                                  ",\n Etiqueta: " +
-                                  `${value.etiqueta}`
-                              )
+                                  ", \n Etiqueta: " +
+                                  `${value.etiqueta}`,
+                                  "info")
                             }
                             edge="end"
                             aria-label="comments"

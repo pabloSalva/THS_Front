@@ -3,7 +3,7 @@ import EtiquetadoTemplate from "../templates/etiquetadoTemplate";
 import { useForm } from "react-hook-form";
 import { LocalidadService } from "../services/LocalidaService";
 import { DomicilioService } from "../services/DomicilioService";
-import { useAlert } from "react-alert";
+import swal from 'sweetalert';
 
 
 const Etiquetado = () => {
@@ -15,7 +15,6 @@ const Etiquetado = () => {
   const [domicilios, setDomicilios] = useState([]);
   const [actualizar, setActualizar] = useState(false);
 
-  const alert = useAlert();
   
   useEffect(() => {
     LocalidadService.getLocalidades()
@@ -69,7 +68,7 @@ const Etiquetado = () => {
     DomicilioService.createDomicilios(data)
       .then((response) => {
         console.log(response);
-        alert.success("Nuevo domicilio creado");
+        swal("Exito!", "Nuevo domicilio creado", "success")
         reset({
           nombre: "",
           antiguedad: "",
@@ -79,13 +78,13 @@ const Etiquetado = () => {
       })
       .catch((error) => {
         console.log(error);
-        alert.error("Error al crear domicilio");
+        swal("Ha ocurrido un error", "Error al crear domicilio", "error")
       });
     setActualizar(!actualizar);
   };
 
   const eliminarDomicilio = (id) => {
-    DomicilioService.deleteDomicilio(id).then((response)=>alert.success("Domicilio eliminado con éxito")).catch((error)=>alert.error("Error al borrar el domicilio"));
+    DomicilioService.deleteDomicilio(id).then((response)=>swal("Exito!", "Domicilio eliminado correctamente", "success")).catch((error)=>swal("Ha ocurrido un error", "Error al borrar domicilio", "error"));
     setActualizar(!actualizar);
   }
   return (

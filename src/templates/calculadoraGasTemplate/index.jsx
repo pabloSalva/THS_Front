@@ -17,8 +17,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
-import { useAlert } from "react-alert";
 import { DataGrid } from "@mui/x-data-grid";
+import swal from 'sweetalert';
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -70,7 +70,6 @@ const CalculadoraGasTemplate = ({
     setChecked(newChecked);
   };
 
-  const alert = useAlert();
 
   return (
     <Layout titulo="Calculadora de consumo de Gas" openDrawer={openDrawer}>
@@ -168,14 +167,13 @@ const CalculadoraGasTemplate = ({
                           <ListItemSecondaryAction>
                             <IconButton
                               onClick={() =>
-                                alert.show(
-                                  `${value.nombre}` +
+                                swal("Informacion", `${value.nombre}` +
                                     ", \n " +
                                     `Consumo: ${value.consumo}` +
                                     "W/h" +
                                     ", \n Etiqueta: " +
-                                    `${value.etiqueta}`
-                                )
+                                    `${value.etiqueta}`,
+                                    "info")
                               }
                               edge="end"
                               aria-label="comments"

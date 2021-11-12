@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import CalculadoraGasTemplate from "../templates/calculadoraGasTemplate";
 import { ArtefactoService } from "../services/ArtefactoService";
 import { EntidadesService } from "../services/EntidadesService";
-import { useAlert } from "react-alert";
+import swal from 'sweetalert';
 
 const CalculoGas = () => {
   const [open, setOpen] = useState(false);
@@ -22,7 +22,6 @@ const CalculoGas = () => {
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
   const [categoriaTarifa, setCategoriaTarifa] = useState();
-  const alert = useAlert();
 
   /*
     ## CATEGORIAS:
@@ -128,7 +127,7 @@ const CalculoGas = () => {
         setCategoriaTarifa(tarifaMaxima);
       }
     } else {
-      alert.error("Debe seleccionar Entidad y tarifa");
+      swal("Atencion!", "Debes seleccionar entidad y tarifa", "warning")
     }
   };
   const handleSearchBar = (event) => {

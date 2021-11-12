@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import CalculadoraElectricaTemplate from "../templates/calculadoraElectricaTemplate";
 import { ArtefactoService } from "../services/ArtefactoService";
 import { EntidadesService } from "../services/EntidadesService";
-import { useAlert } from "react-alert";
+import swal from 'sweetalert';
 
 const CalculoElectrico = () => {
   const [open, setOpen] = useState(false);
@@ -22,7 +22,6 @@ const CalculoElectrico = () => {
   const [precio, setPrecio] = useState(0);
   const [consumoTotalMensual, setConsumoTotalMensual] = useState(0);
   const [categoriaTarifa, setCategoriaTarifa] = useState();
-  const alert = useAlert();
   /*
     AIRES = 0
     HELADERAS = 1
@@ -158,7 +157,7 @@ const CalculoElectrico = () => {
       setPrecio(precioConsumo.toFixed(2));
       setCategoriaTarifa(tarifaEspecifica);
     } else {
-      alert.error("Debe seleccionar Entidad y tarifa");
+      swal("Atencion!", "Debes seleccionar entidad y tarifa", "warning")
     }
   };
   const handleSearchBar = (event) => {

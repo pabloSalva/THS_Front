@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(10),
-    marginRight: 400
+    marginRight: 300
   },
   rootright: {
     width: "100%",

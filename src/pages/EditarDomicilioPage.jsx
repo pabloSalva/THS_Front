@@ -4,6 +4,7 @@ import { LocalidadService } from "../services/LocalidaService";
 import { DomicilioService } from "../services/DomicilioService";
 import EditarDomicilioTemplate from "../templates/editarDomicilio";
 import { useHistory, useParams } from "react-router";
+import { useAlert } from "react-alert";
 
 const EditarDomicilioPage = () => {
   const [domicilioEdit, setDomicilioEdit] = useState(true);
@@ -14,7 +15,7 @@ const EditarDomicilioPage = () => {
   const [localidad, setLocalidad] = useState("");
   const [localidades, setLocalidades] = useState([]);
   const [tipoCerramiento, setTipoCerramiento] = useState("TECHO");
-
+  const alert = useAlert();
   const { id } = useParams();
   const history = useHistory();
   useEffect(() => {
@@ -74,11 +75,11 @@ const EditarDomicilioPage = () => {
     DomicilioService.editDomicilio(id, data)
       .then((response) => {
         console.log(response);
-        alert("Domicilio Editado con exito");
+        alert.success("Domicilio Editado con exito");
       })
       .catch((error) => {
         console.log(error);
-        alert("Error al Editar domicilio");
+        alert.error("Error al Editar domicilio");
       });
   };
 

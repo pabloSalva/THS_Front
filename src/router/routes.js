@@ -3,7 +3,7 @@ export default {
   home: "/",
   login: "/login",
   cambioContrasenaPage: "/reset/:token",
-
+  register: "/register",
   calculoElectrico: "/simuladores/electrico",
   calculoGas: "/simuladores/gas",
   domicilioPage: "/domicilios",
