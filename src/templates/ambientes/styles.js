@@ -22,23 +22,24 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    color: "#5CA469",
     fontWeight: "black",
     fontSize: "20px",
+    paddingBottom: 20,
   },
   papers: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingBottom: "10%",
+    alignContent: "stretch",
+    justifyContent: "space-evenly",
+    paddingBottom: 60,
   },
-  papersAmbientes: {
+  title: {
     display: "flex",
     flexDirection: "row",
     alignContent: "stretch",
     justifyContent: "space-evenly",
-    paddingBottom: "10%",
     paddingTop: 40,
+    paddingBottom: 40,
   },
   subtitle: {
     display: "flex",
@@ -59,6 +60,8 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     paddingBottom: 40,
+    paddingTop: 40,
+    alignItems: "center",
   },
   seleccionTitle: { display: "flex" },
   rightPanel: {
@@ -84,8 +87,9 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-  formControl: {
+  ambienteForm: {
     margin: theme.spacing(3),
+    alignItems: "center",
   },
   entidad: {
     display: "flex",

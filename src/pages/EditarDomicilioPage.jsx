@@ -7,6 +7,8 @@ import { useHistory, useParams } from "react-router";
 import { useAlert } from "react-alert";
 import { ArtefactoService } from "../services/ArtefactoService";
 
+import swal from "sweetalert";
+
 const EditarDomicilioPage = () => {
   const [domicilioEdit, setDomicilioEdit] = useState(true);
   const [dimicilioView, setDomicilioView] = useState(false);
@@ -19,9 +21,20 @@ const EditarDomicilioPage = () => {
   const [localidad, setLocalidad] = useState("");
   const [localidades, setLocalidades] = useState([]);
   const [tipoCerramiento, setTipoCerramiento] = useState("TECHO");
+  const [hayArtefacto, setHayArtefacto] = useState(false);
+  const [node, setNode] = useState([]);
+  const [ambientes, setAmbientes] = useState([]);
+
   const alert = useAlert();
   const { id } = useParams();
   const history = useHistory();
+
+  const traerAmbientes = () => {
+    DomicilioService.getAmbientes(id)
+      .then((response) => setAmbientes(response))
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     LocalidadService.getLocalidades()
       .then((response) => {
@@ -33,28 +46,31 @@ const EditarDomicilioPage = () => {
       .then((response) => {
         setDomicilio(response);
         console.log(response);
-        setValue("nombre", response.nombre);
+        setValue("direccion", response.direccion);
         setValue("antiguedad", response.antiguedad);
         setValue("cantidad_personas", response.cantidad_personas);
         setValue("localidad", response.localidad.id);
       })
       .catch((error) => console.log(error));
+    traerAmbientes(id);
   }, []);
-
+  console.log(ambientes);
   const editarDomiciclio = () => {
     setDomicilioEdit(true);
     setDomicilioView(false);
     setEficienciaCreate(false);
+    setArtefactos(false);
+    setAmbienteView(false);
   };
   const agregarArtefacto = () => {
     setDomicilioEdit(false);
     setAmbienteView(false);
     setArtefactos(true);
   };
-  const crearAmbiente = () => {
+  const verAmbientes = () => {
     setDomicilioEdit(false);
     setAmbienteView(true);
-    setEficienciaCreate(false);
+    setArtefactos(false);
   };
 
   const handleChangeLocalidad = (e) => {
@@ -72,13 +88,31 @@ const EditarDomicilioPage = () => {
     mode: "onBlur",
   });
 
+  const {
+    register: register2,
+    getValues: getValues2,
+    handleSubmit: handleSubmit2,
+  } = useForm({
+    defaultValues: {
+      descripcion: "",
+    },
+  });
+
+  const onSubmit2 = (data) => {
+    const nuevaData = { ...data, inmueble: domicilio.id, volumen: 0 };
+    DomicilioService.createAmbientes(nuevaData)
+      .then((response) => {
+        swal("Exito!", "Nuevo domicilio creado", "success");
+      })
+      .catch((error) => console.log(error));
+    traerAmbientes();
+  };
+
   const watchAllFields = watch();
   console.log(watchAllFields);
   const onSubmitEdit = (data) => {
-    console.log(data);
     DomicilioService.editDomicilio(id, data)
       .then((response) => {
-        console.log(response);
         alert.success("Domicilio Editado con exito");
       })
       .catch((error) => {
@@ -103,6 +137,12 @@ const EditarDomicilioPage = () => {
   const buttonVolver = () => {
     history.push({
       pathname: "/domicilios",
+    });
+  };
+  const editarAmbiente = (idAmbiente, descripcion) => {
+    history.push({
+      pathname: `/ambientes/${idAmbiente}`,
+      state: { descripcion: descripcion },
     });
   };
 
@@ -137,15 +177,19 @@ const EditarDomicilioPage = () => {
     const params = `?search=${valueSearch}`;
     ArtefactoService.getArtefactos(params)
       .then((response) => {
-        response.length > 0 ? setExiste(true) : setExiste(false);
-        console.log(response);
+        response.length > 0 ? setHayArtefacto(true) : setHayArtefacto(false);
+        setNode(response);
       })
       .catch((error) => console.log(error));
   };
-  console.log(existe);
+  console.log(node);
+  console.log(hayArtefacto);
   const handleSearchBar = (event) => {
     Artefactos();
     setValueSearch(event.target.value);
+  };
+  const agregarEnTabla = (checked) => {
+    alert.success("Artefactos agregados con éxito");
   };
   return (
     <EditarDomicilioTemplate
@@ -159,7 +203,7 @@ const EditarDomicilioPage = () => {
       localidad={localidad}
       localidades={localidades}
       buttonVolver={buttonVolver}
-      crearAmbiente={crearAmbiente}
+      verAmbientes={verAmbientes}
       ambienteView={ambienteView}
       tipoCerramiento={tipoCerramiento}
       tipoTecho={tipoTecho}
@@ -167,11 +211,16 @@ const EditarDomicilioPage = () => {
       tipoVentana={tipoVentana}
       tipoPuerta={tipoPuerta}
       materiales={materiales}
-      // handleSubmit2={handleSubmit2(onSubmitCerramiento)}
-      // register2={register2}
+      handleSubmit2={handleSubmit2(onSubmit2)}
+      register2={register2}
       handleSearchBar={handleSearchBar}
       artefactos={artefactos}
       agregarArtefacto={agregarArtefacto}
+      nodos={node}
+      hayArtefacto={hayArtefacto}
+      agregarEnTabla={agregarEnTabla}
+      ambientes={ambientes}
+      editarAmbiente={editarAmbiente}
     />
   );
 };

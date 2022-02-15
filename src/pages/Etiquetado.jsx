@@ -3,8 +3,7 @@ import EtiquetadoTemplate from "../templates/etiquetadoTemplate";
 import { useForm } from "react-hook-form";
 import { LocalidadService } from "../services/LocalidaService";
 import { DomicilioService } from "../services/DomicilioService";
-import swal from 'sweetalert';
-
+import swal from "sweetalert";
 
 const Etiquetado = () => {
   const [domicilioCreate, setDomicilioCreate] = useState(false);
@@ -15,7 +14,6 @@ const Etiquetado = () => {
   const [domicilios, setDomicilios] = useState([]);
   const [actualizar, setActualizar] = useState(false);
 
-  
   useEffect(() => {
     LocalidadService.getLocalidades()
       .then((response) => {
@@ -30,7 +28,7 @@ const Etiquetado = () => {
         const rowsDomicilios = response.map((domicilio) => {
           return {
             id: domicilio.id,
-            nombre: domicilio.nombre,
+            direccion: domicilio.direccion,
             cantidad_personas: domicilio.cantidad_personas,
             antiguedad: domicilio.antiguedad,
             localidad: domicilio.localidad.nombre_localidad,
@@ -68,9 +66,9 @@ const Etiquetado = () => {
     DomicilioService.createDomicilios(data)
       .then((response) => {
         console.log(response);
-        swal("Exito!", "Nuevo domicilio creado", "success")
+        swal("Exito!", "Nuevo domicilio creado", "success");
         reset({
-          nombre: "",
+          direccion: "",
           antiguedad: "",
           cantidad_personas: "",
           localidad: "",
@@ -78,15 +76,22 @@ const Etiquetado = () => {
       })
       .catch((error) => {
         console.log(error);
-        swal("Ha ocurrido un error", "Error al crear domicilio", "error")
+        swal("Ha ocurrido un error", "Error al crear domicilio", "error");
       });
     setActualizar(!actualizar);
   };
 
   const eliminarDomicilio = (id) => {
-    DomicilioService.deleteDomicilio(id).then((response)=>swal("Exito!", "Domicilio eliminado correctamente", "success")).catch((error)=>swal("Ha ocurrido un error", "Error al borrar domicilio", "error"));
+    DomicilioService.deleteDomicilio(id)
+      .then((response) =>
+        swal("Exito!", "Domicilio eliminado correctamente", "success")
+      )
+      .catch((error) =>
+        swal("Ha ocurrido un error", "Error al borrar domicilio", "error")
+      );
     setActualizar(!actualizar);
-  }
+  };
+  console.log(domicilios);
   return (
     <EtiquetadoTemplate
       crearDomiciclio={crearDomiciclio}

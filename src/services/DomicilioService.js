@@ -33,12 +33,41 @@ export const DomicilioService = {
   deleteDomicilio: async (id) => {
     const getResult = await Api.fetch(
       `${Environment.api}inmuebles/${id}/`,
-      "DELETE",
+      "DELETE"
     );
     return getResult;
   },
   getMateriales: async () => {
     const getResult = await Api.fetch(`${Environment.api}materiales/`, "GET");
+    return getResult;
+  },
+  getAmbientes: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}ambientes/?inmueble=${id}`,
+      "GET"
+    );
+    return getResult;
+  },
+  createAmbientes: async (data) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}ambientes/`,
+      "POST",
+      data
+    );
+    return getResult;
+  },
+  getCerramiento: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}cerramientos/${id}`,
+      "GET"
+    );
+    return getResult;
+  },
+  getCerramientos: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}cerramientos/?ambiente=${id}`,
+      "GET"
+    );
     return getResult;
   },
 };
