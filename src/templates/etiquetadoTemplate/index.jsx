@@ -59,8 +59,8 @@ const EtiquetadoTemplate = ({
 
   const columns = [
     {
-      field: "nombre",
-      headerName: "Nombre domicilio",
+      field: "direccion",
+      headerName: "Dirección domicilio",
       flex: 0.2,
       editable: false,
     },
@@ -134,13 +134,13 @@ const EtiquetadoTemplate = ({
             <Typography className={classes.categoriaTittle}>
               Crear Domicilio
             </Typography>
-            <InputLabel id="nombre">Nombre domicilio</InputLabel>
+            <InputLabel id="direccion">Dirección domicilio</InputLabel>
             <TextField
               fullWidth
-              // label="Nombre domicilio"
+              // label="direccion domicilio"
               variant="outlined"
               margin="dense"
-              {...register("nombre", { required: true, maxLength: 30 })}
+              {...register("direccion", { required: true, maxLength: 30 })}
             />
             <InputLabel id="cantidad_habitantes">
               Cantidad de habitantes

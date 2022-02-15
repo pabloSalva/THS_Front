@@ -1,22 +1,32 @@
 import {
   Button,
+  Checkbox,
+  IconButton,
   InputLabel,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
   MenuItem,
   Paper,
   Select,
   TextField,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../layout/Layout";
 import { useStyles } from "./styles";
 // import AmbienteForm from "./AmbienteForm/AmbienteForm";
-import CerramientoForm from "./CerramientoForm/CerramientoForm";
+
 import SearchIcon from "@material-ui/icons/Search";
+import swal from "sweetalert";
+import InfoIcon from "@material-ui/icons/Info";
 
 const EditarDomicilioTemplate = ({
   editarDomiciclio,
-  crearAmbiente,
+  verAmbientes,
+  editarAmbiente,
   agregarArtefacto,
   domicilioEdit,
   ambienteView,
@@ -38,8 +48,29 @@ const EditarDomicilioTemplate = ({
   register2,
   handleSearchBar,
   artefactos,
+  nodos,
+  hayArtefacto,
+  agregarEnTabla,
+  ambientes,
+  buttonAmbientes,
 }) => {
   const classes = useStyles();
+
+  const [checked, setChecked] = useState([]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+  console.log(checked);
   return (
     <Layout titulo="Modificación de domicilios">
       <div className={classes.papers}>
@@ -58,9 +89,9 @@ const EditarDomicilioTemplate = ({
 
         <Paper>
           <Typography className={classes.categoriaTittle}>
-            Crear Ambientes
+            Ver Ambientes
           </Typography>
-          <Button onClick={crearAmbiente}>
+          <Button onClick={verAmbientes}>
             <img
               alt="ambientes"
               src={process.env.PUBLIC_URL + "/icons/editarCasas.png"}
@@ -89,14 +120,14 @@ const EditarDomicilioTemplate = ({
               Editar Domicilio
             </Typography>
             <div className={classes.form}>
-              <InputLabel id="nombre">Nombre domicilio</InputLabel>
+              <InputLabel id="direccion">Dirección domicilio</InputLabel>
               <TextField
                 fullWidth
-                // label="Nombre domicilio"
+                // label="direccion domicilio"
                 name="Editar domicilio"
                 variant="outlined"
                 margin="dense"
-                {...register("nombre", { required: true, maxLength: 30 })}
+                {...register("direccion", { required: true, maxLength: 30 })}
               />
               <InputLabel id="cantidad_habitantes">
                 Cantidad de habitantes
@@ -161,62 +192,59 @@ const EditarDomicilioTemplate = ({
 
       {ambienteView && (
         <div>
-          <Typography className={classes.titleAmbiente} variant="h1">
-            Agregar Ambientes al domicilio
-          </Typography>
           <Paper className={classes.paperInterno}>
-            <Typography className={classes.categoriaTittle} variant="h5">
-              Para crear un nuevo ambiente primero debe agregegar los
-              cerramientos necesarios
-            </Typography>
-
-            <Typography className={classes.categoriaTittle} variant="h3">
-              Seleccione el tipo de cerramiento
-            </Typography>
-            <div className={classes.paperInternoAmbientes}>
-              <Button onClick={tipoTecho}>
-                <img
-                  alt="techo"
-                  src={process.env.PUBLIC_URL + "/icons/cerramientos/Techo.png"}
-                  className={classes.logo}
+            <form key={2} onSubmit={handleSubmit2}>
+              <Typography className={classes.categoriaTittle}>
+                Crear un Ambiente
+              </Typography>
+              <div className={classes.form}>
+                <InputLabel id="descripcion">Descripción</InputLabel>
+                <TextField
+                  fullWidth
+                  // label="descripcion domicilio"
+                  name="descripcion"
+                  variant="outlined"
+                  margin="dense"
+                  {...register2("descripcion", {
+                    required: true,
+                    maxLength: 30,
+                  })}
                 />
-              </Button>
-              <Button onClick={tipoPared}>
-                <img
-                  alt="pared"
-                  src={
-                    process.env.PUBLIC_URL +
-                    "/icons/cerramientos/ParedLadrillo.png"
-                  }
-                  className={classes.logo}
-                />
-              </Button>
-              <Button onClick={tipoPuerta}>
-                <img
-                  alt="puerta"
-                  src={
-                    process.env.PUBLIC_URL + "/icons/cerramientos/Puerta.jpg"
-                  }
-                  className={classes.logo}
-                />
-              </Button>
-              <Button onClick={tipoVentana}>
-                <img
-                  alt="ventana"
-                  src={
-                    process.env.PUBLIC_URL + "/icons/cerramientos/Ventana.png"
-                  }
-                  className={classes.logo}
-                />
-              </Button>
-            </div>
-            <CerramientoForm
-              // register2={register2}
-              tipoValue={tipoCerramiento}
-              materiales={materiales}
-              // handleSubmit2={handleSubmit2}
-            />
+                <Button
+                  className={classes.select}
+                  variant="contained"
+                  color="success"
+                  fullWidth={true}
+                  type="submit"
+                >
+                  Crear Ambiente
+                </Button>
+              </div>
+            </form>
           </Paper>
+          <div className={classes.papersAmbientes}>
+            {ambientes.map((ambiente) => (
+              <Paper>
+                <Typography className={classes.categoriaTittle}>
+                  {ambiente.descripcion}
+                </Typography>
+                <Button
+                  onClick={() =>
+                    editarAmbiente(ambiente.id, ambiente.descripcion)
+                  }
+                >
+                  <img
+                    alt="ambiente"
+                    src={
+                      process.env.PUBLIC_URL +
+                      "/icons/cerramientos/ambientes.jpg"
+                    }
+                    className={classes.logo}
+                  />
+                </Button>
+              </Paper>
+            ))}
+          </div>
         </div>
       )}
 
@@ -233,6 +261,57 @@ const EditarDomicilioTemplate = ({
             placeholder={"Ingrese artefacto a buscar"}
             onKeyUp={(event) => event.keyCode === 13 && handleSearchBar(event)}
           />
+
+          {hayArtefacto ? (
+            <List className={classes.artefactosList}>
+              {nodos.map((value) => {
+                const labelId = `checkbox-list-label-${value.id}`;
+                return (
+                  <ListItem
+                    key={value.id}
+                    role={undefined}
+                    dense
+                    button
+                    onClick={handleToggle(value.id)}
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={checked.indexOf(value.id) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ "aria-labelledby": labelId }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText id={labelId} primary={`${value.nombre}`} />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        onClick={() =>
+                          swal(
+                            "Informacion",
+                            `${value.nombre}` +
+                              ", \n " +
+                              `Consumo: ${value.consumo}` +
+                              "W/h" +
+                              ", \n Etiqueta: " +
+                              `${value.etiqueta}`,
+                            "info"
+                          )
+                        }
+                        edge="end"
+                        aria-label="comments"
+                      >
+                        <InfoIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
+            </List>
+          ) : (
+            <Typography variant="h4">No se encontraron Artefactos</Typography>
+          )}
+          <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
         </Paper>
       )}
       <div className={classes.volver}>
@@ -240,6 +319,7 @@ const EditarDomicilioTemplate = ({
           color="info"
           label="Volver"
           variant="outlined"
+          fullWidth={true}
           onClick={buttonVolver}
         >
           Volver

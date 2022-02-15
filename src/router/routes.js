@@ -8,4 +8,7 @@ export default {
   calculoGas: "/simuladores/gas",
   domicilioPage: "/domicilios",
   domicilioEdit: "/domicilios/editar/:id",
+  ambientes: "/ambientes/:id",
+  cerramientos: "/cerramientos/",
+  cerramiento: "/cerramiento/:id",
 };
