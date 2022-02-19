@@ -142,7 +142,7 @@ const EditarDomicilioPage = () => {
   const editarAmbiente = (idAmbiente, descripcion) => {
     history.push({
       pathname: `/ambientes/${idAmbiente}`,
-      state: { descripcion: descripcion },
+      state: { descripcion: descripcion, idDomicilio: id },
     });
   };
 

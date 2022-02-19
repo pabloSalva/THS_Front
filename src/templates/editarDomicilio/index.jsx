@@ -99,18 +99,6 @@ const EditarDomicilioTemplate = ({
             />
           </Button>
         </Paper>
-        <Paper>
-          <Typography className={classes.categoriaTittle}>
-            Agregar Artefactos
-          </Typography>
-          <Button onClick={agregarArtefacto}>
-            <img
-              alt="Luz"
-              src={process.env.PUBLIC_URL + "/icons/houses.svg"}
-              className={classes.logo_calculo}
-            />
-          </Button>
-        </Paper>
       </div>
 
       {domicilioEdit && (
@@ -195,7 +183,7 @@ const EditarDomicilioTemplate = ({
           <Paper className={classes.paperInterno}>
             <form key={2} onSubmit={handleSubmit2}>
               <Typography className={classes.categoriaTittle}>
-                Crear un Ambiente
+                Ingrese el nombre del ambiente a crear (Cocina, Living, etc...)
               </Typography>
               <div className={classes.form}>
                 <InputLabel id="descripcion">Descripción</InputLabel>
@@ -248,72 +236,6 @@ const EditarDomicilioTemplate = ({
         </div>
       )}
 
-      {artefactos && (
-        <Paper className={classes.paperInterno}>
-          <Typography className={classes.categoriaTittle}>
-            Buscar artefactos para cargar en el ambiente
-          </Typography>
-          <TextField
-            variant="outlined"
-            label={""}
-            fullWidth
-            icon={<SearchIcon />}
-            placeholder={"Ingrese artefacto a buscar"}
-            onKeyUp={(event) => event.keyCode === 13 && handleSearchBar(event)}
-          />
-
-          {hayArtefacto ? (
-            <List className={classes.artefactosList}>
-              {nodos.map((value) => {
-                const labelId = `checkbox-list-label-${value.id}`;
-                return (
-                  <ListItem
-                    key={value.id}
-                    role={undefined}
-                    dense
-                    button
-                    onClick={handleToggle(value.id)}
-                  >
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={checked.indexOf(value.id) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText id={labelId} primary={`${value.nombre}`} />
-                    <ListItemSecondaryAction>
-                      <IconButton
-                        onClick={() =>
-                          swal(
-                            "Informacion",
-                            `${value.nombre}` +
-                              ", \n " +
-                              `Consumo: ${value.consumo}` +
-                              "W/h" +
-                              ", \n Etiqueta: " +
-                              `${value.etiqueta}`,
-                            "info"
-                          )
-                        }
-                        edge="end"
-                        aria-label="comments"
-                      >
-                        <InfoIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
-            </List>
-          ) : (
-            <Typography variant="h4">No se encontraron Artefactos</Typography>
-          )}
-          <Button onClick={() => agregarEnTabla(checked)}>Agregar</Button>
-        </Paper>
-      )}
       <div className={classes.volver}>
         <Button
           color="info"

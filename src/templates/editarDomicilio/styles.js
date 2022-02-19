@@ -29,7 +29,7 @@ export const useStyles = makeStyles((theme) => ({
   papers: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     paddingBottom: "10%",
   },
   papersAmbientes: {

@@ -8,13 +8,15 @@ const CerramientoPage = () => {
   const history = useHistory();
   const location = useLocation();
   const [materiales, setMateriales] = useState([]);
-  const [tipoCerramiento, setTipoCerramiento] = useState("TECHO");
-  const [paperArtefacto, setPaperArtefacto] = useState(false);
-  const [paperCerramiento, setPaperCerramiento] = useState(true);
-  const [ambienteDescripcion, setAmbienteDescripcion] = useState(
-    location?.state?.descripcion
-  );
-  const [cerramiento, setCerramiento] = useState([]);
+  const [tipoCerramiento, setTipoCerramiento] = useState("Techo");
+  const [cerramiento, setCerramiento] = useState({});
+  const [esEditar, setEsEditar] = useState(false);
+  const buttonSubmit =
+    location?.state?.editar === "editar"
+      ? "Editar Cerramiento"
+      : "Crear Cerramiento";
+  console.log(history);
+  console.log(location);
 
   useEffect(() => {
     DomicilioService.getMateriales()
@@ -23,63 +25,92 @@ const CerramientoPage = () => {
     id &&
       DomicilioService.getCerramiento(id)
         .then((response) => {
-          console.log(response);
           setCerramiento(response);
+          setValue("denominacion", response.denominacion);
+          setValue("ancho", response.ancho);
+          setValue("alto", response.alto);
+          setValue("tipo", response.tipo);
+          setValue("es_externo", response.es_externo);
+          setValue("orientacion", response.orientacion);
+          setValue("material", response.material);
         })
         .catch((error) => console.log(error));
-  }, []);
 
+    location?.state?.editar && setEsEditar(true);
+  }, []);
+  const booleano = true;
   const { handleSubmit, reset, watch, setValue, register, getValues } = useForm(
     {
       defaultValues: {
         denominacion: "",
-        superficie: 0,
+        ancho: 0,
+        alto: 0,
         tipo: tipoCerramiento,
+        es_externo: true,
         orientacion: "",
         material: "",
       },
       mode: "onChange",
     }
   );
-  const superficie = () => getValues("ancho") * getValues("alto");
-  const onSubmit = (data) => console.log(data, superficie());
+
+  const editarCerramiento = (data, id) => {
+    console.log(data, id);
+    DomicilioService.updateCerramiento(data, id)
+      .then((response) => {
+        history.push({
+          pathname: `/ambientes/${location.state.ambienteId}/`,
+          state: { exito: "La edición del cerramiento fue exitosa" },
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const crearCerramiento = (data) => {
+    DomicilioService.createCerramiento(data)
+      .then((response) => {
+        history.push({
+          pathname: `/ambientes/${location.state.ambienteId}/`,
+          state: { exito: "La creación del cerramiento fue exitosa" },
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+  // const superficie = () => getValues("ancho") * getValues("alto");
+  const onSubmit = (data) => {
+    // console.log(data, superficie())
+    const nuevaData = { ...data, ambiente: [location?.state?.ambienteId] };
+    location?.state?.editar === "editar"
+      ? editarCerramiento(nuevaData, id)
+      : crearCerramiento(nuevaData);
+  };
 
   const tipoTecho = () => {
-    setTipoCerramiento("TECHO");
-    setValue("TECHO");
+    setTipoCerramiento("Techo");
+    setValue("tipo", "Techo");
   };
   const tipoPared = () => {
-    setTipoCerramiento("PARED");
-    setValue("PARED");
+    setTipoCerramiento("Pared");
+    setValue("tipo", "Pared");
   };
   const tipoPuerta = () => {
-    setTipoCerramiento("PUERTA");
-    setValue("PUERTA");
+    setTipoCerramiento("Puerta");
+    setValue("tipo", "Puerta");
   };
   const tipoVentana = () => {
-    setTipoCerramiento("VENTANA");
-    setValue("VENTANA");
+    setTipoCerramiento("Ventana");
+    setValue("tipo", "Ventana");
   };
 
-  const verCerramientos = () => {
-    setPaperArtefacto(false);
-    setPaperCerramiento(true);
-  };
-
-  const verArtefactos = () => {
-    setPaperArtefacto(true);
-    setPaperCerramiento(false);
-  };
-
-  const nuevoCerramiento = () => {
-    history.push({
-      pathname: `/cerramientos/`,
-    });
-  };
-  const verCerramiento = (id) => {
-    history.push({
-      pathname: `/cerramiento/${id}`,
-    });
+  const eliminarCerramiento = () => {
+    DomicilioService.deleteCerramiento(id)
+      .then((response) => {
+        history.push({
+          pathname: `/ambientes/${location.state.ambienteId}/`,
+          state: { exito: "La Eliminación del cerramiento fue exitosa" },
+        });
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <CerramientoTemplate
@@ -91,14 +122,10 @@ const CerramientoPage = () => {
       tipoVentana={tipoVentana}
       tipoPuerta={tipoPuerta}
       tipoCerramiento={tipoCerramiento}
-      verCerramientos={verCerramientos}
-      verArtefactos={verArtefactos}
-      paperArtefacto={paperArtefacto}
-      paperCerramiento={paperCerramiento}
-      ambienteDescripcion={ambienteDescripcion}
-      nuevoCerramiento={nuevoCerramiento}
       cerramientos={cerramiento}
-      verCerramiento={verCerramiento}
+      buttonSubmit={buttonSubmit}
+      eliminarCerramiento={eliminarCerramiento}
+      esEditar={esEditar}
     />
   );
 };

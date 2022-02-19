@@ -26,30 +26,34 @@ const CerramientoTemplate = ({
   tipoPuerta,
   tipoVentana,
   tipoCerramiento,
-  verCerramientos,
-  verArtefactos,
-  paperArtefacto,
-  paperCerramiento,
-  ambienteDescripcion,
+  handleChangeExterno,
+  buttonSubmit,
+  eliminarCerramiento,
+  esEditar,
 }) => {
   const classes = useStyles();
 
   const tipo = [
-    { id: "VENTANTA", label: "Ventana" },
-    { id: "TECHO", label: "Techo" },
-    { id: "PARED", label: "Pared" },
-    { id: "PUERTA", label: "Puerta" },
+    { id: "Ventana", label: "Ventana" },
+    { id: "Techo", label: "Techo" },
+    { id: "Pared", label: "Pared" },
+    { id: "Puerta", label: "Puerta" },
   ];
 
   const orientacion = [
-    { id: "NORTE", label: "Norte" },
-    { id: "SUR", label: "Sur" },
-    { id: "ESTE", label: "Este" },
-    { id: "OESTE", label: "Oeste" },
-    { id: "NOROESTE", label: "Noroeste" },
-    { id: "SUROESTE", label: "Suroeste" },
-    { id: "NORESTE", label: "Noreste" },
-    { id: "SURESTE", label: "Sureste" },
+    { id: "N", label: "Norte" },
+    { id: "S", label: "Sur" },
+    { id: "E", label: "Este" },
+    { id: "O", label: "Oeste" },
+    { id: "NO", label: "Noroeste" },
+    { id: "SO", label: "Suroeste" },
+    { id: "NE", label: "Noreste" },
+    { id: "SE", label: "Sureste" },
+  ];
+
+  const externo = [
+    { id: true, label: "Es externo" },
+    { id: false, label: "Es interno" },
   ];
   return (
     <Layout>
@@ -93,7 +97,7 @@ const CerramientoTemplate = ({
         <Paper className={classes.paperInterno}>
           <form onSubmit={handleSubmit} className={classes.ambienteForm}>
             <Typography className={classes.categoriaTittle}>
-              Crear un cerramiento
+              {buttonSubmit}
             </Typography>
             <div className={classes.form}>
               <InputLabel id="denominacion">Denominacion</InputLabel>
@@ -148,6 +152,22 @@ const CerramientoTemplate = ({
                 value={tipoCerramiento}
                 {...register("tipo", { required: true, maxLength: 30 })}
               />
+              <InputLabel id="orientacion">Es externo</InputLabel>
+              <Select
+                labelId="externo"
+                label="externo"
+                name="externo"
+                variant="outlined"
+                fullWidth
+                margin="dense"
+                className={classes.select}
+                onChange={handleChangeExterno}
+                {...register("es_externo")}
+              >
+                {externo.map((nodo) => (
+                  <MenuItem value={nodo.id}>{nodo.label}</MenuItem>
+                ))}
+              </Select>
               <InputLabel id="orientacion">Orientacion</InputLabel>
               <Select
                 labelId="orientacion"
@@ -188,8 +208,19 @@ const CerramientoTemplate = ({
                 fullWidth={true}
                 type="submit"
               >
-                Crear Cerramiento
+                {buttonSubmit}
               </Button>
+              {esEditar && (
+                <Button
+                  className={classes.select}
+                  variant="contained"
+                  color="warning"
+                  fullWidth={true}
+                  onClick={eliminarCerramiento}
+                >
+                  Eliminar Cerramiento
+                </Button>
+              )}
             </div>
           </form>
         </Paper>

@@ -26,6 +26,14 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
     paddingBottom: 20,
   },
+  papersAmbientes: {
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "stretch",
+    justifyContent: "space-evenly",
+    paddingBottom: "10%",
+    paddingTop: 40,
+  },
   papers: {
     display: "flex",
     flexDirection: "row",

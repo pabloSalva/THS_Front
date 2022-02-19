@@ -37,6 +37,14 @@ export const DomicilioService = {
     );
     return getResult;
   },
+  etiquetaDomicilio: async (data) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}inmuebles/etiqueta/`,
+      "GET",
+      data
+    );
+    return getResult;
+  },
   getMateriales: async () => {
     const getResult = await Api.fetch(`${Environment.api}materiales/`, "GET");
     return getResult;
@@ -56,6 +64,36 @@ export const DomicilioService = {
     );
     return getResult;
   },
+  deleteAmbientes: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}ambientes/${id}/`,
+      "DELETE"
+    );
+    return getResult;
+  },
+  createCerramiento: async (data) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}cerramientos/`,
+      "POST",
+      data
+    );
+    return getResult;
+  },
+  updateCerramiento: async (data, id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}cerramientos/${id}/`,
+      "PATCH",
+      data
+    );
+    return getResult;
+  },
+  deleteCerramiento: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}cerramientos/${id}/`,
+      "DELETE"
+    );
+    return getResult;
+  },
   getCerramiento: async (id) => {
     const getResult = await Api.fetch(
       `${Environment.api}cerramientos/${id}`,
@@ -67,6 +105,42 @@ export const DomicilioService = {
     const getResult = await Api.fetch(
       `${Environment.api}cerramientos/?ambiente=${id}`,
       "GET"
+    );
+    return getResult;
+  },
+  updateAmbienteArtefacto: async (data) => {
+    // {
+    //   "ambiente":1,
+    //   "artefactos":[2,3]
+    // }
+    const getResult = await Api.fetch(
+      `${Environment.api}ambientes/artefactos/`,
+      "PUT",
+      data
+    );
+    return getResult;
+  },
+  getArtefactoAmbiente: async (data) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}ambientes/artefactos-ambiente/`,
+      "GET",
+      data
+    );
+    return getResult;
+  },
+  eliminarArtefactoAmbiente: async (data) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}ambientes/artefactos-ambiente-delete/`,
+      "PATCH",
+      data
+    );
+    return getResult;
+  },
+  crearEtiqueta: async (id) => {
+    const getResult = await Api.fetch(
+      `${Environment.api}inmuebles/etiqueta-create/`,
+      "POST",
+      id
     );
     return getResult;
   },

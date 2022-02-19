@@ -13,6 +13,7 @@ const Etiquetado = () => {
   const [localidades, setLocalidades] = useState([]);
   const [domicilios, setDomicilios] = useState([]);
   const [actualizar, setActualizar] = useState(false);
+  const [etiqueta, setEtiqueta] = useState();
 
   useEffect(() => {
     LocalidadService.getLocalidades()
@@ -91,7 +92,44 @@ const Etiquetado = () => {
       );
     setActualizar(!actualizar);
   };
-  console.log(domicilios);
+
+  const verEtiqueta = (idDomicilio) => {
+    DomicilioService.etiquetaDomicilio({ inmueble: idDomicilio })
+      .then((response) => {
+        swal({
+          title: "Etiqueta",
+          // icon: <Etiqueta numero={etiqueta} />,
+          icon: `../../icons/etiquetas/etiqueta-${response["etiqueta"]}.png`,
+          imageWidth: 600,
+          imageHeight: 600,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const calcularEtiqueta = (idDomicilio) => {
+    console.log(idDomicilio);
+    DomicilioService.crearEtiqueta({ idDomicilio: idDomicilio })
+      .then((response) => {
+        swal({
+          title: "Etiqueta Generada con éxito",
+          icon: "success",
+        });
+        setEtiqueta(response["etiqueta"]);
+        console.log(response);
+      })
+      .catch((error) => {
+        error?.json().then((data) => {
+          swal({
+            title: "Error Al Etiquetar",
+            text: data["detail"],
+            icon: "warning",
+            dangerMode: true,
+          });
+        });
+      });
+  };
+
   return (
     <EtiquetadoTemplate
       crearDomiciclio={crearDomiciclio}
@@ -107,6 +145,8 @@ const Etiquetado = () => {
       localidades={localidades}
       domicilios={domicilios}
       eliminarDomicilio={eliminarDomicilio}
+      calcularEtiqueta={calcularEtiqueta}
+      verEtiqueta={verEtiqueta}
     />
   );
 };

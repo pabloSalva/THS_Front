@@ -15,6 +15,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Layout from "../layout/Layout";
 import { useStyles } from "./styles";
+import FlashAutoIcon from "@material-ui/icons/FlashAuto";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const EtiquetadoTemplate = ({
   crearDomiciclio,
@@ -32,6 +34,8 @@ const EtiquetadoTemplate = ({
   localidad,
   handleChangeLocalidad,
   eliminarDomicilio,
+  calcularEtiqueta,
+  verEtiqueta,
 }) => {
   const classes = useStyles();
 
@@ -52,6 +56,32 @@ const EtiquetadoTemplate = ({
           }}
         >
           <DeleteOutlined />
+        </IconButton>
+      </div>
+    );
+  };
+  const renderActionButtonsEtiqueta = (params) => {
+    return (
+      <div className={classes.action}>
+        <IconButton
+          onClick={() => {
+            calcularEtiqueta(params.row.id);
+          }}
+        >
+          <FlashAutoIcon />
+        </IconButton>
+      </div>
+    );
+  };
+  const renderActionButtonsEtiquetaVer = (params) => {
+    return (
+      <div className={classes.action}>
+        <IconButton
+          onClick={() => {
+            verEtiqueta(params.row.id);
+          }}
+        >
+          <VisibilityIcon />
         </IconButton>
       </div>
     );
@@ -83,6 +113,29 @@ const EtiquetadoTemplate = ({
       headerName: "Acciones",
       flex: 0.15,
       renderCell: renderActionButtons,
+    },
+  ];
+
+  const columnsEtiqueta = [
+    {
+      field: "direccion",
+      headerName: "Dirección domicilio",
+      flex: 0.2,
+      editable: false,
+    },
+
+    { field: "localidad", headerName: "Localidad", flex: 0.1, editable: false },
+    {
+      field: "acciones",
+      headerName: "Crear Etiqueta",
+      flex: 0.15,
+      renderCell: renderActionButtonsEtiqueta,
+    },
+    {
+      field: "acciones2",
+      headerName: "Ver Etiqueta",
+      flex: 0.15,
+      renderCell: renderActionButtonsEtiquetaVer,
     },
   ];
 
@@ -210,13 +263,9 @@ const EtiquetadoTemplate = ({
           <Typography className={classes.categoriaTittle}>
             Calcular Eficiencia energética en domicilio
           </Typography>
-          <Button onClick={crearDomiciclio}>
-            <img
-              alt="crear-casa"
-              src={process.env.PUBLIC_URL + "/icons/Casa1.png"}
-              className={classes.logo}
-            />
-          </Button>
+          <div style={{ height: 400, width: "100%" }}>
+            <DataGrid rows={domicilios} columns={columnsEtiqueta} />
+          </div>
         </Paper>
       )}
     </Layout>
