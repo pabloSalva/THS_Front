@@ -3,7 +3,12 @@ export default {
   home: "/",
   login: "/login",
   cambioContrasenaPage: "/reset/:token",
-
-  calculoElectrico: "/calculadora/electricas",
-  calculoGas: "/calculadora/gas",
+  register: "/register",
+  calculoElectrico: "/simuladores/electrico",
+  calculoGas: "/simuladores/gas",
+  domicilioPage: "/domicilios",
+  domicilioEdit: "/domicilios/editar/:id",
+  ambientes: "/ambientes/:id",
+  cerramientos: "/cerramientos/",
+  cerramiento: "/cerramiento/:id",
 };
